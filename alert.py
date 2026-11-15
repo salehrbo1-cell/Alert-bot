@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import time
 import requests
@@ -17,6 +18,17 @@ NEAR_COOLDOWN = 2 * 3600
 SIGNAL_LIFE = 12
 BODY_AVG_N = 10
 RETEST_LOOKBACK = 30
+
+LEVEL_TFS = [
+    ("1h", 500, 1, 4, "1س"),
+    ("4h", 500, 2, 4, "4س"),
+    ("1d", 365, 3, 3, "يومي"),
+]
+CLUSTER_PCT = 0.0012
+MIN_SCORE = 3
+STRONG_SCORE = 5
+LEVEL_RANGE = 0.25
+TF_ORDER = {"يومي": 0, "4س": 1, "1س": 2, "يدوي": 3}
 
 ASSETS = {
     "BTC": {"symbol": "BTCUSDT", "margin": 60, "name": "BTC"},
@@ -40,10 +52,10 @@ def send(text):
     )
 
 
-def get_candles(symbol, offset):
+def get_candles(symbol, interval, limit):
     r = requests.get(
         "https://data-api.binance.vision/api/v3/klines",
-        params={"symbol": symbol, "interval": INTERVAL, "limit": 80},
+        params={"symbol": symbol, "interval": interval, "limit": limit},
         timeout=20,
     )
     r.raise_for_status()
@@ -53,22 +65,22 @@ def get_candles(symbol, offset):
         if k[6] < now:
             out.append({
                 "t": k[0],
-                "o": float(k[1]) + offset,
-                "h": float(k[2]) + offset,
-                "l": float(k[3]) + offset,
-                "c": float(k[4]) + offset,
+                "o": float(k[1]),
+                "h": float(k[2]),
+                "l": float(k[3]),
+                "c": float(k[4]),
             })
     return out
 
 
-def get_price(symbol, offset):
+def get_price(symbol):
     r = requests.get(
         "https://data-api.binance.vision/api/v3/ticker/price",
         params={"symbol": symbol},
         timeout=20,
     )
     r.raise_for_status()
-    return float(r.json()["price"]) + offset
+    return float(r.json()["price"])
 
 
 def body(c):
@@ -99,18 +111,18 @@ def rejection(c, level, side):
             and c["c"] > level * (1 + ZONE) and pos >= 2 / 3)
 
 
-def make_plan(c, side, sups, ress, margin):
+def make_plan(c, side, lv, margin):
     entry = c["c"]
     if side == "sell":
         sl = c["h"] + margin
-        cands = [x for x in sups if x < entry]
+        cands = [x for x in lv if x < entry * (1 - ZONE)]
         if not cands:
             return None
         target = max(cands)
         risk, reward = sl - entry, entry - target
     else:
         sl = c["l"] - margin
-        cands = [x for x in ress if x > entry]
+        cands = [x for x in lv if x > entry * (1 + ZONE)]
         if not cands:
             return None
         target = min(cands)
@@ -137,27 +149,80 @@ def retest_dir(cs, level):
     return None
 
 
-def evaluate(cs, sups, ress):
+def evaluate(cs, lv):
     found = []
     for back in (0, 1):
         sub = cs[:len(cs) - back]
         if len(sub) < BODY_AVG_N + 3:
             continue
         c = sub[-1]
-        for level in ress:
+        for level in lv:
             if rejection(c, level, "sell"):
                 found.append(("رفض عند مقاومة", "sell", level, c))
-        for level in sups:
             if rejection(c, level, "buy"):
                 found.append(("رفض عند دعم", "buy", level, c))
-        for level in ress + sups:
             side = retest_dir(sub, level)
             if side and rejection(c, level, side):
                 found.append(("كسر وإعادة اختبار", side, level, c))
     return found
 
 
-levels_cfg = load("levels.json", {})
+def pivots(cs, k):
+    out = []
+    for i in range(k, len(cs) - k):
+        win = cs[i - k:i + k + 1]
+        if cs[i]["h"] >= max(x["h"] for x in win):
+            out.append(cs[i]["h"])
+        if cs[i]["l"] <= min(x["l"] for x in win):
+            out.append(cs[i]["l"])
+    return out
+
+
+def detect_levels(symbol, price, manual):
+    pts = []
+    for interval, limit, weight, k, label in LEVEL_TFS:
+        cs = get_candles(symbol, interval, limit)
+        for p in pivots(cs, k):
+            if abs(p - price) / price <= LEVEL_RANGE:
+                pts.append((p, weight, label))
+    for p in manual:
+        pts.append((float(p), STRONG_SCORE, "يدوي"))
+    pts.sort()
+    clusters = []
+    cur = []
+    for pt in pts:
+        if cur and pt[0] > cur[0][0] * (1 + CLUSTER_PCT):
+            clusters.append(cur)
+            cur = []
+        cur.append(pt)
+    if cur:
+        clusters.append(cur)
+    levels = []
+    for cl in clusters:
+        score = sum(x[1] for x in cl)
+        if score < MIN_SCORE:
+            continue
+        center = sum(x[0] * x[1] for x in cl) / score
+        labels = sorted({x[2] for x in cl}, key=lambda s: TF_ORDER[s])
+        levels.append({
+            "p": center,
+            "score": score,
+            "strong": score >= STRONG_SCORE,
+            "tfs": "+".join(labels),
+        })
+    return levels
+
+
+def bucket(level):
+    return round(math.log(level) / 0.002)
+
+
+def fmt(d):
+    kind = "قوي" if d["strong"] else "متوسط"
+    return f"{d['p']:,.2f} · {kind} {d['score']} ({d['tfs']})"
+
+
+all_levels = load("levels.json", {})
 state = load("state.json", {})
 state.setdefault("sent", {})
 state.setdefault("active", [])
@@ -166,20 +231,24 @@ now_s = time.time()
 report = []
 
 for key, a in ASSETS.items():
-    cfg = levels_cfg.get(key, {})
-    ress = sorted(cfg.get("resistance", []))
-    sups = sorted(cfg.get("support", []))
-    off = cfg.get("offset", 0)
     name = a["name"]
+    manual = all_levels.get(key, {}).get("manual", [])
     try:
-        cs = get_candles(a["symbol"], off)
-        price = get_price(a["symbol"], off)
+        cs = get_candles(a["symbol"], INTERVAL, 80)
+        price = get_price(a["symbol"])
+        levels = detect_levels(a["symbol"], price, manual)
     except Exception as e:
         print("error", key, e)
         continue
-    report.append(
-        f"{name}: {price:,.2f}$ | مقاومات {len(ress)} | دعوم {len(sups)}"
-    )
+    lv = [d["p"] for d in levels]
+    meta = {d["p"]: d for d in levels}
+
+    above = sorted([d for d in levels if d["p"] > price], key=lambda d: d["p"])[:3]
+    below = sorted([d for d in levels if d["p"] <= price], key=lambda d: -d["p"])[:3]
+    rows = [f"{name}: {price:,.2f}$ | مستويات {len(levels)}"]
+    rows += ["▲ " + fmt(d) for d in reversed(above)]
+    rows += ["▼ " + fmt(d) for d in below]
+    report.append("\n".join(rows))
 
     # متابعة الإشارات المفتوحة: إلغاء / وقف / هدف
     still = []
@@ -210,11 +279,11 @@ for key, a in ASSETS.items():
     state["active"] = still
 
     # إشارات جديدة
-    for kind, side, level, c in evaluate(cs, sups, ress):
-        sid = f"{key}|{kind}|{side}|{level}|{c['t']}"
+    for kind, side, level, c in evaluate(cs, lv):
+        sid = f"{key}|{kind}|{side}|{bucket(level)}|{c['t']}"
         if sid in state["sent"]:
             continue
-        p = make_plan(c, side, sups, ress, a["margin"])
+        p = make_plan(c, side, lv, a["margin"])
         if not p:
             continue
         state["sent"][sid] = now_s
@@ -229,7 +298,7 @@ for key, a in ASSETS.items():
         send(
             f"{icon} إشارة {word} ({kind})\n"
             f"{name} · {INTERVAL}\n"
-            f"المستوى: {level:,.2f}\n"
+            f"المستوى: {fmt(meta[level])}\n"
             f"الدخول: {p['entry']:,.2f}\n"
             f"الوقف: {p['sl']:,.2f}\n"
             f"الهدف: {p['target']:,.2f}\n"
@@ -237,39 +306,25 @@ for key, a in ASSETS.items():
             f"أُغلقت الشمعة قبل {age} دقيقة"
         )
 
-    # اقتراب من مستوى
-    for level in ress:
-        if level * (1 - NEAR_PCT) <= price <= level * (1 + ZONE):
-            k = f"near|{key}|R|{level}"
-            if now_s - state["near"].get(k, 0) > NEAR_COOLDOWN:
-                state["near"][k] = now_s
-                dist = abs(level - price) / level * 100
-                send(
-                    f"⚠️ {name} يقترب من مقاومة {level:,.2f}\n"
-                    f"السعر الحالي: {price:,.2f} (يبعد {dist:.2f}%)"
-                )
-    for level in sups:
-        if level * (1 - ZONE) <= price <= level * (1 + NEAR_PCT):
-            k = f"near|{key}|S|{level}"
-            if now_s - state["near"].get(k, 0) > NEAR_COOLDOWN:
-                state["near"][k] = now_s
-                dist = abs(level - price) / level * 100
-                send(
-                    f"⚠️ {name} يقترب من دعم {level:,.2f}\n"
-                    f"السعر الحالي: {price:,.2f} (يبعد {dist:.2f}%)"
-                )
+    # اقتراب من مستوى قوي
+    for d in levels:
+        if not d["strong"]:
+            continue
+        level = d["p"]
+        if level * (1 - NEAR_PCT) <= price <= level:
+            word, k = "مقاومة", "R"
+        elif level < price <= level * (1 + NEAR_PCT):
+            word, k = "دعم", "S"
+        else:
+            continue
+        nk = f"near|{key}|{k}|{bucket(level)}"
+        if now_s - state["near"].get(nk, 0) > NEAR_COOLDOWN:
+            state["near"][nk] = now_s
+            dist = abs(level - price) / level * 100
+            send(
+                f"⚠️ {name} يقترب من {word} قوية {level:,.2f}\n"
+                f"القوة: {d['score']} ({d['tfs']})\n"
+                f"السعر الحالي: {price:,.2f} (يبعد {dist:.2f}%)"
+            )
 
-state["sent"] = {k: v for k, v in state["sent"].items() if now_s - v < 3 * 86400}
-state["near"] = {k: v for k, v in state["near"].items() if now_s - v < 3 * 86400}
-with open("state.json", "w") as f:
-    json.dump(state, f, indent=1, sort_keys=True)
-
-if FORCE:
-    msg = "📊 فحص يدوي\n" + "\n".join(report)
-    has = any(
-        levels_cfg.get(k, {}).get("resistance") or levels_cfg.get(k, {}).get("support")
-        for k in ASSETS
-    )
-    if not has:
-        msg += "\nما أضفت مستويات دعم/مقاومة للحين (ملف levels.json)"
-    send(msg)
+state["sent"] = {k: v for k, v in state["sent"].items() if now_s - v
