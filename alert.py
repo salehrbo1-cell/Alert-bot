@@ -14,10 +14,11 @@ ZONE = 0.0005
 WICK_RATIO = 2.0
 MIN_RR = 1.5
 NEAR_PCT = 0.0015
-NEAR_COOLDOWN = 2 * 3600
+COOLDOWN = 2 * 3600
 SIGNAL_LIFE = 12
 BODY_AVG_N = 10
 RETEST_LOOKBACK = 30
+MIN_CONFLUENCE = 0
 
 LEVEL_TFS = [
     ("1h", 500, 1, 4, "1س"),
@@ -25,7 +26,8 @@ LEVEL_TFS = [
     ("1d", 365, 3, 3, "يومي"),
 ]
 CLUSTER_PCT = 0.0012
-MIN_SCORE = 3
+MIN_SCORE = 2
+SIGNAL_MIN_SCORE = 3
 STRONG_SCORE = 5
 LEVEL_RANGE = 0.25
 TF_ORDER = {"يومي": 0, "4س": 1, "1س": 2, "يدوي": 3}
@@ -69,6 +71,7 @@ def get_candles(symbol, interval, limit):
                 "h": float(k[2]),
                 "l": float(k[3]),
                 "c": float(k[4]),
+                "v": float(k[5]),
             })
     return out
 
@@ -178,11 +181,10 @@ def pivots(cs, k):
     return out
 
 
-def detect_levels(symbol, price, manual):
+def detect_levels(tf, price, manual):
     pts = []
     for interval, limit, weight, k, label in LEVEL_TFS:
-        cs = get_candles(symbol, interval, limit)
-        for p in pivots(cs, k):
+        for p in pivots(tf[interval], k):
             if abs(p - price) / price <= LEVEL_RANGE:
                 pts.append((p, weight, label))
     for p in manual:
@@ -217,9 +219,124 @@ def bucket(level):
     return round(math.log(level) / 0.002)
 
 
+def strength(score):
+    if score >= STRONG_SCORE:
+        return "قوي"
+    return "متوسط" if score >= 3 else "ضعيف"
+
+
+def strength_f(score):
+    if score >= STRONG_SCORE:
+        return "قوية"
+    return "متوسطة" if score >= 3 else "ضعيفة"
+
+
 def fmt(d):
-    kind = "قوي" if d["strong"] else "متوسط"
-    return f"{d['p']:,.2f} · {kind} {d['score']} ({d['tfs']})"
+    return f"{d['p']:,.2f} · {strength(d['score'])} {d['score']} ({d['tfs']})"
+
+
+def ema(vals, n):
+    k = 2 / (n + 1)
+    out = [vals[0]]
+    for v in vals[1:]:
+        out.append(v * k + out[-1] * (1 - k))
+    return out
+
+
+def rsi(vals, n=14):
+    gains = losses = 0.0
+    for i in range(1, n + 1):
+        d = vals[i] - vals[i - 1]
+        gains += max(d, 0)
+        losses += max(-d, 0)
+    ag, al = gains / n, losses / n
+    for i in range(n + 1, len(vals)):
+        d = vals[i] - vals[i - 1]
+        ag = (ag * (n - 1) + max(d, 0)) / n
+        al = (al * (n - 1) + max(-d, 0)) / n
+    if al == 0:
+        return 100.0
+    return 100 - 100 / (1 + ag / al)
+
+
+def macd_hist(vals):
+    e12, e26 = ema(vals, 12), ema(vals, 26)
+    macd = [x - y for x, y in zip(e12, e26)]
+    sig = ema(macd, 9)
+    return [x - y for x, y in zip(macd, sig)]
+
+
+def momentum(cs, h1):
+    c15 = [x["c"] for x in cs]
+    c1h = [x["c"] for x in h1]
+    hist = macd_hist(c15)
+    vols = [x["v"] for x in cs[-21:-1]]
+    avg_v = sum(vols) / len(vols) if vols else 0
+    e50 = ema(c1h, 50)[-1]
+    e200 = ema(c1h, 200)[-1]
+    p = c1h[-1]
+    if p > e50 > e200:
+        trend = "صاعد"
+    elif p < e50 < e200:
+        trend = "هابط"
+    else:
+        trend = "محايد"
+    return {
+        "rsi": rsi(c15),
+        "rising": hist[-1] > hist[-2],
+        "above20": c15[-1] > ema(c15, 20)[-1],
+        "trend": trend,
+        "vr": cs[-1]["v"] / avg_v if avg_v else 1.0,
+    }
+
+
+def describe(m):
+    r = m["rsi"]
+    tag = ""
+    if r >= 70:
+        tag = " تشبع شراء"
+    elif r <= 30:
+        tag = " تشبع بيع"
+    macd = "صاعد" if m["rising"] else "هابط"
+    pos = "فوق" if m["above20"] else "تحت"
+    return (f"RSI {r:.0f}{tag} · MACD {macd} · {pos} EMA20 · "
+            f"الساعة {m['trend']} · حجم {m['vr']:.1f}x")
+
+
+def confluence(m, side, kind):
+    sell = side == "sell"
+    if kind == "كسر وإعادة اختبار":
+        rsi_ok = m["rsi"] <= 50 if sell else m["rsi"] >= 50
+    else:
+        rsi_ok = m["rsi"] >= 60 if sell else m["rsi"] <= 40
+    checks = [
+        rsi_ok,
+        (not m["rising"]) if sell else m["rising"],
+        (not m["above20"]) if sell else m["above20"],
+        m["trend"] == ("هابط" if sell else "صاعد"),
+        m["vr"] >= 1.2,
+    ]
+    return sum(checks)
+
+
+def grade(n):
+    if n >= 4:
+        return "قوية"
+    return "جيدة" if n == 3 else "ضعيفة"
+
+
+def hint(is_res, m):
+    if is_res:
+        if m["rsi"] >= 70:
+            return "تشبع شراء: احتمال رفض"
+        if m["rising"] and m["above20"] and m["trend"] == "صاعد" and m["vr"] >= 1.2:
+            return "زخم صاعد قوي: احتمال كسر"
+    else:
+        if m["rsi"] <= 30:
+            return "تشبع بيع: احتمال ارتداد"
+        if (not m["rising"]) and (not m["above20"]) and m["trend"] == "هابط" and m["vr"] >= 1.2:
+            return "زخم هابط قوي: احتمال كسر"
+    return "الزخم محايد"
 
 
 all_levels = load("levels.json", {})
@@ -234,20 +351,23 @@ for key, a in ASSETS.items():
     name = a["name"]
     manual = all_levels.get(key, {}).get("manual", [])
     try:
-        cs = get_candles(a["symbol"], INTERVAL, 80)
+        cs = get_candles(a["symbol"], INTERVAL, 120)
         price = get_price(a["symbol"])
-        levels = detect_levels(a["symbol"], price, manual)
+        tf = {iv: get_candles(a["symbol"], iv, lim) for iv, lim, _, _, _ in LEVEL_TFS}
+        levels = detect_levels(tf, price, manual)
+        mom = momentum(cs, tf["1h"])
     except Exception as e:
         print("error", key, e)
         continue
-    lv = [d["p"] for d in levels]
     meta = {d["p"]: d for d in levels}
+    lv = [d["p"] for d in levels if d["score"] >= SIGNAL_MIN_SCORE]
 
     above = sorted([d for d in levels if d["p"] > price], key=lambda d: d["p"])[:3]
     below = sorted([d for d in levels if d["p"] <= price], key=lambda d: -d["p"])[:3]
     rows = [f"{name}: {price:,.2f}$ | مستويات {len(levels)}"]
     rows += ["▲ " + fmt(d) for d in reversed(above)]
     rows += ["▼ " + fmt(d) for d in below]
+    rows.append("المؤشرات: " + describe(mom))
     report.append("\n".join(rows))
 
     # متابعة الإشارات المفتوحة: إلغاء / وقف / هدف
@@ -286,6 +406,15 @@ for key, a in ASSETS.items():
         p = make_plan(c, side, lv, a["margin"])
         if not p:
             continue
+        idx = next(i for i, x in enumerate(cs) if x["t"] == c["t"])
+        try:
+            m = momentum(cs[:idx + 1], tf["1h"])
+            conf = confluence(m, side, kind)
+        except Exception as e:
+            print("momentum error", e)
+            continue
+        if conf < MIN_CONFLUENCE:
+            continue
         state["sent"][sid] = now_s
         age = int((now_s * 1000 - (c["t"] + INTERVAL_MS)) / 60000)
         ext = c["h"] if side == "sell" else c["l"]
@@ -303,28 +432,44 @@ for key, a in ASSETS.items():
             f"الوقف: {p['sl']:,.2f}\n"
             f"الهدف: {p['target']:,.2f}\n"
             f"النسبة: {p['rr']:.2f}\n"
+            f"المؤشرات: {describe(m)}\n"
+            f"توافق المؤشرات: {conf}/5 ({grade(conf)})\n"
             f"أُغلقت الشمعة قبل {age} دقيقة"
         )
 
-    # اقتراب من مستوى قوي
+    # وصول السعر إلى مستوى (أي قوة) / اقتراب من مستوى قوي
     for d in levels:
-        if not d["strong"]:
-            continue
         level = d["p"]
-        if level * (1 - NEAR_PCT) <= price <= level:
-            word, k = "مقاومة", "R"
-        elif level < price <= level * (1 + NEAR_PCT):
-            word, k = "دعم", "S"
+        is_res = level > price
+        word = "مقاومة" if is_res else "دعم"
+        in_zone = level * (1 - ZONE) <= price <= level * (1 + ZONE)
+        hit = in_zone or any(touches(x, level) for x in cs[-2:])
+        near = d["strong"] and abs(price - level) <= level * NEAR_PCT
+        if hit:
+            nk = f"hit|{key}|{bucket(level)}"
+            verb = "وصل" if in_zone else "لمس"
+            title = f"📍 {name} {verb} {word} {strength_f(d['score'])} {level:,.2f}"
+        elif near:
+            nk = f"near|{key}|{bucket(level)}"
+            dist = abs(level - price) / level * 100
+            title = f"⚠️ {name} يقترب من {word} قوية {level:,.2f} (يبعد {dist:.2f}%)"
         else:
             continue
-        nk = f"near|{key}|{k}|{bucket(level)}"
-        if now_s - state["near"].get(nk, 0) > NEAR_COOLDOWN:
+        if now_s - state["near"].get(nk, 0) > COOLDOWN:
             state["near"][nk] = now_s
-            dist = abs(level - price) / level * 100
             send(
-                f"⚠️ {name} يقترب من {word} قوية {level:,.2f}\n"
+                f"{title}\n"
                 f"القوة: {d['score']} ({d['tfs']})\n"
-                f"السعر الحالي: {price:,.2f} (يبعد {dist:.2f}%)"
+                f"السعر الحالي: {price:,.2f}\n"
+                f"المؤشرات: {describe(mom)}\n"
+                f"قراءة: {hint(is_res, mom)}"
             )
 
-state["sent"] = {k: v for k, v in state["sent"].items() if now_s - v
+state["sent"] = {k: v for k, v in state["sent"].items() if now_s - v < 3 * 86400}
+state["near"] = {k: v for k, v in state["near"].items() if now_s - v < 3 * 86400}
+with open("state.json", "w") as f:
+    json.dump(state, f, indent=1, sort_keys=True)
+
+if FORCE:
+    send("📊 فحص يدوي\n\n" + "\n\n".join(report))
+# END
