@@ -13,8 +13,11 @@ INTERVAL_MS = 15 * 60 * 1000
 ZONE = 0.0005
 WICK_RATIO = 2.0
 MIN_RR = 1.5
+TARGET_NEAREST_ONLY = False
 NEAR_PCT = 0.0015
 COOLDOWN = 2 * 3600
+DIGEST_EVERY = 6 * 3600
+SCORE_EVERY = 24 * 3600
 SIGNAL_LIFE = 12
 BODY_AVG_N = 10
 RETEST_LOOKBACK = 30
@@ -33,8 +36,8 @@ LEVEL_RANGE = 0.25
 TF_ORDER = {"يومي": 0, "4س": 1, "1س": 2, "يدوي": 3}
 
 ASSETS = {
-    "BTC": {"symbol": "BTCUSDT", "margin": 60, "name": "BTC"},
-    "GOLD": {"symbol": "PAXGUSDT", "margin": 3, "name": "الذهب"},
+    "BTC": {"symbol": "BTCUSDT", "margin": 60, "name": "BTC", "qty": 0.01},
+    "GOLD": {"symbol": "PAXGUSDT", "margin": 3, "name": "الذهب", "qty": 1.0},
 }
 
 
@@ -99,40 +102,54 @@ def touches(c, level):
     return c["h"] >= level * (1 - ZONE) and c["l"] <= level * (1 + ZONE)
 
 
-def rejection(c, level, side):
+def reject_reason(c, level, side):
     rng = c["h"] - c["l"]
     if rng <= 0 or not touches(c, level):
-        return False
+        return "ما لمست المستوى"
     b = max(body(c), rng * 0.001)
     pos = (c["c"] - c["l"]) / rng
     if side == "sell":
         wick = c["h"] - max(c["o"], c["c"])
-        return (wick >= WICK_RATIO * b
-                and c["c"] < level * (1 - ZONE) and pos <= 1 / 3)
+        if wick < WICK_RATIO * b:
+            return "الذيل العلوي أقل من ضعف الجسم"
+        if c["c"] >= level * (1 - ZONE):
+            return "الإغلاق ما نزل تحت المنطقة"
+        if pos > 1 / 3:
+            return "الإغلاق مو في الثلث السفلي"
+        return None
     wick = min(c["o"], c["c"]) - c["l"]
-    return (wick >= WICK_RATIO * b
-            and c["c"] > level * (1 + ZONE) and pos >= 2 / 3)
+    if wick < WICK_RATIO * b:
+        return "الذيل السفلي أقل من ضعف الجسم"
+    if c["c"] <= level * (1 + ZONE):
+        return "الإغلاق ما صعد فوق المنطقة"
+    if pos < 2 / 3:
+        return "الإغلاق مو في الثلث العلوي"
+    return None
+
+
+def rejection(c, level, side):
+    return reject_reason(c, level, side) is None
 
 
 def make_plan(c, side, lv, margin):
     entry = c["c"]
     if side == "sell":
         sl = c["h"] + margin
-        cands = [x for x in lv if x < entry * (1 - ZONE)]
-        if not cands:
-            return None
-        target = max(cands)
-        risk, reward = sl - entry, entry - target
+        risk = sl - entry
+        cands = sorted([x for x in lv if x < entry * (1 - ZONE)], reverse=True)
     else:
         sl = c["l"] - margin
-        cands = [x for x in lv if x > entry * (1 + ZONE)]
-        if not cands:
-            return None
-        target = min(cands)
-        risk, reward = entry - sl, target - entry
-    if risk <= 0 or reward / risk < MIN_RR:
+        risk = entry - sl
+        cands = sorted([x for x in lv if x > entry * (1 + ZONE)])
+    if risk <= 0 or not cands:
         return None
-    return {"entry": entry, "sl": sl, "target": target, "rr": reward / risk}
+    if TARGET_NEAREST_ONLY:
+        cands = cands[:1]
+    for x in cands:
+        reward = abs(x - entry)
+        if reward / risk >= MIN_RR:
+            return {"entry": entry, "sl": sl, "target": x, "rr": reward / risk}
+    return None
 
 
 def retest_dir(cs, level):
@@ -168,6 +185,21 @@ def evaluate(cs, lv):
             if side and rejection(c, level, side):
                 found.append(("كسر وإعادة اختبار", side, level, c))
     return found
+
+
+def diagnose(cs, level, lv, margin):
+    for c in reversed(cs[-2:]):
+        if not touches(c, level):
+            continue
+        side = "sell" if c["c"] < level else "buy"
+        word = "بيع" if side == "sell" else "شراء"
+        why = reject_reason(c, level, side)
+        if why:
+            return f"لا إشارة {word}: {why}"
+        if make_plan(c, side, lv, margin) is None:
+            return f"لا إشارة {word}: الهدف والوقف ما يحققون نسبة {MIN_RR}"
+        return f"شروط {word} مكتملة (الإشارة تجي برسالة منفصلة)"
+    return ""
 
 
 def pivots(cs, k):
@@ -339,11 +371,59 @@ def hint(is_res, m):
     return "الزخم محايد"
 
 
+def summarize(rs):
+    n = len(rs)
+    wins = sum(1 for r in rs if r["pnl"] > 0)
+    losses = sum(1 for r in rs if r["pnl"] < 0)
+    net = sum(r["pnl"] for r in rs)
+    rate = wins / (wins + losses) * 100 if (wins + losses) else 0
+    return n, wins, losses, rate, net
+
+
+def group_line(label, rs):
+    if not rs:
+        return None
+    n, wins, losses, rate, net = summarize(rs)
+    return f"• {label}: {n} صفقة · نجاح {rate:.0f}% · {net:+.2f}$"
+
+
+def scoreboard(results):
+    if not results:
+        return "📈 لوحة النتائج\nما فيه إشارات منتهية للحين"
+    n, wins, losses, rate, net = summarize(results)
+    outs = {}
+    for r in results:
+        outs[r["outcome"]] = outs.get(r["outcome"], 0) + 1
+    lines = [
+        "📈 لوحة النتائج (0.01 لوت، قبل العمولة)",
+        f"الإجمالي: {n} · فوز {wins} · خسارة {losses} · نجاح {rate:.0f}%",
+        f"الصافي: {net:+.2f}$",
+        "النهايات: " + " · ".join(f"{k} {v}" for k, v in outs.items()),
+        "",
+        "حسب توافق المؤشرات:",
+    ]
+    groups = [
+        ("4-5", [r for r in results if r["conf"] >= 4]),
+        ("3", [r for r in results if r["conf"] == 3]),
+        ("0-2", [r for r in results if 0 <= r["conf"] <= 2]),
+    ]
+    lines += [x for x in (group_line(lb, g) for lb, g in groups) if x]
+    lines += ["", "حسب النوع:"]
+    for kd in sorted({r["kind"] for r in results}):
+        lines.append(group_line(kd, [r for r in results if r["kind"] == kd]))
+    lines += ["", "حسب الأصل:"]
+    for asset in sorted({r["asset"] for r in results}):
+        label = ASSETS[asset]["name"] if asset in ASSETS else asset
+        lines.append(group_line(label, [r for r in results if r["asset"] == asset]))
+    return "\n".join(lines)
+
+
 all_levels = load("levels.json", {})
 state = load("state.json", {})
 state.setdefault("sent", {})
 state.setdefault("active", [])
 state.setdefault("near", {})
+state.setdefault("results", [])
 now_s = time.time()
 report = []
 
@@ -370,32 +450,49 @@ for key, a in ASSETS.items():
     rows.append("المؤشرات: " + describe(mom))
     report.append("\n".join(rows))
 
-    # متابعة الإشارات المفتوحة: إلغاء / وقف / هدف
+    # متابعة الإشارات المفتوحة: إلغاء / وقف / هدف / انتهاء
     still = []
     for s in state["active"]:
         if s["asset"] != key:
             still.append(s)
             continue
         sell = s["side"] == "sell"
-        end = None
+        end = outcome = exit_p = None
         for i, c in enumerate(cs):
             if c["t"] <= s["t"]:
                 continue
             if (sell and c["h"] >= s["sl"]) or (not sell and c["l"] <= s["sl"]):
-                end = "⛔ ضرب وقف الإشارة"
+                end, outcome, exit_p = "⛔ ضرب وقف الإشارة", "وقف", s["sl"]
             elif (sell and c["l"] <= s["target"]) or (not sell and c["h"] >= s["target"]):
-                end = "🎯 وصل السعر هدف الإشارة"
+                end, outcome, exit_p = "🎯 وصل السعر هدف الإشارة", "هدف", s["target"]
             elif body(c) > avg_body(cs, i) and (
                 (sell and c["c"] > s["ext"]) or (not sell and c["c"] < s["ext"])
             ):
-                end = "❌ إلغاء الإشارة: شمعة قوية عكس الفكرة"
+                end, outcome, exit_p = "❌ إلغاء الإشارة: شمعة قوية عكس الفكرة", "إلغاء", c["c"]
             if end:
                 break
-        word = "بيع" if sell else "شراء"
+        if not end:
+            if sum(1 for c in cs if c["t"] > s["t"]) <= SIGNAL_LIFE:
+                still.append(s)
+                continue
+            outcome, exit_p = "انتهت", cs[-1]["c"]
+        diff = (s["entry"] - exit_p) if sell else (exit_p - s["entry"])
+        pnl = diff * a["qty"]
+        state["results"].append({
+            "asset": key,
+            "kind": s.get("kind", "غير معروف"),
+            "side": s["side"],
+            "conf": s.get("conf", -1),
+            "outcome": outcome,
+            "pnl": round(pnl, 2),
+            "t": s["t"],
+        })
         if end:
-            send(f"{end}\n{name} {word} (دخول {s['entry']:,.2f})")
-        elif sum(1 for c in cs if c["t"] > s["t"]) <= SIGNAL_LIFE:
-            still.append(s)
+            word = "بيع" if sell else "شراء"
+            send(
+                f"{end}\n{name} {word} (دخول {s['entry']:,.2f})\n"
+                f"النتيجة: {pnl:+.2f}$ على 0.01 لوت"
+            )
     state["active"] = still
 
     # إشارات جديدة
@@ -421,9 +518,12 @@ for key, a in ASSETS.items():
         state["active"].append({
             "asset": key, "side": side, "entry": p["entry"],
             "sl": p["sl"], "target": p["target"], "ext": ext, "t": c["t"],
+            "kind": kind, "conf": conf,
         })
         icon = "🔴" if side == "sell" else "🟢"
         word = "بيع" if side == "sell" else "شراء"
+        loss = abs(p["sl"] - p["entry"]) * a["qty"]
+        gain = abs(p["target"] - p["entry"]) * a["qty"]
         send(
             f"{icon} إشارة {word} ({kind})\n"
             f"{name} · {INTERVAL}\n"
@@ -432,12 +532,13 @@ for key, a in ASSETS.items():
             f"الوقف: {p['sl']:,.2f}\n"
             f"الهدف: {p['target']:,.2f}\n"
             f"النسبة: {p['rr']:.2f}\n"
+            f"على 0.01 لوت: وقف -{loss:.2f}$ · هدف +{gain:.2f}$\n"
             f"المؤشرات: {describe(m)}\n"
             f"توافق المؤشرات: {conf}/5 ({grade(conf)})\n"
             f"أُغلقت الشمعة قبل {age} دقيقة"
         )
 
-    # وصول السعر إلى مستوى (أي قوة) / اقتراب من مستوى قوي
+    # وصول السعر إلى مستوى / اقتراب من مستوى قوي
     for d in levels:
         level = d["p"]
         is_res = level > price
@@ -445,10 +546,12 @@ for key, a in ASSETS.items():
         in_zone = level * (1 - ZONE) <= price <= level * (1 + ZONE)
         hit = in_zone or any(touches(x, level) for x in cs[-2:])
         near = d["strong"] and abs(price - level) <= level * NEAR_PCT
+        why = ""
         if hit:
             nk = f"hit|{key}|{bucket(level)}"
             verb = "وصل" if in_zone else "لمس"
             title = f"📍 {name} {verb} {word} {strength_f(d['score'])} {level:,.2f}"
+            why = diagnose(cs, level, lv, a["margin"])
         elif near:
             nk = f"near|{key}|{bucket(level)}"
             dist = abs(level - price) / level * 100
@@ -457,14 +560,26 @@ for key, a in ASSETS.items():
             continue
         if now_s - state["near"].get(nk, 0) > COOLDOWN:
             state["near"][nk] = now_s
-            send(
+            msg = (
                 f"{title}\n"
                 f"القوة: {d['score']} ({d['tfs']})\n"
                 f"السعر الحالي: {price:,.2f}\n"
                 f"المؤشرات: {describe(mom)}\n"
                 f"قراءة: {hint(is_res, mom)}"
             )
+            if why:
+                msg += f"\nالشمعة: {why}"
+            send(msg)
 
+if report and not FORCE and now_s - state.get("digest", 0) > DIGEST_EVERY:
+    state["digest"] = now_s
+    send("🗺️ تحديث المستويات\n\n" + "\n\n".join(report))
+
+if state["results"] and not FORCE and now_s - state.get("score_t", 0) > SCORE_EVERY:
+    state["score_t"] = now_s
+    send(scoreboard(state["results"]))
+
+state["results"] = state["results"][-500:]
 state["sent"] = {k: v for k, v in state["sent"].items() if now_s - v < 3 * 86400}
 state["near"] = {k: v for k, v in state["near"].items() if now_s - v < 3 * 86400}
 with open("state.json", "w") as f:
@@ -472,4 +587,5 @@ with open("state.json", "w") as f:
 
 if FORCE:
     send("📊 فحص يدوي\n\n" + "\n\n".join(report))
+    send(scoreboard(state["results"]))
 # END
