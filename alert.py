@@ -683,9 +683,15 @@ def main():
         state["digest"] = now
         send("🗺️ تحديث مستويات الذهب\n\n" + "\n\n".join(report))
 
-    if state["results"] and (FORCE or now - state.get("score_t", 0) > SCORE_EVERY):
+    # Legacy state.json includes BTC and old GOLD results with "pnl", not "r".
+    # Only score valid GOLD results produced by the current R-based strategy.
+    gold_results = [
+        x for x in state["results"]
+        if x.get("asset") == ASSET and isinstance(x.get("r"), (int, float))
+    ]
+    if gold_results and (FORCE or now - state.get("score_t", 0) > SCORE_EVERY):
         state["score_t"] = now
-        send(scoreboard(state["results"]))
+        send(scoreboard(gold_results))
 
     state["results"] = state["results"][-500:]
     state["sent"] = {k: v for k, v in state["sent"].items() if now - v < 7 * 86400}
@@ -694,7 +700,7 @@ def main():
 
     if FORCE:
         send("📊 فحص يدوي\n\n" + "\n\n".join(report))
-        send(scoreboard(state["results"]))
+        send(scoreboard(gold_results))
 
 
 if __name__ == "__main__":
