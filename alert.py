@@ -72,6 +72,10 @@ def save_state(state):
 
 def send(message):
     try:
+        # Show when the alert was observed/sent in Saudi Arabia (UTC+3).
+        saudi_now = datetime.now(timezone(timedelta(hours=3)))
+        timestamp = saudi_now.strftime("%Y-%m-%d %H:%M:%S")
+        message = f"{message}\n\n🕒 وقت إرسال التنبيه (السعودية): {timestamp}"
         r = SESSION.post(
             f"https://api.telegram.org/bot{TOKEN}/sendMessage",
             data={"chat_id": CHAT, "text": message},
