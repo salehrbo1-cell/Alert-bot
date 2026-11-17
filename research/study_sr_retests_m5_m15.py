@@ -234,14 +234,31 @@ def scan(tf,bars,m1,starts,piv,atr15_by_time,atr1_by_time):
             if at>END:continue
             counts[f"{confirm}_confirmed"]+=1
             ev["signals"][confirm]=fmt(at)
-            # Only levels available BEFORE entry. Rebuild with pivots whose
-            # avail <= signal close, excluding invalidated levels known then.
-            # Future pivots never enter this list.
+            # Target must use the snapshot at signal close, NOT at touch.
+            # For deferred confirmation, include only newly CONFIRMED pivots
+            # and remove pivots invalidated by intervening CLOSED M15 candles.
             target_snapshot=zones
-            if at>snapshot+15*M:
-                # This is the only deferred snapshot case; conservatively
-                # do not trade if levels could have changed since touch.
-                counts["deferred_signal_skipped"]+=1;continue
+            at_snapshot=(at//(15*M))*(15*M)
+            if at_snapshot>snapshot:
+                j=ptr
+                while j<len(confirmed) and confirmed[j]["avail"]<=at_snapshot:j+=1
+                updated=[p for p in active if at_snapshot-p["avail"]<
+                    ((2 if p["tf"]=="M15" else 21 if p["tf"]=="H1" else 60)*D)]
+                updated += [p for p in confirmed[ptr:j] if at_snapshot-p["avail"]<
+                    ((2 if p["tf"]=="M15" else 21 if p["tf"]=="H1" else 60)*D)]
+                # Do not mutate active/confirmed here: future candles must
+                # not alter the current loop's state.
+                closed=[v for v in atr15_by_time[1]
+                    [bisect.bisect_right(atr15_by_time[0],snapshot):
+                     bisect.bisect_right(atr15_by_time[0],at_snapshot)]
+                    if v[1]<=at_snapshot]
+                updated=[p for p in updated if not any(
+                    (p["side"]=="R" and bar[5]>p["price"]+max(.75,.12*p["atr"]))
+                    or (p["side"]=="S" and bar[5]<p["price"]-max(.75,.12*p["atr"]))
+                    for bar in closed)]
+                i15=max(0,bisect.bisect_right(atr15_by_time[0],at_snapshot)-1)
+                i1=max(0,bisect.bisect_right(atr1_by_time[0],at_snapshot)-1)
+                target_snapshot=make_zones(updated,atr15_by_time[2][i15],atr1_by_time[2][i1])
             idx=bisect.bisect_left(starts,at)
             if idx>=len(m1) or m1[idx][0]!=at:continue
             entry_bid=m1[idx][2]
