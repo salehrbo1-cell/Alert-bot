@@ -1,0 +1,302 @@
+{
+  "source": "XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv",
+  "raw_candles": 16065,
+  "usable_candles": 13029,
+  "flat_synthetic_removed": 3036,
+  "first_utc": "2026-05-01T00:00:00+00:00",
+  "last_utc": "2026-11-17T05:00:00+00:00",
+  "method": "historically confirmed H1/H4/D1 pivots (score>=5), M15 closed, entry next open, target/stop +/-$5, 8 M15 candles, no spread/slippage",
+  "warnings": [
+    "Dukascopy BID feed differs from bot Twelve Data feed.",
+    "UTC H4/daily boundaries may differ from broker.",
+    "No tick data: bars hitting both target and stop are ambiguous.",
+    "No transaction costs included; these are classifications, not proven profitable trades.",
+    "Indicators are computed from full cleaned history, not 500-candle rolling API snapshots."
+  ],
+  "groups": {
+    "price_only_rejection": {
+      "signals": 129,
+      "outcomes": {
+        "win": 59,
+        "loss": 56,
+        "ambiguous": 12,
+        "gap": 2
+      },
+      "winrate_excluding_timeout_ambiguous": 0.513,
+      "unique_level_buckets": 22
+    },
+    "price_only_breakout": {
+      "signals": 148,
+      "outcomes": {
+        "loss": 58,
+        "win": 74,
+        "ambiguous": 13,
+        "gap": 3
+      },
+      "winrate_excluding_timeout_ambiguous": 0.5606,
+      "unique_level_buckets": 22
+    },
+    "filtered_rejection": {
+      "signals": 109,
+      "outcomes": {
+        "loss": 48,
+        "win": 51,
+        "ambiguous": 9,
+        "gap": 1
+      },
+      "winrate_excluding_timeout_ambiguous": 0.5152,
+      "unique_level_buckets": 21
+    },
+    "filtered_breakout": {
+      "signals": 107,
+      "outcomes": {
+        "loss": 36,
+        "win": 60,
+        "ambiguous": 10,
+        "gap": 1
+      },
+      "winrate_excluding_timeout_ambiguous": 0.625,
+      "unique_level_buckets": 21
+    }
+  },
+  "monthly": {
+    "2026-05": {
+      "price_only_rejection": {
+        "signals": 4,
+        "wins": 2,
+        "losses": 1,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 0
+      },
+      "price_only_breakout": {
+        "signals": 1,
+        "wins": 0,
+        "losses": 1,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_rejection": {
+        "signals": 2,
+        "wins": 1,
+        "losses": 1,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 1,
+        "wins": 0,
+        "losses": 1,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      }
+    },
+    "2026-06": {
+      "price_only_rejection": {
+        "signals": 9,
+        "wins": 3,
+        "losses": 4,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 0
+      },
+      "price_only_breakout": {
+        "signals": 11,
+        "wins": 5,
+        "losses": 6,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_rejection": {
+        "signals": 7,
+        "wins": 4,
+        "losses": 3,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 8,
+        "wins": 4,
+        "losses": 4,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      }
+    },
+    "2026-07": {
+      "price_only_rejection": {
+        "signals": 6,
+        "wins": 1,
+        "losses": 5,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "price_only_breakout": {
+        "signals": 10,
+        "wins": 7,
+        "losses": 2,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_rejection": {
+        "signals": 6,
+        "wins": 1,
+        "losses": 5,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 8,
+        "wins": 6,
+        "losses": 1,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 0
+      }
+    },
+    "2026-08": {
+      "price_only_rejection": {
+        "signals": 16,
+        "wins": 9,
+        "losses": 7,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "price_only_breakout": {
+        "signals": 23,
+        "wins": 13,
+        "losses": 8,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_rejection": {
+        "signals": 11,
+        "wins": 6,
+        "losses": 5,
+        "ambiguous": 0,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 14,
+        "wins": 9,
+        "losses": 3,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 0
+      }
+    },
+    "2026-09": {
+      "price_only_rejection": {
+        "signals": 38,
+        "wins": 17,
+        "losses": 13,
+        "ambiguous": 7,
+        "timeout": 0,
+        "gap": 1
+      },
+      "price_only_breakout": {
+        "signals": 43,
+        "wins": 18,
+        "losses": 19,
+        "ambiguous": 4,
+        "timeout": 0,
+        "gap": 2
+      },
+      "filtered_rejection": {
+        "signals": 34,
+        "wins": 18,
+        "losses": 9,
+        "ambiguous": 7,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 31,
+        "wins": 15,
+        "losses": 13,
+        "ambiguous": 3,
+        "timeout": 0,
+        "gap": 0
+      }
+    },
+    "2026-10": {
+      "price_only_rejection": {
+        "signals": 41,
+        "wins": 19,
+        "losses": 20,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 1
+      },
+      "price_only_breakout": {
+        "signals": 42,
+        "wins": 21,
+        "losses": 16,
+        "ambiguous": 4,
+        "timeout": 0,
+        "gap": 1
+      },
+      "filtered_rejection": {
+        "signals": 34,
+        "wins": 13,
+        "losses": 19,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 1
+      },
+      "filtered_breakout": {
+        "signals": 29,
+        "wins": 17,
+        "losses": 9,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 1
+      }
+    },
+    "2026-11": {
+      "price_only_rejection": {
+        "signals": 15,
+        "wins": 8,
+        "losses": 6,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 0
+      },
+      "price_only_breakout": {
+        "signals": 18,
+        "wins": 10,
+        "losses": 6,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_rejection": {
+        "signals": 15,
+        "wins": 8,
+        "losses": 6,
+        "ambiguous": 1,
+        "timeout": 0,
+        "gap": 0
+      },
+      "filtered_breakout": {
+        "signals": 16,
+        "wins": 9,
+        "losses": 5,
+        "ambiguous": 2,
+        "timeout": 0,
+        "gap": 0
+      }
+    }
+  }
+}
