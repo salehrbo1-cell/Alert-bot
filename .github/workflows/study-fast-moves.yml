@@ -1,0 +1,43 @@
+name: Study XAUUSD fast moves M1 (free data)
+on:
+  push:
+    paths:
+      - ".github/workflows/study-fast-moves.yml"
+      - "research/study_fast_moves_m1.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: xau-fast-moves-m1
+  cancel-in-progress: false
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download 78 days of free Dukascopy M1 BID XAUUSD
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2026-09-01 -to 2026-11-18 -t m1 -f csv -p bid
+      - name: Run forward-only signal and execution study
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          paths = list(Path("download").rglob("*.csv"))
+          if not paths:
+              raise SystemExit("Dukascopy download returned no CSV")
+          source = max(paths, key=lambda p:p.stat().st_size)
+          print("Dataset",source,source.stat().st_size)
+          print("Header",source.open().readline().strip())
+          Path("/tmp/m1_source_path.txt").write_text(str(source))
+          PY
+          python research/study_fast_moves_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_fast_moves
+      - name: Commit summary and event classifications (no raw large dataset)
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add research/results_fast_moves/
+          git diff --cached --quiet || (git commit -m "Save historical M1 fast-move research results" && git pull --rebase && git push)
