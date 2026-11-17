@@ -1,10 +1,10 @@
 {
   "source": "Dukascopy XAUUSD M1 BID, 2026-09-01 to 2026-11-17",
-  "raw_rows": 93539,
-  "nonflat_rows": 76047,
-  "eligible_signal_minutes": 70742,
+  "raw_rows": 93552,
+  "nonflat_rows": 76060,
+  "eligible_signal_minutes": 70755,
   "first_utc": "2026-09-01T00:00:00+00:00",
-  "last_utc": "2026-11-17T06:02:00+00:00",
+  "last_utc": "2026-11-17T06:15:00+00:00",
   "predefined_patterns": [
     "sweep_1bar",
     "false_break_2bar",
@@ -161,22 +161,22 @@
       "median_mae_15": 3.04
     },
     "baseline_30m__test": {
-      "signals": 932,
+      "signals": 930,
       "t10_h5": {
         "win": 21,
         "loss": 120,
-        "timeout": 791,
+        "timeout": 789,
         "ambiguous": 0,
-        "success_all": 0.0225,
+        "success_all": 0.0226,
         "wilson95_all": [
           0.0148,
-          0.0342
+          0.0343
         ]
       },
       "t20_h5": {
         "win": 0,
         "loss": 120,
-        "timeout": 812,
+        "timeout": 810,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -187,7 +187,7 @@
       "t30_h5": {
         "win": 0,
         "loss": 120,
-        "timeout": 812,
+        "timeout": 810,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -197,21 +197,21 @@
       },
       "t10_h10": {
         "win": 51,
-        "loss": 227,
-        "timeout": 654,
+        "loss": 226,
+        "timeout": 653,
         "ambiguous": 0,
-        "success_all": 0.0547,
+        "success_all": 0.0548,
         "wilson95_all": [
-          0.0419,
-          0.0712
+          0.042,
+          0.0714
         ]
       },
       "t20_h10": {
         "win": 6,
-        "loss": 229,
-        "timeout": 697,
+        "loss": 228,
+        "timeout": 696,
         "ambiguous": 0,
-        "success_all": 0.0064,
+        "success_all": 0.0065,
         "wilson95_all": [
           0.003,
           0.014
@@ -219,8 +219,8 @@
       },
       "t30_h10": {
         "win": 0,
-        "loss": 229,
-        "timeout": 703,
+        "loss": 228,
+        "timeout": 702,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -230,19 +230,19 @@
       },
       "t10_h15": {
         "win": 68,
-        "loss": 290,
-        "timeout": 574,
+        "loss": 289,
+        "timeout": 573,
         "ambiguous": 0,
-        "success_all": 0.073,
+        "success_all": 0.0731,
         "wilson95_all": [
-          0.058,
-          0.0915
+          0.0581,
+          0.0917
         ]
       },
       "t20_h15": {
         "win": 9,
-        "loss": 293,
-        "timeout": 630,
+        "loss": 292,
+        "timeout": 629,
         "ambiguous": 0,
         "success_all": 0.0097,
         "wilson95_all": [
@@ -252,8 +252,8 @@
       },
       "t30_h15": {
         "win": 1,
-        "loss": 293,
-        "timeout": 638,
+        "loss": 292,
+        "timeout": 637,
         "ambiguous": 0,
         "success_all": 0.0011,
         "wilson95_all": [
@@ -263,35 +263,35 @@
       },
       "t10_h30": {
         "win": 145,
-        "loss": 408,
-        "timeout": 379,
+        "loss": 407,
+        "timeout": 378,
         "ambiguous": 0,
-        "success_all": 0.1556,
+        "success_all": 0.1559,
         "wilson95_all": [
-          0.1337,
-          0.1803
+          0.134,
+          0.1806
         ]
       },
       "t20_h30": {
         "win": 28,
-        "loss": 416,
-        "timeout": 488,
+        "loss": 415,
+        "timeout": 487,
         "ambiguous": 0,
-        "success_all": 0.03,
+        "success_all": 0.0301,
         "wilson95_all": [
           0.0209,
-          0.0431
+          0.0432
         ]
       },
       "t30_h30": {
         "win": 11,
-        "loss": 416,
-        "timeout": 505,
+        "loss": 415,
+        "timeout": 504,
         "ambiguous": 0,
         "success_all": 0.0118,
         "wilson95_all": [
           0.0066,
-          0.021
+          0.0211
         ]
       },
       "median_mfe_15": 2.83,
@@ -435,11 +435,11 @@
       "median_mae_15": 3.13
     },
     "baseline_30m__validation": {
-      "signals": 946,
+      "signals": 948,
       "t10_h5": {
         "win": 7,
         "loss": 71,
-        "timeout": 866,
+        "timeout": 868,
         "ambiguous": 2,
         "success_all": 0.0074,
         "wilson95_all": [
@@ -450,7 +450,7 @@
       "t20_h5": {
         "win": 0,
         "loss": 73,
-        "timeout": 873,
+        "timeout": 875,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -461,7 +461,7 @@
       "t30_h5": {
         "win": 0,
         "loss": 73,
-        "timeout": 873,
+        "timeout": 875,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -471,19 +471,19 @@
       },
       "t10_h10": {
         "win": 28,
-        "loss": 169,
-        "timeout": 747,
+        "loss": 170,
+        "timeout": 748,
         "ambiguous": 2,
-        "success_all": 0.0296,
+        "success_all": 0.0295,
         "wilson95_all": [
-          0.0206,
+          0.0205,
           0.0424
         ]
       },
       "t20_h10": {
         "win": 1,
-        "loss": 171,
-        "timeout": 774,
+        "loss": 172,
+        "timeout": 775,
         "ambiguous": 0,
         "success_all": 0.0011,
         "wilson95_all": [
@@ -493,8 +493,8 @@
       },
       "t30_h10": {
         "win": 0,
-        "loss": 171,
-        "timeout": 775,
+        "loss": 172,
+        "timeout": 776,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -504,19 +504,19 @@
       },
       "t10_h15": {
         "win": 44,
-        "loss": 233,
-        "timeout": 667,
+        "loss": 234,
+        "timeout": 668,
         "ambiguous": 2,
-        "success_all": 0.0465,
+        "success_all": 0.0464,
         "wilson95_all": [
           0.0348,
-          0.0619
+          0.0617
         ]
       },
       "t20_h15": {
         "win": 4,
-        "loss": 235,
-        "timeout": 707,
+        "loss": 236,
+        "timeout": 708,
         "ambiguous": 0,
         "success_all": 0.0042,
         "wilson95_all": [
@@ -526,8 +526,8 @@
       },
       "t30_h15": {
         "win": 0,
-        "loss": 235,
-        "timeout": 711,
+        "loss": 236,
+        "timeout": 712,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
@@ -537,30 +537,30 @@
       },
       "t10_h30": {
         "win": 97,
-        "loss": 360,
-        "timeout": 487,
+        "loss": 361,
+        "timeout": 488,
         "ambiguous": 2,
-        "success_all": 0.1025,
+        "success_all": 0.1023,
         "wilson95_all": [
-          0.0848,
-          0.1235
+          0.0846,
+          0.1232
         ]
       },
       "t20_h30": {
         "win": 17,
-        "loss": 363,
-        "timeout": 566,
+        "loss": 364,
+        "timeout": 567,
         "ambiguous": 0,
-        "success_all": 0.018,
+        "success_all": 0.0179,
         "wilson95_all": [
           0.0112,
-          0.0286
+          0.0285
         ]
       },
       "t30_h30": {
         "win": 3,
-        "loss": 363,
-        "timeout": 580,
+        "loss": 364,
+        "timeout": 581,
         "ambiguous": 0,
         "success_all": 0.0032,
         "wilson95_all": [
@@ -1942,278 +1942,278 @@
       "median_mae_15": 3.699
     },
     "sweep_1bar__train": {
-      "signals": 538,
+      "signals": 539,
       "t10_h5": {
         "win": 10,
         "loss": 64,
-        "timeout": 464,
+        "timeout": 465,
         "ambiguous": 0,
         "success_all": 0.0186,
         "wilson95_all": [
           0.0101,
-          0.0339
+          0.0338
         ]
       },
       "t20_h5": {
         "win": 3,
         "loss": 65,
-        "timeout": 470,
+        "timeout": 471,
         "ambiguous": 0,
         "success_all": 0.0056,
         "wilson95_all": [
           0.0019,
-          0.0163
+          0.0162
         ]
       },
       "t30_h5": {
         "win": 2,
         "loss": 65,
-        "timeout": 471,
+        "timeout": 472,
         "ambiguous": 0,
         "success_all": 0.0037,
         "wilson95_all": [
           0.001,
-          0.0135
+          0.0134
         ]
       },
       "t10_h10": {
         "win": 24,
         "loss": 129,
-        "timeout": 385,
+        "timeout": 386,
         "ambiguous": 0,
-        "success_all": 0.0446,
+        "success_all": 0.0445,
         "wilson95_all": [
-          0.0302,
-          0.0655
+          0.0301,
+          0.0654
         ]
       },
       "t20_h10": {
         "win": 4,
         "loss": 130,
-        "timeout": 404,
+        "timeout": 405,
         "ambiguous": 0,
         "success_all": 0.0074,
         "wilson95_all": [
           0.0029,
-          0.019
+          0.0189
         ]
       },
       "t30_h10": {
         "win": 3,
         "loss": 130,
-        "timeout": 405,
+        "timeout": 406,
         "ambiguous": 0,
         "success_all": 0.0056,
         "wilson95_all": [
           0.0019,
-          0.0163
+          0.0162
         ]
       },
       "t10_h15": {
         "win": 42,
         "loss": 178,
-        "timeout": 318,
+        "timeout": 319,
         "ambiguous": 0,
-        "success_all": 0.0781,
+        "success_all": 0.0779,
         "wilson95_all": [
-          0.0583,
-          0.1038
+          0.0582,
+          0.1037
         ]
       },
       "t20_h15": {
         "win": 5,
         "loss": 179,
-        "timeout": 354,
+        "timeout": 355,
         "ambiguous": 0,
         "success_all": 0.0093,
         "wilson95_all": [
           0.004,
-          0.0216
+          0.0215
         ]
       },
       "t30_h15": {
         "win": 3,
         "loss": 179,
-        "timeout": 356,
+        "timeout": 357,
         "ambiguous": 0,
         "success_all": 0.0056,
         "wilson95_all": [
           0.0019,
-          0.0163
+          0.0162
         ]
       },
       "t10_h30": {
         "win": 83,
         "loss": 246,
-        "timeout": 209,
+        "timeout": 210,
         "ambiguous": 0,
-        "success_all": 0.1543,
+        "success_all": 0.154,
         "wilson95_all": [
-          0.1262,
-          0.1872
+          0.126,
+          0.1869
         ]
       },
       "t20_h30": {
         "win": 12,
         "loss": 249,
-        "timeout": 277,
+        "timeout": 278,
         "ambiguous": 0,
         "success_all": 0.0223,
         "wilson95_all": [
           0.0128,
-          0.0386
+          0.0385
         ]
       },
       "t30_h30": {
         "win": 3,
         "loss": 249,
-        "timeout": 286,
+        "timeout": 287,
         "ambiguous": 0,
         "success_all": 0.0056,
         "wilson95_all": [
           0.0019,
-          0.0163
+          0.0162
         ]
       },
-      "median_mfe_15": 2.925,
-      "median_mae_15": 3.433
+      "median_mfe_15": 2.95,
+      "median_mae_15": 3.43
     },
     "sweep_1bar__validation": {
-      "signals": 182,
+      "signals": 181,
       "t10_h5": {
         "win": 1,
         "loss": 19,
-        "timeout": 162,
+        "timeout": 161,
         "ambiguous": 0,
         "success_all": 0.0055,
         "wilson95_all": [
           0.001,
-          0.0305
+          0.0306
         ]
       },
       "t20_h5": {
         "win": 0,
         "loss": 19,
-        "timeout": 163,
+        "timeout": 162,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t30_h5": {
         "win": 0,
         "loss": 19,
-        "timeout": 163,
+        "timeout": 162,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t10_h10": {
         "win": 3,
         "loss": 37,
-        "timeout": 142,
+        "timeout": 141,
         "ambiguous": 0,
-        "success_all": 0.0165,
+        "success_all": 0.0166,
         "wilson95_all": [
-          0.0056,
-          0.0473
+          0.0057,
+          0.0476
         ]
       },
       "t20_h10": {
         "win": 0,
         "loss": 37,
-        "timeout": 145,
+        "timeout": 144,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t30_h10": {
         "win": 0,
         "loss": 37,
-        "timeout": 145,
+        "timeout": 144,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t10_h15": {
         "win": 8,
         "loss": 47,
-        "timeout": 127,
+        "timeout": 126,
         "ambiguous": 0,
-        "success_all": 0.044,
+        "success_all": 0.0442,
         "wilson95_all": [
-          0.0224,
-          0.0843
+          0.0226,
+          0.0848
         ]
       },
       "t20_h15": {
         "win": 0,
         "loss": 47,
-        "timeout": 135,
+        "timeout": 134,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t30_h15": {
         "win": 0,
         "loss": 47,
-        "timeout": 135,
+        "timeout": 134,
         "ambiguous": 0,
         "success_all": 0.0,
         "wilson95_all": [
           0.0,
-          0.0207
+          0.0208
         ]
       },
       "t10_h30": {
         "win": 20,
         "loss": 80,
-        "timeout": 81,
+        "timeout": 80,
         "ambiguous": 1,
-        "success_all": 0.1099,
+        "success_all": 0.1105,
         "wilson95_all": [
-          0.0723,
-          0.1636
+          0.0727,
+          0.1645
         ]
       },
       "t20_h30": {
         "win": 3,
         "loss": 81,
-        "timeout": 98,
+        "timeout": 97,
         "ambiguous": 0,
-        "success_all": 0.0165,
+        "success_all": 0.0166,
         "wilson95_all": [
-          0.0056,
-          0.0473
+          0.0057,
+          0.0476
         ]
       },
       "t30_h30": {
         "win": 1,
         "loss": 81,
-        "timeout": 100,
+        "timeout": 99,
         "ambiguous": 0,
         "success_all": 0.0055,
         "wilson95_all": [
           0.001,
-          0.0305
+          0.0306
         ]
       },
-      "median_mfe_15": 2.734,
-      "median_mae_15": 2.703
+      "median_mfe_15": 2.72,
+      "median_mae_15": 2.736
     }
   }
 }

@@ -4480,7 +4480,7 @@ utc,kind,side,entry,range_1m,mean_range_60,split,t10_h5,t20_h5,t30_h5,t10_h10,t2
 2026-10-16T03:51:00+00:00,false_break_2bar,sell,4175.655,7.653,1.835,train,loss,loss,loss,loss,loss,loss,loss,loss,1.86,5.81,loss,loss,loss,loss
 2026-10-16T04:00:00+00:00,baseline_30m,buy,4182.865,1.39,1.962,train,timeout,timeout,timeout,loss,loss,loss,loss,loss,3.35,7.08,loss,loss,loss,loss
 2026-10-16T04:00:00+00:00,baseline_30m,sell,4182.865,1.39,1.962,train,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,7.28,3.35,timeout,timeout,timeout,timeout
-2026-10-16T04:05:00+00:00,sweep_1bar,sell,4183.105,3.09,1.989,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,7.52,0.13,timeout,timeout,timeout,timeout
+2026-10-16T04:05:00+00:00,sweep_1bar,sell,4183.105,3.09,1.989,train,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,7.52,0.13,timeout,timeout,timeout,timeout
 2026-10-16T04:19:00+00:00,compression_impulse,buy,4180.895,2.8,2.133,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,0.45,3.872,timeout,loss,loss,loss
 2026-10-16T04:30:00+00:00,baseline_30m,buy,4178.075,0.42,2.146,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,0.71,4.25,timeout,loss,loss,loss
 2026-10-16T04:30:00+00:00,baseline_30m,sell,4178.075,0.42,2.146,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,4.25,0.71,timeout,timeout,timeout,timeout
@@ -5965,8 +5965,8 @@ utc,kind,side,entry,range_1m,mean_range_60,split,t10_h5,t20_h5,t30_h5,t10_h10,t2
 2026-11-02T04:51:00+00:00,false_break_2bar,buy,3898.776,0.856,1.157,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,7.278,0.791,timeout,timeout,timeout,timeout
 2026-11-02T05:00:00+00:00,baseline_30m,buy,3902.64,2.238,1.169,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,4.766,1.124,timeout,timeout,timeout,timeout
 2026-11-02T05:00:00+00:00,baseline_30m,sell,3902.64,2.238,1.169,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,1.124,4.766,timeout,loss,loss,loss
-2026-11-02T05:30:00+00:00,baseline_30m,buy,3910.133,3.82,1.17,test,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,8.911,1.85,timeout,timeout,timeout,timeout
-2026-11-02T05:30:00+00:00,baseline_30m,sell,3910.133,3.82,1.17,test,timeout,timeout,timeout,loss,loss,loss,loss,loss,1.85,5.702,loss,loss,loss,loss
+2026-11-02T05:30:00+00:00,baseline_30m,buy,3910.133,3.82,1.17,validation,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,8.911,1.85,timeout,timeout,timeout,timeout
+2026-11-02T05:30:00+00:00,baseline_30m,sell,3910.133,3.82,1.17,validation,timeout,timeout,timeout,loss,loss,loss,loss,loss,1.85,5.702,loss,loss,loss,loss
 2026-11-02T06:00:00+00:00,baseline_30m,buy,3914.794,3.07,1.666,test,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,1.74,2.699,timeout,loss,loss,loss
 2026-11-02T06:00:00+00:00,baseline_30m,sell,3914.794,3.07,1.666,test,timeout,timeout,timeout,timeout,timeout,timeout,timeout,timeout,2.699,1.74,timeout,timeout,timeout,timeout
 2026-11-02T06:19:00+00:00,false_break_2bar,buy,3912.235,1.68,1.76,test,timeout,timeout,timeout,timeout,timeout,timeout,loss,loss,0.039,5.557,loss,loss,loss,loss
