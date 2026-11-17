@@ -3,11 +3,11 @@
   "start_utc": "2026-09-17T09:00:00+00:00",
   "end_utc": "2026-11-17T09:00:00+00:00",
   "data": {
-    "m1": 93810,
+    "m1": 93811,
     "m15": 6251,
     "h1": 1560,
     "h4": 384,
-    "last_utc": "2026-11-17T10:32:00+00:00",
+    "last_utc": "2026-11-17T10:33:00+00:00",
     "htf_pivots": 261,
     "m15_pivots": 635
   },
@@ -19,7 +19,7 @@
     "cisd": "M15 displacement body >=1.2x median last20 and >=60% range; fresh CLOSE beyond first sweep-run candle low/high; IFVG overlap in last 3 M15 candles",
     "entry": "Next M1 BID open after M15 CISD close; BUY pays 0.30 USD assumed ASK spread",
     "stop": "Highest/lowest M15 wick since IFVG inversion until CISD plus 0.20 USD buffer",
-    "target": "Nearest prior confirmed and unconsumed M15/H1/H4 swing on opposing side, >=1 USD away",
+    "target": "Sensitivity: nearest prior confirmed and unconsumed M15/H1/H4 swing OR HTF-only H1/H4 swing on opposing side, >=1 USD away",
     "exit": "Target or stop first within 12 hours, otherwise close at 12h; within-M1 ambiguity treated as stop; 0.10 USD slippage each side",
     "cooldown": "Four hours same direction; excludes signals lacking full 12h observation"
   },
@@ -34,7 +34,7 @@
     "No changes to production alert.py."
   ],
   "variants": {
-    "ifvg_immediate": {
+    "ifvg_immediate_m15_h1_h4": {
       "stage_counts": {
         "sweep": 404,
         "poi": 285,
@@ -89,7 +89,62 @@
         }
       }
     },
-    "ifvg_one_closed_bar_hold": {
+    "ifvg_immediate_htf_only": {
+      "stage_counts": {
+        "sweep": 404,
+        "poi": 285,
+        "sweep_run_origin": 168,
+        "ifvg": 67,
+        "m15_cisd": 17,
+        "cooldown": 7
+      },
+      "n": 10,
+      "results": {
+        "all": {
+          "signals": 10,
+          "evaluated": 10,
+          "target": 5,
+          "stop": 4,
+          "timeout": 1,
+          "gap": 0,
+          "target_hit_rate": 0.5,
+          "avg_rr": 1.444,
+          "net_price_dollars": -28.08,
+          "expectancy_price_dollars": -2.808,
+          "profit_factor": 0.688,
+          "max_drawdown_price_dollars": 41.28
+        },
+        "first_month": {
+          "signals": 7,
+          "evaluated": 7,
+          "target": 4,
+          "stop": 2,
+          "timeout": 1,
+          "gap": 0,
+          "target_hit_rate": 0.5714,
+          "avg_rr": 1.153,
+          "net_price_dollars": -0.92,
+          "expectancy_price_dollars": -0.132,
+          "profit_factor": 0.985,
+          "max_drawdown_price_dollars": 25.39
+        },
+        "second_month": {
+          "signals": 3,
+          "evaluated": 3,
+          "target": 1,
+          "stop": 2,
+          "timeout": 0,
+          "gap": 0,
+          "target_hit_rate": 0.3333,
+          "avg_rr": 2.124,
+          "net_price_dollars": -27.15,
+          "expectancy_price_dollars": -9.051,
+          "profit_factor": 0.091,
+          "max_drawdown_price_dollars": 27.15
+        }
+      }
+    },
+    "ifvg_one_closed_bar_hold_m15_h1_h4": {
       "stage_counts": {
         "sweep": 404,
         "poi": 285,
@@ -141,6 +196,61 @@
           "expectancy_price_dollars": 3.123,
           "profit_factor": null,
           "max_drawdown_price_dollars": 0.0
+        }
+      }
+    },
+    "ifvg_one_closed_bar_hold_htf_only": {
+      "stage_counts": {
+        "sweep": 404,
+        "poi": 285,
+        "sweep_run_origin": 168,
+        "ifvg": 59,
+        "m15_cisd": 16,
+        "cooldown": 8
+      },
+      "n": 8,
+      "results": {
+        "all": {
+          "signals": 8,
+          "evaluated": 8,
+          "target": 3,
+          "stop": 4,
+          "timeout": 1,
+          "gap": 0,
+          "target_hit_rate": 0.375,
+          "avg_rr": 1.162,
+          "net_price_dollars": -71.8,
+          "expectancy_price_dollars": -8.975,
+          "profit_factor": 0.332,
+          "max_drawdown_price_dollars": 74.53
+        },
+        "first_month": {
+          "signals": 6,
+          "evaluated": 6,
+          "target": 2,
+          "stop": 3,
+          "timeout": 1,
+          "gap": 0,
+          "target_hit_rate": 0.3333,
+          "avg_rr": 1.134,
+          "net_price_dollars": -53.11,
+          "expectancy_price_dollars": -8.851,
+          "profit_factor": 0.383,
+          "max_drawdown_price_dollars": 53.11
+        },
+        "second_month": {
+          "signals": 2,
+          "evaluated": 2,
+          "target": 1,
+          "stop": 1,
+          "timeout": 0,
+          "gap": 0,
+          "target_hit_rate": 0.5,
+          "avg_rr": 1.244,
+          "net_price_dollars": -18.69,
+          "expectancy_price_dollars": -9.347,
+          "profit_factor": 0.127,
+          "max_drawdown_price_dollars": 21.42
         }
       }
     }
