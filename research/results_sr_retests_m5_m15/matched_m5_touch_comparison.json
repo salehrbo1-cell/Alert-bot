@@ -1,0 +1,200 @@
+{
+  "counts": {
+    "reclaim_duplicate_m15_close": 186,
+    "reclaim_unconfirmed": 698,
+    "break2_unconfirmed": 1450,
+    "break2_duplicate_m15_close": 119,
+    "no_m1_entry": 1
+  },
+  "results": {
+    "reclaim_all_rr": {
+      "m15_all": {
+        "n": 1242,
+        "evaluated": 1202,
+        "targets": 485,
+        "stops": 707,
+        "timeouts": 10,
+        "gaps": 3,
+        "censored": 37,
+        "hit_rate": 0.4035,
+        "total_r": -65.22,
+        "mean_r": -0.0543,
+        "median_r": -1.0,
+        "profit_factor_r": 0.908,
+        "max_drawdown_r": 94.527,
+        "top_3_r": 24.865
+      },
+      "m15_one_position": {
+        "n": 730,
+        "evaluated": 730,
+        "targets": 287,
+        "stops": 436,
+        "timeouts": 7,
+        "gaps": 0,
+        "censored": 0,
+        "hit_rate": 0.3932,
+        "total_r": -62.916,
+        "mean_r": -0.0862,
+        "median_r": -1.0,
+        "profit_factor_r": 0.856,
+        "max_drawdown_r": 81.206,
+        "top_3_r": 17.165
+      },
+      "m5_same_touches": {
+        "n": 1035,
+        "valid": 1011,
+        "target": 343,
+        "stop": 659,
+        "timeout": 9,
+        "censored": 22,
+        "gap": 2,
+        "total_r": 58.734,
+        "mean_r": 0.058
+      },
+      "matched_touch_count": 1243,
+      "m15_signals": 1243
+    },
+    "reclaim_rr2": {
+      "m15_all": {
+        "n": 472,
+        "evaluated": 448,
+        "targets": 101,
+        "stops": 341,
+        "timeouts": 6,
+        "gaps": 1,
+        "censored": 23,
+        "hit_rate": 0.2254,
+        "total_r": -1.408,
+        "mean_r": -0.0031,
+        "median_r": -1.0,
+        "profit_factor_r": 0.996,
+        "max_drawdown_r": 42.285,
+        "top_3_r": 24.865
+      },
+      "m15_one_position": {
+        "n": 332,
+        "evaluated": 332,
+        "targets": 71,
+        "stops": 256,
+        "timeouts": 5,
+        "gaps": 0,
+        "censored": 0,
+        "hit_rate": 0.2139,
+        "total_r": -27.219,
+        "mean_r": -0.082,
+        "median_r": -1.0,
+        "profit_factor_r": 0.894,
+        "max_drawdown_r": 43.973,
+        "top_3_r": 19.123
+      },
+      "m5_same_touches": {
+        "n": 614,
+        "valid": 595,
+        "target": 138,
+        "stop": 449,
+        "timeout": 8,
+        "censored": 17,
+        "gap": 2,
+        "total_r": 46.895,
+        "mean_r": 0.079
+      },
+      "matched_touch_count": 1243,
+      "m15_signals": 1243
+    },
+    "break2_all_rr": {
+      "m15_all": {
+        "n": 558,
+        "evaluated": 531,
+        "targets": 289,
+        "stops": 236,
+        "timeouts": 6,
+        "gaps": 3,
+        "censored": 24,
+        "hit_rate": 0.5443,
+        "total_r": -17.203,
+        "mean_r": -0.0324,
+        "median_r": 0.087,
+        "profit_factor_r": 0.927,
+        "max_drawdown_r": 34.198,
+        "top_3_r": 16.446
+      },
+      "m15_one_position": {
+        "n": 387,
+        "evaluated": 387,
+        "targets": 213,
+        "stops": 169,
+        "timeouts": 5,
+        "gaps": 0,
+        "censored": 0,
+        "hit_rate": 0.5504,
+        "total_r": -3.2,
+        "mean_r": -0.0083,
+        "median_r": 0.0918,
+        "profit_factor_r": 0.981,
+        "max_drawdown_r": 13.478,
+        "top_3_r": 13.905
+      },
+      "m5_same_touches": {
+        "n": 260,
+        "valid": 251,
+        "target": 152,
+        "stop": 96,
+        "timeout": 3,
+        "censored": 7,
+        "gap": 2,
+        "total_r": 115.973,
+        "mean_r": 0.462
+      },
+      "matched_touch_count": 558,
+      "m15_signals": 558
+    },
+    "break2_rr2": {
+      "m15_all": {
+        "n": 87,
+        "evaluated": 80,
+        "targets": 19,
+        "stops": 56,
+        "timeouts": 5,
+        "gaps": 1,
+        "censored": 6,
+        "hit_rate": 0.2375,
+        "total_r": 6.587,
+        "mean_r": 0.0823,
+        "median_r": -1.0,
+        "profit_factor_r": 1.117,
+        "max_drawdown_r": 14.258,
+        "top_3_r": 16.446
+      },
+      "m15_one_position": {
+        "n": 68,
+        "evaluated": 68,
+        "targets": 15,
+        "stops": 49,
+        "timeouts": 4,
+        "gaps": 0,
+        "censored": 0,
+        "hit_rate": 0.2206,
+        "total_r": -2.968,
+        "mean_r": -0.0436,
+        "median_r": -1.0,
+        "profit_factor_r": 0.94,
+        "max_drawdown_r": 11.236,
+        "top_3_r": 13.905
+      },
+      "m5_same_touches": {
+        "n": 86,
+        "valid": 80,
+        "target": 32,
+        "stop": 45,
+        "timeout": 3,
+        "censored": 5,
+        "gap": 1,
+        "total_r": 64.247,
+        "mean_r": 0.803
+      },
+      "matched_touch_count": 558,
+      "m15_signals": 558
+    }
+  },
+  "methodology": "Same pre-detected independent M5 touches; M15 confirmation within <=60m, duplicates at same zone/close merged; causal target levels; M5 original trades subset of identical touch timestamps"
+}
