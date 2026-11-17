@@ -102,6 +102,33 @@ def last_bar_features(rows):
       "early_stall_after_break_down":prev_break_down and c>o and c>p[4] and l>=p[3],
       "signal_status":"research observation only; NOT a verified buy/sell signal"}
 
+def enrich_swings(moves,rows):
+    idx={iso(r[0]):i for i,r in enumerate(rows)}
+    for m in moves:
+        start=idx.get(m["from_utc"]);confirmed=idx.get(m["start_pivot_confirmed_utc"])
+        if start is None or confirmed is None:continue
+        m["observable_at_start_pivot_not_yet_confirmed"]=last_bar_features(rows[:start+1])
+        m["observable_at_confirmation"]=last_bar_features(rows[:confirmed+1])
+        if confirmed+1>=len(rows):continue
+        entry=rows[confirmed+1][1]
+        direction=1 if m["direction"]=="up" else -1
+        future=[x for x in rows[confirmed+1:] if x[0]<=rows[confirmed][0]+60*M]
+        if not future:continue
+        mfe=max((x[2]-entry if direction==1 else entry-x[3]) for x in future)
+        mae=max((entry-x[3] if direction==1 else x[2]-entry) for x in future)
+        status="timeout"
+        for x in future:
+            fav=x[2]-entry if direction==1 else entry-x[3]
+            adv=entry-x[3] if direction==1 else x[2]-entry
+            if fav>=20 and adv>=5:status="ambiguous";break
+            if fav>=20:status="win";break
+            if adv>=5:status="loss";break
+        m["hypothetical_entry_after_confirmation"]=round(entry,3)
+        m["max_favorable_next60_after_confirmation"]=round(mfe,3)
+        m["max_adverse_next60_after_confirmation"]=round(mae,3)
+        m["20target_5stop_next60"]=status
+    return moves
+
 def main(path,out):
     rows=read(path)
     if len(rows)<300:raise SystemExit(f"Need >=300 nonflat M1 bars, got {len(rows)}")
@@ -127,6 +154,8 @@ def main(path,out):
             first_examples.append({"entry_utc":iso(future[0][0]),
                 "entry":round(entry,2),"max_up_next60":round(up,2),
                 "max_down_next60":round(down,2)})
+    swings3=enrich_swings(zigzag(window,3),rows)
+    swings5=enrich_swings(zigzag(window,5),rows)
     outdata={
       "source":"Dukascopy XAUUSD BID M1 (delayed feed, not broker's executable ask)",
       "latest_available_utc":iso(last),
@@ -134,8 +163,8 @@ def main(path,out):
       "bars":len(window),"missing_minute_gaps":gaps,
       "window_high":round(maxhigh,2),"window_low":round(minlow,2),
       "window_high_low_range":round(maxhigh-minlow,2),
-      "independent_close_swings_reversal3":zigzag(window,3),
-      "independent_close_swings_reversal5":zigzag(window,5),
+      "independent_close_swings_reversal3":swings3,
+      "independent_close_swings_reversal5":swings5,
       "rolling_60m_20usd_opportunities_overlapping":dict(opportunities),
       "rolling_60m_examples":first_examples,
       "latest_closed_bar_state":last_bar_features(rows),
