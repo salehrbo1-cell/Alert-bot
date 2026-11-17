@@ -82,7 +82,7 @@ def find_ifvg(s,poi,m15,gaps,hold):
 
 def cisd(s,inv,origin,m15,ends):
     # CISD on M15, and close must cross the FIRST candle's origin.
-    start=bisect.bisect_left(ends,inv['confirm'])
+    start=max(bisect.bisect_right(ends,inv['time']),bisect.bisect_left(ends,inv['confirm']))
     f=inv['gap'];price=origin['price']
     for i in range(start,min(start+17,len(m15))):
         if i<21:continue
