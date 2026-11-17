@@ -91,12 +91,22 @@ def eval_event(ev,arr,width):
         # First passage: $3 favorable vs $2 adverse, after touch,
         # and if both in same minute mark ambiguous (no tick sequence).
         status="neither"
-        for x in seq:
-            fav=(x[3]>=P+3 if direction>0 else x[4]<=P-3)
-            adv=(x[4]<=P-2 if direction>0 else x[3]>=P+2)
-            if fav or adv:
-                status="ambiguous" if fav and adv else ("reject_3_first" if fav else "break_2_first")
-                break
+        # The touch candle itself may have already crossed the adverse
+        # threshold. Do not count favorable movement before the touch
+        # as an AFTER-touch bounce. If both thresholds are crossed inside
+        # the touch minute, the tick sequence is unknown -> ambiguous.
+        touch=arr[i]
+        touch_adv=(touch[4]<=P-2 if direction>0 else touch[3]>=P+2)
+        touch_fav=(touch[3]>=P+3 if direction>0 else touch[4]<=P-3)
+        if touch_adv:
+            status="ambiguous_touch_bar" if touch_fav else "break_2_at_touch"
+        else:
+            for x in seq:
+                fav=(x[3]>=P+3 if direction>0 else x[4]<=P-3)
+                adv=(x[4]<=P-2 if direction>0 else x[3]>=P+2)
+                if fav or adv:
+                    status="ambiguous" if fav and adv else ("reject_3_first" if fav else "break_2_first")
+                    break
         result[str(horizon)]=dict(status=status,close_move=rnd(closes),
             favorable_excursion=rnd(mf),adverse_excursion=rnd(-ma))
     return result
@@ -163,8 +173,9 @@ def run(path,out):
     with open(path,newline="") as f:
         for row in csv.DictReader(f):
             try:
+                if "Volume" not in row and "volume" not in row:continue
                 t=b.ts(row.get("Etc/UTC","")) if "Etc/UTC" in row else int(float(row["timestamp"]))
-                vol=float(row.get("Volume",row.get("volume",0)))
+                vol=float(row.get("Volume",row.get("volume")))
                 if math.isfinite(vol):vrows.append((t,vol))
             except (ValueError,KeyError,TypeError):pass
     vol_by_t=dict(vrows)
