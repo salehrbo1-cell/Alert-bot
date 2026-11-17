@@ -6,6 +6,7 @@ on:
       - "research/study_fast_moves_m1.py"
       - "research/study_precursors_m1.py"
       - "research/study_early_fade_m1.py"
+      - "research/study_multifactor_fade_m1.py"
   workflow_dispatch:
 permissions:
   contents: write
@@ -39,9 +40,10 @@ jobs:
           python research/study_fast_moves_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_fast_moves
           python research/study_precursors_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_precursors
           python research/study_early_fade_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_early_fade
+          python research/study_multifactor_fade_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_multifactor_fade
       - name: Commit summary and event classifications (no raw large dataset)
         run: |
           git config user.name "research-data-bot"
           git config user.email "research-data-bot@users.noreply.github.com"
-          git add research/results_fast_moves/ research/results_precursors/ research/results_early_fade/
+          git add research/results_fast_moves/ research/results_precursors/ research/results_early_fade/ research/results_multifactor_fade/
           git diff --cached --quiet || (git commit -m "Save historical M1 fast-move research results" && git pull --rebase && git push)
