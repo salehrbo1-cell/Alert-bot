@@ -9,7 +9,7 @@ permissions:
   contents: write
 concurrency:
   group: research-wick-body-reversals
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   study:
     runs-on: ubuntu-latest
