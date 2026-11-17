@@ -4,6 +4,7 @@ on:
     paths:
       - ".github/workflows/study-ml-reversal.yml"
       - "research/study_ml_interactions.py"
+      - "research/study_reversal_confirm3.py"
   workflow_dispatch:
 permissions:
   contents: write
@@ -46,10 +47,12 @@ jobs:
           shutil.copyfile(max(files,key=lambda x:x.stat().st_size),"/tmp/xau_aug_m1.csv")
           PY
       - name: Fit 40-feature models and evaluate August without tuning on it
-        run: python research/study_ml_interactions.py /tmp/xau_train_m1.csv /tmp/xau_aug_m1.csv research/results_ml_reversal
+        run: |
+          python research/study_ml_interactions.py /tmp/xau_train_m1.csv /tmp/xau_aug_m1.csv research/results_ml_reversal
+          python research/study_reversal_confirm3.py /tmp/xau_train_m1.csv /tmp/xau_aug_m1.csv research/results_reversal_confirm3
       - name: Commit research results
         run: |
           git config user.name "research-data-bot"
           git config user.email "research-data-bot@users.noreply.github.com"
-          git add research/results_ml_reversal/
+          git add research/results_ml_reversal/ research/results_reversal_confirm3/
           git diff --cached --quiet || (git commit -m "Save 40-feature reversal model August holdout results" && git pull --rebase && git push)
