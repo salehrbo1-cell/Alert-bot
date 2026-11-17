@@ -471,6 +471,105 @@ def evaluate(candles, levels):
     return unique
 
 
+# Pattern monitoring is informational; it does not create trade entries.
+# Confirmations use CLOSED M15 candles only (no future data).
+PATTERN_MIN_SCORE = 5
+PATTERN_COOLDOWN = 2 * 3600
+
+
+def pattern_momentum(candles):
+    closes = [x["c"] for x in candles]
+    rsi_now = rsi(closes)
+    rsi_prev = rsi(closes[:-1])
+    hist = macd_hist(closes)
+    ema20_now = ema(closes, 20)[-1]
+    return {
+        "rsi_now": rsi_now,
+        "rsi_prev": rsi_prev,
+        "macd_now": hist[-1],
+        "macd_prev": hist[-2],
+        "ema20": ema20_now,
+    }
+
+
+def classify_level_pattern(candles, level, m):
+    if len(candles) < 60:
+        return None
+    a, b, c = candles[-3:]
+    upper = level * (1 + ZONE_PCT)
+    lower = level * (1 - ZONE_PCT)
+    rsi_falling = m["rsi_now"] < m["rsi_prev"]
+    macd_falling = m["macd_now"] < m["macd_prev"]
+    rsi_rising = m["rsi_now"] > m["rsi_prev"]
+    macd_rising = m["macd_now"] > m["macd_prev"]
+
+    # A break that had closed above resistance, then lost that area.
+    if (a["c"] > upper and b["c"] > upper and c["c"] < lower
+            and c["c"] < c["o"] and rsi_falling and macd_falling):
+        return ("failed_break", "⚠️ فشل اختراق مقاومة",
+                "عاد الإغلاق أسفل نطاق المقاومة مع تراجع RSI وزخم MACD")
+
+    # First candle crosses above the zone; next CLOSED candle holds above it.
+    if (a["c"] <= upper and b["c"] > upper and c["c"] > upper
+            and c["c"] >= b["c"] and c["c"] > m["ema20"]
+            and m["rsi_now"] >= 50 and rsi_rising and macd_rising):
+        return ("breakout", "🟢 تأكيد اختراق مقاومة",
+                "إغلاقان متتاليان فوق النطاق مع استمرار الزخم الصاعد")
+
+    # A retest of resistance, followed by a bearish close below the zone.
+    if (max(b["h"], c["h"]) >= lower and b["c"] >= lower
+            and c["c"] < lower and c["c"] < c["o"]
+            and rsi_falling and macd_falling):
+        return ("rejection", "🔴 رفض هابط من مقاومة",
+                "فشل الثبات قرب المقاومة مع تراجع RSI وزخم MACD")
+
+    # Price is still above the zone, but the breakout is losing momentum.
+    if (b["c"] > upper and c["c"] > upper and c["c"] < b["c"]
+            and rsi_falling and macd_falling):
+        return ("weakening", "🟡 اختراق يفقد الزخم",
+                "السعر فوق المقاومة لكن RSI وزخم MACD يتراجعان")
+
+    return None
+
+
+def send_level_patterns(candles, levels, state, now, age_min):
+    if age_min < -0.1 or age_min > MAX_SIGNAL_AGE_MIN:
+        return
+    state.setdefault("patterns", {})
+    m = pattern_momentum(candles)
+    latest = candles[-1]
+    closed_at = datetime.fromtimestamp(
+        (latest["t"] + INTERVAL_MS) / 1000, timezone.utc
+    ).astimezone(timezone(timedelta(hours=3)))
+    for level_data in levels:
+        if level_data["score"] < PATTERN_MIN_SCORE:
+            continue
+        level = level_data["p"]
+        # Avoid unrelated distant levels and excessive alerts.
+        if min(abs(x["c"] - level) for x in candles[-3:]) > max(
+                2 * atr(candles), level * 0.004):
+            continue
+        pattern = classify_level_pattern(candles, level, m)
+        if not pattern:
+            continue
+        kind, title, reason = pattern
+        key = f"{ASSET}|{kind}|{level_bucket(level)}"
+        if now - state["patterns"].get(key, 0) < PATTERN_COOLDOWN:
+            continue
+        state["patterns"][key] = now
+        send(
+            f"{title} (M15 مغلقة)\n"
+            f"المستوى: {fmt(level_data)}\n"
+            f"إغلاق الشمعة: {latest['c']:,.2f}\n"
+            f"RSI(14): {m['rsi_prev']:.1f} ← {m['rsi_now']:.1f}\n"
+            f"زخم MACD: {'يتحسن' if m['macd_now'] > m['macd_prev'] else 'يتراجع'}\n"
+            f"EMA20: {m['ema20']:,.2f}\n"
+            f"التفسير: {reason}\n"
+            f"وقت إغلاق الشمعة (السعودية): {closed_at:%Y-%m-%d %H:%M}\n"
+            f"مراقبة تحليلية، وليست توصية دخول مؤكدة."
+        )
+
+
 def summarize(results):
     count = len(results)
     wins = sum(1 for x in results if x["r"] > 0)
@@ -593,6 +692,7 @@ def main():
 
     latest = candles[-1]
     age_min = (time.time() * 1000 - (latest["t"] + INTERVAL_MS)) / 60000
+    send_level_patterns(candles, levels, state, now, age_min)
     if age_min < -0.1:
         raise RuntimeError("Latest candle is not fully closed.")
     if age_min <= MAX_SIGNAL_AGE_MIN:
@@ -697,6 +797,10 @@ def main():
         state["score_t"] = now
         send(scoreboard(gold_results))
 
+    state["patterns"] = {
+        k: v for k, v in state.get("patterns", {}).items()
+        if now - v < 7 * 86400
+    }
     state["results"] = state["results"][-500:]
     state["sent"] = {k: v for k, v in state["sent"].items() if now - v < 7 * 86400}
     state["near"] = {k: v for k, v in state["near"].items() if now - v < 7 * 86400}
