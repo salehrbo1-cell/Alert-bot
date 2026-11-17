@@ -743,8 +743,10 @@
         "R": {
           "touches": 10,
           "outcome_30m": {
-            "break_2_first": 6,
-            "reject_3_first": 4
+            "break_2_at_touch": 2,
+            "break_2_first": 3,
+            "reject_3_first": 4,
+            "ambiguous_touch_bar": 1
           },
           "median_30m_close_move": 1.115,
           "median_30m_favorable_excursion": 2.729,
@@ -764,8 +766,9 @@
         "S": {
           "touches": 17,
           "outcome_30m": {
-            "reject_3_first": 10,
-            "break_2_first": 7
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 9,
+            "break_2_first": 6
           },
           "median_30m_close_move": 4.449,
           "median_30m_favorable_excursion": 7.07,
@@ -833,8 +836,10 @@
         "R": {
           "touches": 4,
           "outcome_30m": {
-            "break_2_first": 3,
-            "reject_3_first": 1
+            "break_2_first": 1,
+            "reject_3_first": 1,
+            "ambiguous_touch_bar": 1,
+            "break_2_at_touch": 1
           },
           "median_30m_close_move": -7.28,
           "median_30m_favorable_excursion": 2.517,
@@ -848,8 +853,9 @@
         "S": {
           "touches": 12,
           "outcome_30m": {
-            "reject_3_first": 8,
-            "break_2_first": 4
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 7,
+            "break_2_first": 3
           },
           "median_30m_close_move": 3.695,
           "median_30m_favorable_excursion": 7.141,
@@ -909,8 +915,10 @@
         "R": {
           "touches": 10,
           "outcome_30m": {
-            "break_2_first": 6,
-            "reject_3_first": 4
+            "break_2_at_touch": 2,
+            "break_2_first": 3,
+            "reject_3_first": 4,
+            "ambiguous_touch_bar": 1
           },
           "median_30m_close_move": 1.59,
           "median_30m_favorable_excursion": 2.729,
@@ -930,8 +938,9 @@
         "S": {
           "touches": 15,
           "outcome_30m": {
-            "reject_3_first": 10,
-            "break_2_first": 5
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 9,
+            "break_2_first": 4
           },
           "median_30m_close_move": 4.449,
           "median_30m_favorable_excursion": 7.212,
@@ -999,8 +1008,10 @@
         "R": {
           "touches": 4,
           "outcome_30m": {
-            "break_2_first": 3,
-            "reject_3_first": 1
+            "break_2_first": 1,
+            "ambiguous_touch_bar": 1,
+            "reject_3_first": 1,
+            "break_2_at_touch": 1
           },
           "median_30m_close_move": -1.813,
           "median_30m_favorable_excursion": 2.517,
@@ -1014,8 +1025,9 @@
         "S": {
           "touches": 12,
           "outcome_30m": {
-            "reject_3_first": 8,
-            "break_2_first": 4
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 7,
+            "break_2_first": 3
           },
           "median_30m_close_move": 3.695,
           "median_30m_favorable_excursion": 7.141,
@@ -1072,8 +1084,10 @@
         "R": {
           "touches": 10,
           "outcome_30m": {
-            "break_2_first": 6,
-            "reject_3_first": 4
+            "break_2_first": 4,
+            "reject_3_first": 4,
+            "ambiguous_touch_bar": 1,
+            "break_2_at_touch": 1
           },
           "median_30m_close_move": 0.636,
           "median_30m_favorable_excursion": 2.65,
@@ -1093,8 +1107,9 @@
         "S": {
           "touches": 17,
           "outcome_30m": {
-            "reject_3_first": 13,
-            "break_2_first": 4
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 12,
+            "break_2_first": 3
           },
           "median_30m_close_move": 4.612,
           "median_30m_favorable_excursion": 7.212,
@@ -1162,8 +1177,10 @@
         "R": {
           "touches": 4,
           "outcome_30m": {
-            "break_2_first": 3,
-            "reject_3_first": 1
+            "break_2_first": 1,
+            "ambiguous_touch_bar": 1,
+            "reject_3_first": 1,
+            "break_2_at_touch": 1
           },
           "median_30m_close_move": -0.968,
           "median_30m_favorable_excursion": 2.517,
@@ -1177,8 +1194,9 @@
         "S": {
           "touches": 11,
           "outcome_30m": {
-            "reject_3_first": 8,
-            "break_2_first": 3
+            "ambiguous_touch_bar": 2,
+            "reject_3_first": 7,
+            "break_2_first": 2
           },
           "median_30m_close_move": 4.612,
           "median_30m_favorable_excursion": 7.212,
@@ -1242,19 +1260,19 @@
       "touch_close": 3878.948,
       "outcome": {
         "5": {
-          "status": "reject_3_first",
+          "status": "ambiguous_touch_bar",
           "close_move": 18.345,
           "favorable_excursion": 20.173,
           "adverse_excursion": -8.266
         },
         "15": {
-          "status": "reject_3_first",
+          "status": "ambiguous_touch_bar",
           "close_move": 12.945,
           "favorable_excursion": 20.173,
           "adverse_excursion": -8.266
         },
         "30": {
-          "status": "reject_3_first",
+          "status": "ambiguous_touch_bar",
           "close_move": 13.088,
           "favorable_excursion": 20.173,
           "adverse_excursion": -8.266
@@ -1491,25 +1509,25 @@
       "touch_close": 3870.117,
       "outcome": {
         "5": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": -4.765,
           "favorable_excursion": -1.177,
           "adverse_excursion": 5.029
         },
         "15": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": -4.967,
           "favorable_excursion": -1.177,
           "adverse_excursion": 6.787
         },
         "30": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": -1.745,
           "favorable_excursion": -1.148,
           "adverse_excursion": 8.857
         },
         "60": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": -4.618,
           "favorable_excursion": -0.128,
           "adverse_excursion": 8.857
@@ -1635,25 +1653,25 @@
       "touch_close": 3868.052,
       "outcome": {
         "5": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -3.265,
           "favorable_excursion": 2.535,
           "adverse_excursion": 4.286
         },
         "15": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -5.617,
           "favorable_excursion": 2.535,
           "adverse_excursion": 6.435
         },
         "30": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -32.117,
           "favorable_excursion": 2.535,
           "adverse_excursion": 36.162
         },
         "60": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -20.215,
           "favorable_excursion": 2.535,
           "adverse_excursion": 36.162
@@ -1959,25 +1977,25 @@
       "touch_close": 3869.627,
       "outcome": {
         "5": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -11.927,
           "favorable_excursion": -0.841,
           "adverse_excursion": 15.108
         },
         "15": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -12.397,
           "favorable_excursion": -0.841,
           "adverse_excursion": 16.948
         },
         "30": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": -9.515,
           "favorable_excursion": -0.841,
           "adverse_excursion": 20.538
         },
         "60": {
-          "status": "break_2_first",
+          "status": "ambiguous_touch_bar",
           "close_move": 4.62,
           "favorable_excursion": 5.012,
           "adverse_excursion": 20.538
@@ -2103,25 +2121,25 @@
       "touch_close": 3869.205,
       "outcome": {
         "5": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": -0.115,
           "favorable_excursion": 1.295,
           "adverse_excursion": 2.065
         },
         "15": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": 2.642,
           "favorable_excursion": 2.732,
           "adverse_excursion": 2.065
         },
         "30": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": 1.419,
           "favorable_excursion": 2.732,
           "adverse_excursion": 2.516
         },
         "60": {
-          "status": "break_2_first",
+          "status": "break_2_at_touch",
           "close_move": 15.125,
           "favorable_excursion": 15.389,
           "adverse_excursion": 2.516
@@ -2706,37 +2724,37 @@
     {
       "center": 3862.3,
       "bars_touching": 282,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3864.3,
       "bars_touching": 307,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3866.3,
       "bars_touching": 339,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3868.3,
       "bars_touching": 335,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3870.3,
       "bars_touching": 313,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3872.3,
       "bars_touching": 359,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     },
     {
       "center": 3874.3,
       "bars_touching": 301,
-      "sum_feed_volume": 0.0
+      "sum_feed_volume": null
     }
   ],
   "rules": {
