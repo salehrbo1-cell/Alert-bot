@@ -1,0 +1,83 @@
+{
+  "train_file": "xau_train_m1.csv",
+  "holdout_file": "xau_aug_m1.csv",
+  "train_n": 1408,
+  "validation_n": 353,
+  "holdout_n": 658,
+  "target": "BUY/SELL early fade +5 USD before -3 USD within 10m; timeouts non-win",
+  "features": 40,
+  "holdout": "August 2026 retrospective independent month; EARLIER than train months, not forward validation",
+  "warnings": [
+    "This is exploratory, not a verified trade system.",
+    "August is a historical backward holdout, not prospective; later fresh data required.",
+    "September-November event definitions were developed using this era; August was not used.",
+    "No spread, slippage, commission, order-book or ASK data.",
+    "Threshold chosen on validation to maximize observed success among at least 25 signals; selection bias remains.",
+    "Intraminute both-stop-and-target counted non-win; market gaps excluded.",
+    "Prediction is not probability calibration; threshold and apparent win rate are not guarantees."
+  ],
+  "models": {
+    "logistic": {
+      "validation": {
+        "all_n": 353,
+        "all_win": 67,
+        "all_win_rate": 0.1898,
+        "threshold": 0.2416,
+        "selected_n": 40,
+        "selected_win": 11,
+        "selected_loss": 21,
+        "selected_timeout": 8,
+        "selected_ambiguous": 0,
+        "selected_win_rate": 0.275,
+        "auc": 0.5346,
+        "average_precision": 0.2167
+      },
+      "holdout": {
+        "all_n": 658,
+        "all_win": 122,
+        "all_win_rate": 0.1854,
+        "threshold": 0.2416,
+        "selected_n": 73,
+        "selected_win": 16,
+        "selected_loss": 45,
+        "selected_timeout": 11,
+        "selected_ambiguous": 1,
+        "selected_win_rate": 0.2192,
+        "auc": 0.595,
+        "average_precision": 0.2384
+      },
+      "train_baseline_win_rate": 0.1847
+    },
+    "boosted": {
+      "validation": {
+        "all_n": 353,
+        "all_win": 67,
+        "all_win_rate": 0.1898,
+        "threshold": 0.1619,
+        "selected_n": 177,
+        "selected_win": 34,
+        "selected_loss": 85,
+        "selected_timeout": 58,
+        "selected_ambiguous": 0,
+        "selected_win_rate": 0.1921,
+        "auc": 0.4909,
+        "average_precision": 0.1791
+      },
+      "holdout": {
+        "all_n": 658,
+        "all_win": 122,
+        "all_win_rate": 0.1854,
+        "threshold": 0.1619,
+        "selected_n": 333,
+        "selected_win": 77,
+        "selected_loss": 169,
+        "selected_timeout": 86,
+        "selected_ambiguous": 1,
+        "selected_win_rate": 0.2312,
+        "auc": 0.6056,
+        "average_precision": 0.245
+      },
+      "train_baseline_win_rate": 0.1847
+    }
+  }
+}
