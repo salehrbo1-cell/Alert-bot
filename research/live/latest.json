@@ -1,0 +1,92 @@
+{
+  "source": "Dukascopy XAUUSD BID M1 (delayed feed, not broker's executable ask)",
+  "latest_available_utc": "2026-11-17T07:47:00+00:00",
+  "window_start_utc": "2026-11-17T03:47:00+00:00",
+  "window_end_utc": "2026-11-17T07:47:00+00:00",
+  "bars": 241,
+  "missing_minute_gaps": 0,
+  "window_high": 3886.57,
+  "window_low": 3863.15,
+  "window_high_low_range": 23.42,
+  "independent_close_swings_reversal3": [
+    {
+      "direction": "up",
+      "from_utc": "2026-11-17T04:30:00+00:00",
+      "from_price": 3864.07,
+      "to_utc": "2026-11-17T05:34:00+00:00",
+      "to_price": 3885.89,
+      "dollars": 21.81,
+      "duration_minutes": 64,
+      "start_pivot_confirmed_utc": "2026-11-17T04:34:00+00:00",
+      "start_pivot_confirmation_delay_min": 4,
+      "start_pivot_confirmation_price": 3867.69
+    }
+  ],
+  "independent_close_swings_reversal5": [
+    {
+      "direction": "up",
+      "from_utc": "2026-11-17T04:30:00+00:00",
+      "from_price": 3864.07,
+      "to_utc": "2026-11-17T05:34:00+00:00",
+      "to_price": 3885.89,
+      "dollars": 21.81,
+      "duration_minutes": 64,
+      "start_pivot_confirmed_utc": "2026-11-17T04:37:00+00:00",
+      "start_pivot_confirmation_delay_min": 7,
+      "start_pivot_confirmation_price": 3869.66
+    }
+  ],
+  "rolling_60m_20usd_opportunities_overlapping": {
+    "buy_overlapping_minutes": 3
+  },
+  "rolling_60m_examples": [
+    {
+      "entry_utc": "2026-11-17T04:31:00+00:00",
+      "entry": 3864.05,
+      "max_up_next60": 21.29,
+      "max_down_next60": 0.9
+    },
+    {
+      "entry_utc": "2026-11-17T04:32:00+00:00",
+      "entry": 3864.32,
+      "max_up_next60": 21.02,
+      "max_down_next60": 0.2
+    },
+    {
+      "entry_utc": "2026-11-17T04:33:00+00:00",
+      "entry": 3865.07,
+      "max_up_next60": 20.27,
+      "max_down_next60": 0.07
+    }
+  ],
+  "latest_closed_bar_state": {
+    "last_closed_bar_utc": "2026-11-17T07:47:00+00:00",
+    "last_close_bid": 3870.89,
+    "previous_30m_high": 3877.77,
+    "previous_30m_low": 3870.908,
+    "average_1m_range_60": 1.4,
+    "current_1m_range": 0.66,
+    "current_range_vs_60m": 0.471,
+    "current_body": 0.13,
+    "upper_wick_ratio": 0.485,
+    "lower_wick_ratio": 0.318,
+    "close_change_3m": -1.267,
+    "close_change_5m": -2.755,
+    "close_change_15m": -4.305,
+    "closed_above_prior30m_high": false,
+    "closed_below_prior30m_low": true,
+    "failed_break_up_last_2bars": false,
+    "failed_break_down_last_2bars": false,
+    "early_stall_after_break_up": false,
+    "early_stall_after_break_down": false,
+    "signal_status": "research observation only; NOT a verified buy/sell signal"
+  },
+  "cautions": [
+    "Zigzag pivot is identified retrospectively after reversal threshold, not at pivot time.",
+    "Rolling 60m opportunities heavily overlap and are not independent trades.",
+    "If range<20, there cannot be a >=20 USD move inside that window.",
+    "All BID-only and no spreads, ASK, slippage, latency or news context.",
+    "No model shown to predict a 20 USD move reliably; latest state is descriptive.",
+    "Source may lag actual live broker chart by minutes or more."
+  ]
+}
