@@ -1,0 +1,34 @@
+[
+  {
+    "signal": "2026-05-08T12:15:00+00:00",
+    "side": "sell",
+    "session": "overlap",
+    "sweep": "2026-05-08T09:00:00+00:00",
+    "sweep_tf": "H1",
+    "poi_kind": "FVG",
+    "poi_tf": "H4",
+    "ifvg": "2026-05-08T11:00:00+00:00",
+    "ifvg_lo": 4718.745,
+    "ifvg_hi": 4720.125,
+    "cisd": "2026-05-08T12:15:00+00:00",
+    "cisd_high": 4719.625,
+    "cisd_low": 4703.645,
+    "planned_entry_bid": 4719.435,
+    "stop_bid": 4719.825,
+    "target_bid": 4696.735,
+    "target_tf": "M15",
+    "planned_risk": 0.89,
+    "planned_reward": 22.2,
+    "planned_rr": 24.9438,
+    "realized_r": -1.0,
+    "outcome": {
+      "status": "stop",
+      "pnl": -0.89,
+      "risk": 0.89,
+      "reward": 22.2,
+      "fill": "2026-05-08T12:33:00+00:00",
+      "mfe": 4.55,
+      "mae": 2.67
+    }
+  }
+]
