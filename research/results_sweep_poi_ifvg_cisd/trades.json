@@ -1,0 +1,1388 @@
+[
+  {
+    "sweep": "2026-09-18T08:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4389.398,
+    "poi": "2026-09-18T08:30:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "FVG",
+    "poi_lo": 4377.925,
+    "poi_hi": 4388.725,
+    "fvg": "2026-09-18T10:00:00+00:00",
+    "ifvg": "2026-09-18T10:15:00+00:00",
+    "cisd": "2026-09-18T11:05:00+00:00",
+    "entry_bid": 4385.325,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.55,
+        "mae": 7.09
+      }
+    }
+  },
+  {
+    "sweep": "2026-09-23T20:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4283.098,
+    "poi": "2026-09-23T20:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4275.815,
+    "poi_hi": 4285.095,
+    "fvg": "2026-09-24T02:15:00+00:00",
+    "ifvg": "2026-09-24T02:30:00+00:00",
+    "cisd": "2026-09-24T02:35:00+00:00",
+    "entry_bid": 4292.335,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 4.26,
+        "mae": 2.7
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 4.26,
+        "mae": 2.7
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.26,
+        "mae": 4.96
+      }
+    }
+  },
+  {
+    "sweep": "2026-09-25T03:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4283.098,
+    "poi": "2026-09-25T03:45:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "FVG",
+    "poi_lo": 4275.565,
+    "poi_hi": 4276.615,
+    "fvg": "2026-09-25T04:00:00+00:00",
+    "ifvg": "2026-09-25T05:45:00+00:00",
+    "cisd": "2026-09-25T06:20:00+00:00",
+    "entry_bid": 4277.735,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 3.24,
+        "mae": 3.41
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 3.24,
+        "mae": 2.49
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 3.24,
+        "mae": 4.78
+      }
+    }
+  },
+  {
+    "sweep": "2026-09-25T09:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4295.445,
+    "poi": "2026-09-25T09:15:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "OB",
+    "poi_lo": 4283.635,
+    "poi_hi": 4299.035,
+    "fvg": "2026-09-25T10:30:00+00:00",
+    "ifvg": "2026-09-25T11:45:00+00:00",
+    "cisd": "2026-09-25T13:05:00+00:00",
+    "entry_bid": 4291.495,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.89
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.89
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.76
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-01T04:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4175.045,
+    "poi": "2026-10-01T04:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4160.385,
+    "poi_hi": 4191.125,
+    "fvg": "2026-10-01T05:45:00+00:00",
+    "ifvg": "2026-10-01T06:45:00+00:00",
+    "cisd": "2026-10-01T06:50:00+00:00",
+    "entry_bid": 4180.435,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.55
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.55
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.74
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-02T12:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4185.775,
+    "poi": "2026-10-02T12:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4160.385,
+    "poi_hi": 4191.125,
+    "fvg": "2026-10-02T13:00:00+00:00",
+    "ifvg": "2026-10-02T13:15:00+00:00",
+    "cisd": "2026-10-02T13:20:00+00:00",
+    "entry_bid": 4190.585,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 6.7,
+        "mae": 2.09
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 6.7,
+        "mae": 2.09
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.7,
+        "mae": 4.5
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-05T00:00:00+00:00",
+    "sweep_tf": "H4",
+    "side": "buy",
+    "sweep_level": 4133.535,
+    "poi": "2026-10-05T03:00:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "FVG",
+    "poi_lo": 4135.075,
+    "poi_hi": 4139.855,
+    "fvg": "2026-10-05T04:30:00+00:00",
+    "ifvg": "2026-10-05T05:15:00+00:00",
+    "cisd": "2026-10-05T06:10:00+00:00",
+    "entry_bid": 4146.325,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 7.04,
+        "mae": 1.04
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 10.685,
+        "mae": 1.04
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 8.51,
+        "mfe": 12.09,
+        "mae": 1.04
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 18.13,
+        "mfe": 19.63,
+        "mae": 1.04
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 7.04,
+        "mae": 1.04
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 12.09,
+        "mae": 1.04
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 8.21,
+        "mfe": 12.09,
+        "mae": 1.04
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 17.83,
+        "mfe": 19.63,
+        "mae": 1.04
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-05T08:00:00+00:00",
+    "sweep_tf": "H4",
+    "side": "buy",
+    "sweep_level": 4125.075,
+    "poi": "2026-10-05T13:45:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "SR",
+    "poi_lo": 4129.718,
+    "poi_hi": 4137.352,
+    "fvg": "2026-10-05T16:30:00+00:00",
+    "ifvg": "2026-10-05T16:45:00+00:00",
+    "cisd": "2026-10-05T17:50:00+00:00",
+    "entry_bid": 4133.925,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 5.52,
+        "mae": 0
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 5.38,
+        "mfe": 7.55,
+        "mae": 0.5
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 5.38,
+        "mfe": 7.55,
+        "mae": 0.5
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 6.76,
+        "mfe": 9.97,
+        "mae": 0.5
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 6.29,
+        "mae": 0
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 5.08,
+        "mfe": 7.55,
+        "mae": 0.5
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 5.08,
+        "mfe": 7.55,
+        "mae": 0.5
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 6.46,
+        "mfe": 9.97,
+        "mae": 0.5
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-08T03:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4132.585,
+    "poi": "2026-10-08T03:15:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "FVG",
+    "poi_lo": 4120.295,
+    "poi_hi": 4131.675,
+    "fvg": "2026-10-08T06:15:00+00:00",
+    "ifvg": "2026-10-08T10:00:00+00:00",
+    "cisd": "2026-10-08T11:30:00+00:00",
+    "entry_bid": 4123.635,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.3,
+        "mae": 4.06
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.3,
+        "mae": 2.35
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.3,
+        "mae": 4.68
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-09T03:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4179.465,
+    "poi": "2026-10-09T03:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4160.385,
+    "poi_hi": 4191.125,
+    "fvg": "2026-10-09T05:30:00+00:00",
+    "ifvg": "2026-10-09T09:15:00+00:00",
+    "cisd": "2026-10-09T10:35:00+00:00",
+    "entry_bid": 4181.895,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "timeout",
+        "pnl": 2.29,
+        "mfe": 3.35,
+        "mae": 1.85
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": -3.22,
+        "mfe": 6.93,
+        "mae": 4.39
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": -3.22,
+        "mfe": 6.93,
+        "mae": 4.39
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.93,
+        "mae": 9.43
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "timeout",
+        "pnl": 1.99,
+        "mfe": 3.35,
+        "mae": 1.85
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.93,
+        "mae": 4.39
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.93,
+        "mae": 4.39
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 6.93,
+        "mae": 4.39
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-14T03:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4154.435,
+    "poi": "2026-10-14T03:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4144.825,
+    "poi_hi": 4176.775,
+    "fvg": "2026-10-14T09:00:00+00:00",
+    "ifvg": "2026-10-14T12:15:00+00:00",
+    "cisd": "2026-10-14T12:25:00+00:00",
+    "entry_bid": 4150.595,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 5.0,
+        "mae": 34.404
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-15T14:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4166.418,
+    "poi": "2026-10-15T14:30:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "SR",
+    "poi_lo": 4158.344,
+    "poi_hi": 4164.746,
+    "fvg": "2026-10-15T20:00:00+00:00",
+    "ifvg": "2026-10-15T22:30:00+00:00",
+    "cisd": "2026-10-15T22:35:00+00:00",
+    "entry_bid": 4167.388,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "timeout",
+        "pnl": 2.713,
+        "mfe": 4.053,
+        "mae": 0.1
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 5.743,
+        "mfe": 6.663,
+        "mae": 0.1
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 5.743,
+        "mfe": 6.663,
+        "mae": 0.1
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 14.223,
+        "mfe": 15.803,
+        "mae": 0.1
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "timeout",
+        "pnl": 2.413,
+        "mfe": 4.053,
+        "mae": 0.1
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 5.443,
+        "mfe": 6.663,
+        "mae": 0.1
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 5.443,
+        "mfe": 6.663,
+        "mae": 0.1
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 13.923,
+        "mfe": 15.803,
+        "mae": 0.1
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-16T03:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 4176.175,
+    "poi": "2026-10-16T03:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4166.418,
+    "poi_hi": 4179.525,
+    "fvg": "2026-10-16T04:15:00+00:00",
+    "ifvg": "2026-10-16T04:45:00+00:00",
+    "cisd": "2026-10-16T06:15:00+00:00",
+    "entry_bid": 4169.281,
+    "period": "first_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.668,
+        "mae": 2.92
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.668,
+        "mae": 2.3
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.668,
+        "mae": 4.554
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-19T15:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4144.175,
+    "poi": "2026-10-19T15:15:00+00:00",
+    "poi_tf": "H1",
+    "poi_kind": "OB",
+    "poi_lo": 4136.345,
+    "poi_hi": 4151.295,
+    "fvg": "2026-10-19T20:30:00+00:00",
+    "ifvg": "2026-10-19T21:00:00+00:00",
+    "cisd": "2026-10-19T22:10:00+00:00",
+    "entry_bid": 4142.131,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.696
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.763
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.763
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.763
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0,
+        "mae": 2.332
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.436
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.436
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0,
+        "mae": 4.436
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-20T01:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4130.095,
+    "poi": "2026-10-20T01:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4112.461,
+    "poi_hi": 4131.365,
+    "fvg": "2026-10-20T01:30:00+00:00",
+    "ifvg": "2026-10-20T01:45:00+00:00",
+    "cisd": "2026-10-20T02:10:00+00:00",
+    "entry_bid": 4133.401,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.087,
+        "mae": 2.646
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 11.11,
+        "mae": 2.646
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 6.824,
+        "mfe": 12.42,
+        "mae": 2.646
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 8.564,
+        "mfe": 13.284,
+        "mae": 2.646
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.087,
+        "mae": 2.646
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 11.11,
+        "mae": 2.646
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 6.524,
+        "mfe": 12.42,
+        "mae": 2.646
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 8.264,
+        "mfe": 13.284,
+        "mae": 2.646
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-21T17:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4130.095,
+    "poi": "2026-10-21T17:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4112.461,
+    "poi_hi": 4131.365,
+    "fvg": "2026-10-21T19:15:00+00:00",
+    "ifvg": "2026-10-21T19:30:00+00:00",
+    "cisd": "2026-10-21T19:40:00+00:00",
+    "entry_bid": 4135.275,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.7,
+        "mae": 2.8
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": -2.53,
+        "mfe": 0.7,
+        "mae": 4.487
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": -2.53,
+        "mfe": 0.7,
+        "mae": 4.487
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 5.016,
+        "mfe": 6.75,
+        "mae": 4.487
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 0.7,
+        "mae": 2.23
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.7,
+        "mae": 4.487
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.7,
+        "mae": 4.487
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 0.7,
+        "mae": 4.487
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-22T06:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4073.325,
+    "poi": "2026-10-22T11:30:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "SR",
+    "poi_lo": 4062.133,
+    "poi_hi": 4068.957,
+    "fvg": "2026-10-22T11:45:00+00:00",
+    "ifvg": "2026-10-22T12:15:00+00:00",
+    "cisd": "2026-10-22T12:40:00+00:00",
+    "entry_bid": 4077.265,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 6.6,
+        "mae": 0.3
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 13.62,
+        "mae": 0.3
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 14.29,
+        "mae": 5.67
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 14.29,
+        "mae": 5.67
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 6.6,
+        "mae": 0.3
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 13.62,
+        "mae": 0.3
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 14.29,
+        "mae": 4.27
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 14.29,
+        "mae": 4.27
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-29T06:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4024.264,
+    "poi": "2026-10-29T06:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4016.225,
+    "poi_hi": 4054.115,
+    "fvg": "2026-10-29T07:45:00+00:00",
+    "ifvg": "2026-10-29T10:15:00+00:00",
+    "cisd": "2026-10-29T11:05:00+00:00",
+    "entry_bid": 4034.428,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 4.747,
+        "mae": 2.563
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 4.747,
+        "mae": 2.563
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 4.747,
+        "mae": 7.103
+      }
+    }
+  },
+  {
+    "sweep": "2026-10-29T17:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "buy",
+    "sweep_level": 4015.555,
+    "poi": "2026-10-29T17:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 4016.225,
+    "poi_hi": 4054.115,
+    "fvg": "2026-10-29T18:00:00+00:00",
+    "ifvg": "2026-10-29T19:30:00+00:00",
+    "cisd": "2026-10-29T19:40:00+00:00",
+    "entry_bid": 4019.218,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 5.863,
+        "mae": 1.38
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 13.11,
+        "mae": 1.38
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 6.683,
+        "mfe": 13.11,
+        "mae": 1.38
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 1.116,
+        "mfe": 13.11,
+        "mae": 1.38
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "target",
+        "pnl": 5,
+        "mfe": 5.863,
+        "mae": 1.38
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "target",
+        "pnl": 10,
+        "mfe": 13.11,
+        "mae": 1.38
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 6.383,
+        "mfe": 13.11,
+        "mae": 1.38
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 0.816,
+        "mfe": 13.11,
+        "mae": 1.38
+      }
+    }
+  },
+  {
+    "sweep": "2026-11-03T07:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 3919.044,
+    "poi": "2026-11-03T07:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 3902.874,
+    "poi_hi": 3963.925,
+    "fvg": "2026-11-03T10:00:00+00:00",
+    "ifvg": "2026-11-03T10:15:00+00:00",
+    "cisd": "2026-11-03T10:25:00+00:00",
+    "entry_bid": 3903.562,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "timeout",
+        "pnl": 0.517,
+        "mfe": 2.828,
+        "mae": 2.383
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "stop",
+        "pnl": -3,
+        "mfe": 2.828,
+        "mae": 2.383
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "stop",
+        "pnl": -5,
+        "mfe": 2.828,
+        "mae": 5.452
+      }
+    }
+  },
+  {
+    "sweep": "2026-11-03T14:00:00+00:00",
+    "sweep_tf": "H1",
+    "side": "sell",
+    "sweep_level": 3970.065,
+    "poi": "2026-11-03T14:15:00+00:00",
+    "poi_tf": "H4",
+    "poi_kind": "FVG",
+    "poi_lo": 3902.874,
+    "poi_hi": 3963.925,
+    "fvg": "2026-11-03T18:15:00+00:00",
+    "ifvg": "2026-11-03T18:30:00+00:00",
+    "cisd": "2026-11-03T18:40:00+00:00",
+    "entry_bid": 3927.842,
+    "period": "second_month",
+    "outcomes": {
+      "t5_s3_m30_sp0.30": {
+        "status": "timeout",
+        "pnl": 0.347,
+        "mfe": 1.076,
+        "mae": 2.072
+      },
+      "t10_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 2.607,
+        "mfe": 5.076,
+        "mae": 2.072
+      },
+      "t15_s5_m60_sp0.30": {
+        "status": "timeout",
+        "pnl": 2.607,
+        "mfe": 5.076,
+        "mae": 2.072
+      },
+      "t20_s5_m120_sp0.30": {
+        "status": "timeout",
+        "pnl": 7.352,
+        "mfe": 10.536,
+        "mae": 2.072
+      },
+      "t5_s3_m30_sp0.60": {
+        "status": "timeout",
+        "pnl": 0.047,
+        "mfe": 1.076,
+        "mae": 2.072
+      },
+      "t10_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 2.307,
+        "mfe": 5.076,
+        "mae": 2.072
+      },
+      "t15_s5_m60_sp0.60": {
+        "status": "timeout",
+        "pnl": 2.307,
+        "mfe": 5.076,
+        "mae": 2.072
+      },
+      "t20_s5_m120_sp0.60": {
+        "status": "timeout",
+        "pnl": 7.052,
+        "mfe": 10.536,
+        "mae": 2.072
+      }
+    }
+  }
+]
