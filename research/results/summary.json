@@ -5,7 +5,7 @@
   "flat_synthetic_removed": 3036,
   "first_utc": "2026-05-01T00:00:00+00:00",
   "last_utc": "2026-11-17T05:00:00+00:00",
-  "method": "historically confirmed H1/H4/D1 pivots (score>=5), M15 closed, entry next open, target/stop +/-$5, 8 M15 candles, no spread/slippage",
+  "method": "historically confirmed H1/H4/D1 pivots (score>=5), M15 closed, entry next open, target/stop +/-$5, 8 M15 candles, no spread/slippage; momentum-filtered events are matched subset of baseline",
   "warnings": [
     "Dukascopy BID feed differs from bot Twelve Data feed.",
     "UTC H4/daily boundaries may differ from broker.",
@@ -37,25 +37,25 @@
       "unique_level_buckets": 22
     },
     "filtered_rejection": {
-      "signals": 109,
+      "signals": 103,
       "outcomes": {
-        "loss": 48,
-        "win": 51,
+        "loss": 47,
+        "win": 46,
         "ambiguous": 9,
         "gap": 1
       },
-      "winrate_excluding_timeout_ambiguous": 0.5152,
+      "winrate_excluding_timeout_ambiguous": 0.4946,
       "unique_level_buckets": 21
     },
     "filtered_breakout": {
-      "signals": 107,
+      "signals": 106,
       "outcomes": {
         "loss": 36,
-        "win": 60,
+        "win": 59,
         "ambiguous": 10,
         "gap": 1
       },
-      "winrate_excluding_timeout_ambiguous": 0.625,
+      "winrate_excluding_timeout_ambiguous": 0.6211,
       "unique_level_buckets": 21
     }
   },
@@ -112,8 +112,8 @@
         "gap": 0
       },
       "filtered_rejection": {
-        "signals": 7,
-        "wins": 4,
+        "signals": 5,
+        "wins": 2,
         "losses": 3,
         "ambiguous": 0,
         "timeout": 0,
@@ -146,9 +146,9 @@
         "gap": 0
       },
       "filtered_rejection": {
-        "signals": 6,
+        "signals": 5,
         "wins": 1,
-        "losses": 5,
+        "losses": 4,
         "ambiguous": 0,
         "timeout": 0,
         "gap": 0
@@ -180,8 +180,8 @@
         "gap": 0
       },
       "filtered_rejection": {
-        "signals": 11,
-        "wins": 6,
+        "signals": 10,
+        "wins": 5,
         "losses": 5,
         "ambiguous": 0,
         "timeout": 0,
@@ -214,8 +214,8 @@
         "gap": 2
       },
       "filtered_rejection": {
-        "signals": 34,
-        "wins": 18,
+        "signals": 32,
+        "wins": 16,
         "losses": 9,
         "ambiguous": 7,
         "timeout": 0,
@@ -256,8 +256,8 @@
         "gap": 1
       },
       "filtered_breakout": {
-        "signals": 29,
-        "wins": 17,
+        "signals": 28,
+        "wins": 16,
         "losses": 9,
         "ambiguous": 2,
         "timeout": 0,
