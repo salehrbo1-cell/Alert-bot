@@ -1,0 +1,50 @@
+name: Research strong H1 H4 support resistance bounces
+on:
+  push:
+    paths:
+      - ".github/workflows/study-strong-sr-bounces.yml"
+      - "research/study_strong_sr_bounces.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: research-strong-sr-bounces
+  cancel-in-progress: false
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download 12 months of XAUUSD M1 BID plus warmup
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-10-01 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("Dukascopy M1 CSV missing")
+          source=max(files,key=lambda p:p.stat().st_size)
+          print("Using",source,"size",source.stat().st_size)
+          shutil.copyfile(source,"/tmp/xau_m1.csv")
+          PY
+      - name: Study level bounce frequency and trade-to-next-zone expectancy
+        run: |
+          python -m py_compile research/study_strong_sr_bounces.py
+          python research/study_strong_sr_bounces.py /tmp/xau_m1.csv research/results_strong_sr_bounces
+      - name: Save backtest results
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_strong_sr_bounces/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save 12-month strong support resistance bounce and next-zone trade statistics"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
