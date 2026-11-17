@@ -1,0 +1,43 @@
+name: Live research snapshot of gold M1 (no trades)
+on:
+  push:
+    paths:
+      - ".github/workflows/live-research-snapshot.yml"
+      - "research/study_intraday_swings.py"
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+permissions:
+  contents: write
+concurrency:
+  group: live-gold-research
+  cancel-in-progress: true
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download latest available M1 BID XAUUSD
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2026-11-16 -to 2026-11-18 -t m1 -f csv -p bid
+      - name: Compute last four hours and current observable conditions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("No M1 Dukascopy CSV")
+          file=max(files,key=lambda p:p.stat().st_size)
+          Path("/tmp/gold_live_file.txt").write_text(str(file))
+          print("Input",file,file.stat().st_size)
+          PY
+          python research/study_intraday_swings.py "$(cat /tmp/gold_live_file.txt)" research/live
+      - name: Commit only if new market data available
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add research/live/latest.json
+          git diff --cached --quiet || (git commit -m "Update latest observed gold M1 research snapshot" && git pull --rebase && git push)
