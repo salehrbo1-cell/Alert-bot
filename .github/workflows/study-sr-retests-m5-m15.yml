@@ -1,0 +1,50 @@
+name: Research M5 M15 price-reset strong S/R retests
+on:
+  push:
+    paths:
+      - ".github/workflows/study-sr-retests-m5-m15.yml"
+      - "research/study_sr_retests_m5_m15.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: research-sr-retests-m5-m15
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download XAUUSD BID M1 from Dukascopy with warmup
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-10-01 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("Missing Dukascopy M1 data")
+          source=max(files,key=lambda p:p.stat().st_size)
+          print("Source",source,source.stat().st_size)
+          shutil.copyfile(source,"/tmp/xau_m1.csv")
+          PY
+      - name: Backtest M5 and M15 with independent price-reset retests
+        run: |
+          python -m py_compile research/study_sr_retests_m5_m15.py
+          python research/study_sr_retests_m5_m15.py /tmp/xau_m1.csv research/results_sr_retests_m5_m15
+      - name: Commit backtest and R distribution
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_sr_retests_m5_m15/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save 12-month M5 vs M15 strong S/R retest trade results"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
