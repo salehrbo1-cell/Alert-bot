@@ -1,8 +1,8 @@
 {
   "source": "Dukascopy M1 BID XAUUSD Sep1-Nov17 2026",
-  "raw_rows": 93527,
-  "nonflat_rows": 76035,
-  "sampled_times": 14314,
+  "raw_rows": 93539,
+  "nonflat_rows": 76047,
+  "sampled_times": 14316,
   "sample_rule": "every fifth closed M1 candle, 60 continuous past minutes and 15 continuous future minutes",
   "prediction": "for each direction, 20USD favorable move within next 15m; plus first target20 vs stop5",
   "predefined_features": [
@@ -28,7 +28,7 @@
   ],
   "groups": {
     "all__all": {
-      "n": 28628,
+      "n": 28632,
       "20usd_excursion": 244,
       "excursion_rate": 0.00852,
       "excursion_ci95": [
@@ -38,11 +38,11 @@
       "target_before_stop": 202,
       "target_before_stop_rate": 0.00706,
       "target_before_stop_ci95": [
-        0.0062,
+        0.0061,
         0.0081
       ],
-      "loss": 8062,
-      "timeout": 20363,
+      "loss": 8063,
+      "timeout": 20366,
       "ambiguous": 1
     },
     "all__test": {
@@ -59,12 +59,12 @@
         0.0081,
         0.0134
       ],
-      "loss": 1638,
-      "timeout": 3956,
+      "loss": 1637,
+      "timeout": 3957,
       "ambiguous": 1
     },
     "all__train": {
-      "n": 17222,
+      "n": 17226,
       "20usd_excursion": 150,
       "excursion_rate": 0.00871,
       "excursion_ci95": [
@@ -77,8 +77,8 @@
         0.0057,
         0.0082
       ],
-      "loss": 5031,
-      "timeout": 12073,
+      "loss": 5033,
+      "timeout": 12075,
       "ambiguous": 0
     },
     "all__validation": {
@@ -280,39 +280,39 @@
       "ambiguous": 0
     },
     "high_vol__train": {
-      "n": 226,
+      "n": 230,
       "20usd_excursion": 12,
-      "excursion_rate": 0.0531,
+      "excursion_rate": 0.05217,
       "excursion_ci95": [
-        0.0306,
-        0.0905
+        0.0301,
+        0.089
       ],
       "target_before_stop": 8,
-      "target_before_stop_rate": 0.0354,
+      "target_before_stop_rate": 0.03478,
       "target_before_stop_ci95": [
-        0.018,
-        0.0683
+        0.0177,
+        0.0671
       ],
-      "loss": 112,
-      "timeout": 106,
+      "loss": 114,
+      "timeout": 108,
       "ambiguous": 0
     },
     "high_vol__validation": {
-      "n": 122,
+      "n": 118,
       "20usd_excursion": 4,
-      "excursion_rate": 0.03279,
+      "excursion_rate": 0.0339,
       "excursion_ci95": [
-        0.0128,
-        0.0813
+        0.0133,
+        0.0839
       ],
       "target_before_stop": 3,
-      "target_before_stop_rate": 0.02459,
+      "target_before_stop_rate": 0.02542,
       "target_before_stop_ci95": [
-        0.0084,
-        0.0698
+        0.0087,
+        0.0721
       ],
-      "loss": 49,
-      "timeout": 70,
+      "loss": 47,
+      "timeout": 68,
       "ambiguous": 0
     },
     "high_vol_and_large_body__all": {
@@ -424,43 +424,43 @@
       "ambiguous": 0
     },
     "high_vol_and_momentum__train": {
-      "n": 39,
+      "n": 40,
       "20usd_excursion": 6,
-      "excursion_rate": 0.15385,
+      "excursion_rate": 0.15,
       "excursion_ci95": [
-        0.0725,
-        0.2973
+        0.0706,
+        0.2907
       ],
       "target_before_stop": 4,
-      "target_before_stop_rate": 0.10256,
+      "target_before_stop_rate": 0.1,
       "target_before_stop_ci95": [
-        0.0406,
-        0.2358
+        0.0396,
+        0.2305
       ],
       "loss": 18,
-      "timeout": 17,
+      "timeout": 18,
       "ambiguous": 0
     },
     "high_vol_and_momentum__validation": {
-      "n": 25,
+      "n": 24,
       "20usd_excursion": 1,
-      "excursion_rate": 0.04,
+      "excursion_rate": 0.04167,
       "excursion_ci95": [
-        0.0071,
-        0.1954
+        0.0074,
+        0.2024
       ],
       "target_before_stop": 0,
       "target_before_stop_rate": 0.0,
       "target_before_stop_ci95": [
         0.0,
-        0.1332
+        0.138
       ],
       "loss": 11,
-      "timeout": 14,
+      "timeout": 13,
       "ambiguous": 0
     },
     "large_body__all": {
-      "n": 3438,
+      "n": 3439,
       "20usd_excursion": 39,
       "excursion_rate": 0.01134,
       "excursion_ci95": [
@@ -474,25 +474,25 @@
         0.0134
       ],
       "loss": 990,
-      "timeout": 2415,
+      "timeout": 2416,
       "ambiguous": 0
     },
     "large_body__test": {
-      "n": 678,
+      "n": 679,
       "20usd_excursion": 11,
-      "excursion_rate": 0.01622,
+      "excursion_rate": 0.0162,
       "excursion_ci95": [
         0.0091,
         0.0288
       ],
       "target_before_stop": 11,
-      "target_before_stop_rate": 0.01622,
+      "target_before_stop_rate": 0.0162,
       "target_before_stop_ci95": [
         0.0091,
         0.0288
       ],
       "loss": 191,
-      "timeout": 476,
+      "timeout": 477,
       "ambiguous": 0
     },
     "large_body__train": {
@@ -640,7 +640,7 @@
       "ambiguous": 0
     },
     "long_wick__train": {
-      "n": 2144,
+      "n": 2145,
       "20usd_excursion": 14,
       "excursion_rate": 0.00653,
       "excursion_ci95": [
@@ -648,17 +648,17 @@
         0.0109
       ],
       "target_before_stop": 12,
-      "target_before_stop_rate": 0.0056,
+      "target_before_stop_rate": 0.00559,
       "target_before_stop_ci95": [
         0.0032,
         0.0098
       ],
-      "loss": 630,
+      "loss": 631,
       "timeout": 1502,
       "ambiguous": 0
     },
     "long_wick__validation": {
-      "n": 705,
+      "n": 704,
       "20usd_excursion": 2,
       "excursion_rate": 0.00284,
       "excursion_ci95": [
@@ -671,7 +671,7 @@
         0.0003,
         0.008
       ],
-      "loss": 177,
+      "loss": 176,
       "timeout": 527,
       "ambiguous": 0
     },
@@ -748,79 +748,79 @@
       "ambiguous": 0
     },
     "momentum_3m__all": {
-      "n": 1488,
+      "n": 1490,
       "20usd_excursion": 31,
-      "excursion_rate": 0.02083,
+      "excursion_rate": 0.02081,
       "excursion_ci95": [
         0.0147,
         0.0294
       ],
       "target_before_stop": 26,
-      "target_before_stop_rate": 0.01747,
+      "target_before_stop_rate": 0.01745,
       "target_before_stop_ci95": [
-        0.012,
-        0.0255
+        0.0119,
+        0.0254
       ],
-      "loss": 502,
-      "timeout": 960,
+      "loss": 503,
+      "timeout": 961,
       "ambiguous": 0
     },
     "momentum_3m__test": {
-      "n": 288,
+      "n": 290,
       "20usd_excursion": 7,
-      "excursion_rate": 0.02431,
+      "excursion_rate": 0.02414,
       "excursion_ci95": [
-        0.0118,
-        0.0493
+        0.0117,
+        0.049
       ],
       "target_before_stop": 7,
-      "target_before_stop_rate": 0.02431,
+      "target_before_stop_rate": 0.02414,
       "target_before_stop_ci95": [
-        0.0118,
-        0.0493
+        0.0117,
+        0.049
       ],
-      "loss": 100,
-      "timeout": 181,
+      "loss": 101,
+      "timeout": 182,
       "ambiguous": 0
     },
     "momentum_3m__train": {
-      "n": 881,
+      "n": 882,
       "20usd_excursion": 20,
-      "excursion_rate": 0.0227,
+      "excursion_rate": 0.02268,
       "excursion_ci95": [
         0.0147,
         0.0348
       ],
       "target_before_stop": 16,
-      "target_before_stop_rate": 0.01816,
+      "target_before_stop_rate": 0.01814,
       "target_before_stop_ci95": [
         0.0112,
         0.0293
       ],
       "loss": 297,
-      "timeout": 568,
+      "timeout": 569,
       "ambiguous": 0
     },
     "momentum_3m__validation": {
-      "n": 319,
+      "n": 318,
       "20usd_excursion": 4,
-      "excursion_rate": 0.01254,
+      "excursion_rate": 0.01258,
       "excursion_ci95": [
         0.0049,
-        0.0318
+        0.0319
       ],
       "target_before_stop": 3,
-      "target_before_stop_rate": 0.0094,
+      "target_before_stop_rate": 0.00943,
       "target_before_stop_ci95": [
         0.0032,
-        0.0273
+        0.0274
       ],
       "loss": 105,
-      "timeout": 211,
+      "timeout": 210,
       "ambiguous": 0
     },
     "not_high_vol__all": {
-      "n": 28172,
+      "n": 28176,
       "20usd_excursion": 226,
       "excursion_rate": 0.00802,
       "excursion_ci95": [
@@ -833,8 +833,8 @@
         0.0058,
         0.0077
       ],
-      "loss": 7839,
-      "timeout": 20143,
+      "loss": 7840,
+      "timeout": 20146,
       "ambiguous": 1
     },
     "not_high_vol__test": {
@@ -851,8 +851,8 @@
         0.0079,
         0.0133
       ],
-      "loss": 1576,
-      "timeout": 3912,
+      "loss": 1575,
+      "timeout": 3913,
       "ambiguous": 1
     },
     "not_high_vol__train": {
@@ -874,7 +874,7 @@
       "ambiguous": 0
     },
     "not_high_vol__validation": {
-      "n": 5630,
+      "n": 5634,
       "20usd_excursion": 25,
       "excursion_rate": 0.00444,
       "excursion_ci95": [
@@ -882,17 +882,17 @@
         0.0065
       ],
       "target_before_stop": 22,
-      "target_before_stop_rate": 0.00391,
+      "target_before_stop_rate": 0.0039,
       "target_before_stop_ci95": [
         0.0026,
         0.0059
       ],
-      "loss": 1344,
-      "timeout": 4264,
+      "loss": 1346,
+      "timeout": 4266,
       "ambiguous": 0
     },
     "not_low_vol__all": {
-      "n": 28102,
+      "n": 28106,
       "20usd_excursion": 240,
       "excursion_rate": 0.00854,
       "excursion_ci95": [
@@ -900,13 +900,13 @@
         0.0097
       ],
       "target_before_stop": 198,
-      "target_before_stop_rate": 0.00705,
+      "target_before_stop_rate": 0.00704,
       "target_before_stop_ci95": [
         0.0061,
         0.0081
       ],
-      "loss": 7936,
-      "timeout": 19967,
+      "loss": 7937,
+      "timeout": 19970,
       "ambiguous": 1
     },
     "not_low_vol__test": {
@@ -923,12 +923,12 @@
         0.0079,
         0.0133
       ],
-      "loss": 1607,
-      "timeout": 3883,
+      "loss": 1606,
+      "timeout": 3884,
       "ambiguous": 1
     },
     "not_low_vol__train": {
-      "n": 16936,
+      "n": 16940,
       "20usd_excursion": 149,
       "excursion_rate": 0.0088,
       "excursion_ci95": [
@@ -941,8 +941,8 @@
         0.0058,
         0.0083
       ],
-      "loss": 4966,
-      "timeout": 11853,
+      "loss": 4968,
+      "timeout": 11855,
       "ambiguous": 0
     },
     "not_low_vol__validation": {
@@ -964,7 +964,7 @@
       "ambiguous": 0
     },
     "other_hours__all": {
-      "n": 20708,
+      "n": 20712,
       "20usd_excursion": 105,
       "excursion_rate": 0.00507,
       "excursion_ci95": [
@@ -977,8 +977,8 @@
         0.0036,
         0.0054
       ],
-      "loss": 5181,
-      "timeout": 15435,
+      "loss": 5182,
+      "timeout": 15438,
       "ambiguous": 0
     },
     "other_hours__test": {
@@ -995,12 +995,12 @@
         0.0058,
         0.0114
       ],
-      "loss": 1065,
-      "timeout": 2972,
+      "loss": 1064,
+      "timeout": 2973,
       "ambiguous": 0
     },
     "other_hours__train": {
-      "n": 12470,
+      "n": 12474,
       "20usd_excursion": 52,
       "excursion_rate": 0.00417,
       "excursion_ci95": [
@@ -1013,8 +1013,8 @@
         0.0026,
         0.0047
       ],
-      "loss": 3185,
-      "timeout": 9241,
+      "loss": 3187,
+      "timeout": 9243,
       "ambiguous": 0
     },
     "other_hours__validation": {

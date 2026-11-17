@@ -1,0 +1,4839 @@
+{
+  "source": "Dukascopy XAUUSD M1 BID Sep1-Nov17 2026",
+  "raw_rows": 93539,
+  "nonflat_rows": 76047,
+  "method": "30-minute prior range, signal after CLOSED M1 bar, next M1 OPEN entry; contiguous 64m past + 15m future; 20m cooldown per side/pattern",
+  "patterns": [
+    "wick_reentry",
+    "stall_early",
+    "reentry_confirmed",
+    "clock_baseline"
+  ],
+  "stops_usd": [
+    2,
+    3,
+    5
+  ],
+  "targets_usd": [
+    5,
+    10,
+    15
+  ],
+  "horizons_minutes": [
+    5,
+    10,
+    15
+  ],
+  "splits": "chronological 60/20/20",
+  "warnings": [
+    "No spread, ASK, slippage, fees, news, or execution latency.",
+    "A stop/target hit within the same minute is ambiguous, counted as non-win.",
+    "Overlapping events across patterns, directions and settings; Wilson intervals optimistic.",
+    "Multiple parameter combinations: treat best settings as exploratory only.",
+    "Price-only candle pattern cannot establish actual institutional stop-hunting.",
+    "A $2 stop may be untradeable during fast spreads and slippage.",
+    "This is not a verified profitable strategy."
+  ],
+  "groups": {
+    "clock_baseline__all": {
+      "signals": 4716,
+      "s2_t5_h5": {
+        "win": 427,
+        "loss": 2142,
+        "timeout": 2138,
+        "ambiguous": 9,
+        "success_all": 0.09054,
+        "wilson95": [
+          0.0827,
+          0.0991
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 758,
+        "loss": 2686,
+        "timeout": 1263,
+        "ambiguous": 9,
+        "success_all": 0.16073,
+        "wilson95": [
+          0.1505,
+          0.1715
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 950,
+        "loss": 2936,
+        "timeout": 821,
+        "ambiguous": 9,
+        "success_all": 0.20144,
+        "wilson95": [
+          0.1902,
+          0.2131
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 52,
+        "loss": 2169,
+        "timeout": 2492,
+        "ambiguous": 3,
+        "success_all": 0.01103,
+        "wilson95": [
+          0.0084,
+          0.0144
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 133,
+        "loss": 2753,
+        "timeout": 1827,
+        "ambiguous": 3,
+        "success_all": 0.0282,
+        "wilson95": [
+          0.0238,
+          0.0333
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 217,
+        "loss": 3051,
+        "timeout": 1445,
+        "ambiguous": 3,
+        "success_all": 0.04601,
+        "wilson95": [
+          0.0404,
+          0.0524
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 14,
+        "loss": 2172,
+        "timeout": 2529,
+        "ambiguous": 1,
+        "success_all": 0.00297,
+        "wilson95": [
+          0.0018,
+          0.005
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 38,
+        "loss": 2760,
+        "timeout": 1917,
+        "ambiguous": 1,
+        "success_all": 0.00806,
+        "wilson95": [
+          0.0059,
+          0.011
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 68,
+        "loss": 3063,
+        "timeout": 1584,
+        "ambiguous": 1,
+        "success_all": 0.01442,
+        "wilson95": [
+          0.0114,
+          0.0182
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 476,
+        "loss": 1368,
+        "timeout": 2867,
+        "ambiguous": 5,
+        "success_all": 0.10093,
+        "wilson95": [
+          0.0927,
+          0.1099
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 891,
+        "loss": 1937,
+        "timeout": 1883,
+        "ambiguous": 5,
+        "success_all": 0.18893,
+        "wilson95": [
+          0.178,
+          0.2004
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 1148,
+        "loss": 2252,
+        "timeout": 1311,
+        "ambiguous": 5,
+        "success_all": 0.24343,
+        "wilson95": [
+          0.2314,
+          0.2559
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 59,
+        "loss": 1385,
+        "timeout": 3268,
+        "ambiguous": 4,
+        "success_all": 0.01251,
+        "wilson95": [
+          0.0097,
+          0.0161
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 155,
+        "loss": 1992,
+        "timeout": 2565,
+        "ambiguous": 4,
+        "success_all": 0.03287,
+        "wilson95": [
+          0.0281,
+          0.0383
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 254,
+        "loss": 2355,
+        "timeout": 2103,
+        "ambiguous": 4,
+        "success_all": 0.05386,
+        "wilson95": [
+          0.0478,
+          0.0607
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 16,
+        "loss": 1388,
+        "timeout": 3311,
+        "ambiguous": 1,
+        "success_all": 0.00339,
+        "wilson95": [
+          0.0021,
+          0.0055
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 43,
+        "loss": 1999,
+        "timeout": 2673,
+        "ambiguous": 1,
+        "success_all": 0.00912,
+        "wilson95": [
+          0.0068,
+          0.0123
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 77,
+        "loss": 2369,
+        "timeout": 2269,
+        "ambiguous": 1,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0131,
+          0.0204
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 513,
+        "loss": 513,
+        "timeout": 3690,
+        "ambiguous": 0,
+        "success_all": 0.10878,
+        "wilson95": [
+          0.1002,
+          0.118
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 993,
+        "loss": 993,
+        "timeout": 2730,
+        "ambiguous": 0,
+        "success_all": 0.21056,
+        "wilson95": [
+          0.1992,
+          0.2224
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 1308,
+        "loss": 1308,
+        "timeout": 2100,
+        "ambiguous": 0,
+        "success_all": 0.27735,
+        "wilson95": [
+          0.2648,
+          0.2903
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 68,
+        "loss": 525,
+        "timeout": 4121,
+        "ambiguous": 2,
+        "success_all": 0.01442,
+        "wilson95": [
+          0.0114,
+          0.0182
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 181,
+        "loss": 1034,
+        "timeout": 3499,
+        "ambiguous": 2,
+        "success_all": 0.03838,
+        "wilson95": [
+          0.0333,
+          0.0442
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 296,
+        "loss": 1379,
+        "timeout": 3039,
+        "ambiguous": 2,
+        "success_all": 0.06277,
+        "wilson95": [
+          0.0562,
+          0.07
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 19,
+        "loss": 527,
+        "timeout": 4170,
+        "ambiguous": 0,
+        "success_all": 0.00403,
+        "wilson95": [
+          0.0026,
+          0.0063
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 48,
+        "loss": 1039,
+        "timeout": 3629,
+        "ambiguous": 0,
+        "success_all": 0.01018,
+        "wilson95": [
+          0.0077,
+          0.0135
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 90,
+        "loss": 1390,
+        "timeout": 3236,
+        "ambiguous": 0,
+        "success_all": 0.01908,
+        "wilson95": [
+          0.0156,
+          0.0234
+        ]
+      }
+    },
+    "clock_baseline__test": {
+      "signals": 932,
+      "s2_t5_h5": {
+        "win": 90,
+        "loss": 426,
+        "timeout": 412,
+        "ambiguous": 4,
+        "success_all": 0.09657,
+        "wilson95": [
+          0.0792,
+          0.1172
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 162,
+        "loss": 535,
+        "timeout": 231,
+        "ambiguous": 4,
+        "success_all": 0.17382,
+        "wilson95": [
+          0.1508,
+          0.1995
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 201,
+        "loss": 572,
+        "timeout": 155,
+        "ambiguous": 4,
+        "success_all": 0.21567,
+        "wilson95": [
+          0.1905,
+          0.2432
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 14,
+        "loss": 432,
+        "timeout": 486,
+        "ambiguous": 0,
+        "success_all": 0.01502,
+        "wilson95": [
+          0.009,
+          0.0251
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 34,
+        "loss": 554,
+        "timeout": 344,
+        "ambiguous": 0,
+        "success_all": 0.03648,
+        "wilson95": [
+          0.0262,
+          0.0505
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 47,
+        "loss": 599,
+        "timeout": 286,
+        "ambiguous": 0,
+        "success_all": 0.05043,
+        "wilson95": [
+          0.0381,
+          0.0664
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 3,
+        "loss": 432,
+        "timeout": 497,
+        "ambiguous": 0,
+        "success_all": 0.00322,
+        "wilson95": [
+          0.0011,
+          0.0094
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 13,
+        "loss": 555,
+        "timeout": 364,
+        "ambiguous": 0,
+        "success_all": 0.01395,
+        "wilson95": [
+          0.0082,
+          0.0237
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 19,
+        "loss": 601,
+        "timeout": 312,
+        "ambiguous": 0,
+        "success_all": 0.02039,
+        "wilson95": [
+          0.0131,
+          0.0316
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 106,
+        "loss": 288,
+        "timeout": 536,
+        "ambiguous": 2,
+        "success_all": 0.11373,
+        "wilson95": [
+          0.0949,
+          0.1357
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 193,
+        "loss": 391,
+        "timeout": 346,
+        "ambiguous": 2,
+        "success_all": 0.20708,
+        "wilson95": [
+          0.1823,
+          0.2343
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 241,
+        "loss": 433,
+        "timeout": 256,
+        "ambiguous": 2,
+        "success_all": 0.25858,
+        "wilson95": [
+          0.2315,
+          0.2876
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 17,
+        "loss": 292,
+        "timeout": 623,
+        "ambiguous": 0,
+        "success_all": 0.01824,
+        "wilson95": [
+          0.0114,
+          0.029
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 40,
+        "loss": 405,
+        "timeout": 487,
+        "ambiguous": 0,
+        "success_all": 0.04292,
+        "wilson95": [
+          0.0317,
+          0.0579
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 55,
+        "loss": 459,
+        "timeout": 418,
+        "ambiguous": 0,
+        "success_all": 0.05901,
+        "wilson95": [
+          0.0456,
+          0.076
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 5,
+        "loss": 292,
+        "timeout": 635,
+        "ambiguous": 0,
+        "success_all": 0.00536,
+        "wilson95": [
+          0.0023,
+          0.0125
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 15,
+        "loss": 406,
+        "timeout": 511,
+        "ambiguous": 0,
+        "success_all": 0.01609,
+        "wilson95": [
+          0.0098,
+          0.0264
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 23,
+        "loss": 462,
+        "timeout": 447,
+        "ambiguous": 0,
+        "success_all": 0.02468,
+        "wilson95": [
+          0.0165,
+          0.0368
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 113,
+        "loss": 113,
+        "timeout": 706,
+        "ambiguous": 0,
+        "success_all": 0.12124,
+        "wilson95": [
+          0.1018,
+          0.1438
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 212,
+        "loss": 212,
+        "timeout": 508,
+        "ambiguous": 0,
+        "success_all": 0.22747,
+        "wilson95": [
+          0.2017,
+          0.2555
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 268,
+        "loss": 268,
+        "timeout": 396,
+        "ambiguous": 0,
+        "success_all": 0.28755,
+        "wilson95": [
+          0.2594,
+          0.3174
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 19,
+        "loss": 115,
+        "timeout": 798,
+        "ambiguous": 0,
+        "success_all": 0.02039,
+        "wilson95": [
+          0.0131,
+          0.0316
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 46,
+        "loss": 222,
+        "timeout": 664,
+        "ambiguous": 0,
+        "success_all": 0.04936,
+        "wilson95": [
+          0.0372,
+          0.0652
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 64,
+        "loss": 285,
+        "timeout": 583,
+        "ambiguous": 0,
+        "success_all": 0.06867,
+        "wilson95": [
+          0.0541,
+          0.0867
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 6,
+        "loss": 115,
+        "timeout": 811,
+        "ambiguous": 0,
+        "success_all": 0.00644,
+        "wilson95": [
+          0.003,
+          0.014
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 16,
+        "loss": 223,
+        "timeout": 693,
+        "ambiguous": 0,
+        "success_all": 0.01717,
+        "wilson95": [
+          0.0106,
+          0.0277
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 26,
+        "loss": 287,
+        "timeout": 619,
+        "ambiguous": 0,
+        "success_all": 0.0279,
+        "wilson95": [
+          0.0191,
+          0.0406
+        ]
+      }
+    },
+    "clock_baseline__train": {
+      "signals": 2838,
+      "s2_t5_h5": {
+        "win": 275,
+        "loss": 1332,
+        "timeout": 1227,
+        "ambiguous": 4,
+        "success_all": 0.0969,
+        "wilson95": [
+          0.0866,
+          0.1083
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 475,
+        "loss": 1644,
+        "timeout": 715,
+        "ambiguous": 4,
+        "success_all": 0.16737,
+        "wilson95": [
+          0.1541,
+          0.1816
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 588,
+        "loss": 1799,
+        "timeout": 447,
+        "ambiguous": 4,
+        "success_all": 0.20719,
+        "wilson95": [
+          0.1927,
+          0.2225
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 33,
+        "loss": 1347,
+        "timeout": 1456,
+        "ambiguous": 2,
+        "success_all": 0.01163,
+        "wilson95": [
+          0.0083,
+          0.0163
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 79,
+        "loss": 1683,
+        "timeout": 1074,
+        "ambiguous": 2,
+        "success_all": 0.02784,
+        "wilson95": [
+          0.0224,
+          0.0346
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 138,
+        "loss": 1870,
+        "timeout": 828,
+        "ambiguous": 2,
+        "success_all": 0.04863,
+        "wilson95": [
+          0.0413,
+          0.0572
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 11,
+        "loss": 1349,
+        "timeout": 1477,
+        "ambiguous": 1,
+        "success_all": 0.00388,
+        "wilson95": [
+          0.0022,
+          0.0069
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 20,
+        "loss": 1688,
+        "timeout": 1129,
+        "ambiguous": 1,
+        "success_all": 0.00705,
+        "wilson95": [
+          0.0046,
+          0.0109
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 38,
+        "loss": 1878,
+        "timeout": 921,
+        "ambiguous": 1,
+        "success_all": 0.01339,
+        "wilson95": [
+          0.0098,
+          0.0183
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 305,
+        "loss": 847,
+        "timeout": 1684,
+        "ambiguous": 2,
+        "success_all": 0.10747,
+        "wilson95": [
+          0.0966,
+          0.1194
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 556,
+        "loss": 1195,
+        "timeout": 1085,
+        "ambiguous": 2,
+        "success_all": 0.19591,
+        "wilson95": [
+          0.1817,
+          0.2109
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 715,
+        "loss": 1392,
+        "timeout": 729,
+        "ambiguous": 2,
+        "success_all": 0.25194,
+        "wilson95": [
+          0.2363,
+          0.2682
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 36,
+        "loss": 856,
+        "timeout": 1944,
+        "ambiguous": 2,
+        "success_all": 0.01268,
+        "wilson95": [
+          0.0092,
+          0.0175
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 90,
+        "loss": 1229,
+        "timeout": 1517,
+        "ambiguous": 2,
+        "success_all": 0.03171,
+        "wilson95": [
+          0.0259,
+          0.0388
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 161,
+        "loss": 1456,
+        "timeout": 1219,
+        "ambiguous": 2,
+        "success_all": 0.05673,
+        "wilson95": [
+          0.0488,
+          0.0659
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 11,
+        "loss": 857,
+        "timeout": 1969,
+        "ambiguous": 1,
+        "success_all": 0.00388,
+        "wilson95": [
+          0.0022,
+          0.0069
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 23,
+        "loss": 1233,
+        "timeout": 1581,
+        "ambiguous": 1,
+        "success_all": 0.0081,
+        "wilson95": [
+          0.0054,
+          0.0121
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 43,
+        "loss": 1464,
+        "timeout": 1330,
+        "ambiguous": 1,
+        "success_all": 0.01515,
+        "wilson95": [
+          0.0113,
+          0.0203
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 331,
+        "loss": 331,
+        "timeout": 2176,
+        "ambiguous": 0,
+        "success_all": 0.11663,
+        "wilson95": [
+          0.1053,
+          0.129
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 619,
+        "loss": 619,
+        "timeout": 1600,
+        "ambiguous": 0,
+        "success_all": 0.21811,
+        "wilson95": [
+          0.2033,
+          0.2337
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 817,
+        "loss": 817,
+        "timeout": 1204,
+        "ambiguous": 0,
+        "success_all": 0.28788,
+        "wilson95": [
+          0.2715,
+          0.3048
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 42,
+        "loss": 339,
+        "timeout": 2457,
+        "ambiguous": 0,
+        "success_all": 0.0148,
+        "wilson95": [
+          0.011,
+          0.0199
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 107,
+        "loss": 644,
+        "timeout": 2087,
+        "ambiguous": 0,
+        "success_all": 0.0377,
+        "wilson95": [
+          0.0313,
+          0.0454
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 187,
+        "loss": 862,
+        "timeout": 1789,
+        "ambiguous": 0,
+        "success_all": 0.06589,
+        "wilson95": [
+          0.0573,
+          0.0756
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 13,
+        "loss": 339,
+        "timeout": 2486,
+        "ambiguous": 0,
+        "success_all": 0.00458,
+        "wilson95": [
+          0.0027,
+          0.0078
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 27,
+        "loss": 646,
+        "timeout": 2165,
+        "ambiguous": 0,
+        "success_all": 0.00951,
+        "wilson95": [
+          0.0065,
+          0.0138
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 51,
+        "loss": 869,
+        "timeout": 1918,
+        "ambiguous": 0,
+        "success_all": 0.01797,
+        "wilson95": [
+          0.0137,
+          0.0235
+        ]
+      }
+    },
+    "clock_baseline__validation": {
+      "signals": 946,
+      "s2_t5_h5": {
+        "win": 62,
+        "loss": 384,
+        "timeout": 499,
+        "ambiguous": 1,
+        "success_all": 0.06554,
+        "wilson95": [
+          0.0515,
+          0.0831
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 121,
+        "loss": 507,
+        "timeout": 317,
+        "ambiguous": 1,
+        "success_all": 0.12791,
+        "wilson95": [
+          0.1081,
+          0.1507
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 161,
+        "loss": 565,
+        "timeout": 219,
+        "ambiguous": 1,
+        "success_all": 0.17019,
+        "wilson95": [
+          0.1476,
+          0.1955
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 5,
+        "loss": 390,
+        "timeout": 550,
+        "ambiguous": 1,
+        "success_all": 0.00529,
+        "wilson95": [
+          0.0023,
+          0.0123
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 20,
+        "loss": 516,
+        "timeout": 409,
+        "ambiguous": 1,
+        "success_all": 0.02114,
+        "wilson95": [
+          0.0137,
+          0.0324
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 32,
+        "loss": 582,
+        "timeout": 331,
+        "ambiguous": 1,
+        "success_all": 0.03383,
+        "wilson95": [
+          0.0241,
+          0.0474
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 0,
+        "loss": 391,
+        "timeout": 555,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.004
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 5,
+        "loss": 517,
+        "timeout": 424,
+        "ambiguous": 0,
+        "success_all": 0.00529,
+        "wilson95": [
+          0.0023,
+          0.0123
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 11,
+        "loss": 584,
+        "timeout": 351,
+        "ambiguous": 0,
+        "success_all": 0.01163,
+        "wilson95": [
+          0.0065,
+          0.0207
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 65,
+        "loss": 233,
+        "timeout": 647,
+        "ambiguous": 1,
+        "success_all": 0.06871,
+        "wilson95": [
+          0.0543,
+          0.0866
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 142,
+        "loss": 351,
+        "timeout": 452,
+        "ambiguous": 1,
+        "success_all": 0.15011,
+        "wilson95": [
+          0.1288,
+          0.1743
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 192,
+        "loss": 427,
+        "timeout": 326,
+        "ambiguous": 1,
+        "success_all": 0.20296,
+        "wilson95": [
+          0.1786,
+          0.2298
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 6,
+        "loss": 237,
+        "timeout": 701,
+        "ambiguous": 2,
+        "success_all": 0.00634,
+        "wilson95": [
+          0.0029,
+          0.0138
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 25,
+        "loss": 358,
+        "timeout": 561,
+        "ambiguous": 2,
+        "success_all": 0.02643,
+        "wilson95": [
+          0.018,
+          0.0387
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 38,
+        "loss": 440,
+        "timeout": 466,
+        "ambiguous": 2,
+        "success_all": 0.04017,
+        "wilson95": [
+          0.0294,
+          0.0547
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 0,
+        "loss": 239,
+        "timeout": 707,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.004
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 5,
+        "loss": 360,
+        "timeout": 581,
+        "ambiguous": 0,
+        "success_all": 0.00529,
+        "wilson95": [
+          0.0023,
+          0.0123
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 11,
+        "loss": 443,
+        "timeout": 492,
+        "ambiguous": 0,
+        "success_all": 0.01163,
+        "wilson95": [
+          0.0065,
+          0.0207
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 69,
+        "loss": 69,
+        "timeout": 808,
+        "ambiguous": 0,
+        "success_all": 0.07294,
+        "wilson95": [
+          0.058,
+          0.0913
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 162,
+        "loss": 162,
+        "timeout": 622,
+        "ambiguous": 0,
+        "success_all": 0.17125,
+        "wilson95": [
+          0.1486,
+          0.1966
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 223,
+        "loss": 223,
+        "timeout": 500,
+        "ambiguous": 0,
+        "success_all": 0.23573,
+        "wilson95": [
+          0.2098,
+          0.2638
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 7,
+        "loss": 71,
+        "timeout": 866,
+        "ambiguous": 2,
+        "success_all": 0.0074,
+        "wilson95": [
+          0.0036,
+          0.0152
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 28,
+        "loss": 168,
+        "timeout": 748,
+        "ambiguous": 2,
+        "success_all": 0.0296,
+        "wilson95": [
+          0.0206,
+          0.0424
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 45,
+        "loss": 232,
+        "timeout": 667,
+        "ambiguous": 2,
+        "success_all": 0.04757,
+        "wilson95": [
+          0.0357,
+          0.0631
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 0,
+        "loss": 73,
+        "timeout": 873,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.004
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 5,
+        "loss": 170,
+        "timeout": 771,
+        "ambiguous": 0,
+        "success_all": 0.00529,
+        "wilson95": [
+          0.0023,
+          0.0123
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 13,
+        "loss": 234,
+        "timeout": 699,
+        "ambiguous": 0,
+        "success_all": 0.01374,
+        "wilson95": [
+          0.008,
+          0.0234
+        ]
+      }
+    },
+    "reentry_confirmed__all": {
+      "signals": 1207,
+      "s2_t5_h5": {
+        "win": 109,
+        "loss": 521,
+        "timeout": 576,
+        "ambiguous": 1,
+        "success_all": 0.09031,
+        "wilson95": [
+          0.0754,
+          0.1078
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 201,
+        "loss": 669,
+        "timeout": 335,
+        "ambiguous": 2,
+        "success_all": 0.16653,
+        "wilson95": [
+          0.1466,
+          0.1886
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 250,
+        "loss": 738,
+        "timeout": 217,
+        "ambiguous": 2,
+        "success_all": 0.20713,
+        "wilson95": [
+          0.1852,
+          0.2309
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 16,
+        "loss": 527,
+        "timeout": 664,
+        "ambiguous": 0,
+        "success_all": 0.01326,
+        "wilson95": [
+          0.0082,
+          0.0214
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 43,
+        "loss": 691,
+        "timeout": 472,
+        "ambiguous": 1,
+        "success_all": 0.03563,
+        "wilson95": [
+          0.0266,
+          0.0476
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 72,
+        "loss": 773,
+        "timeout": 361,
+        "ambiguous": 1,
+        "success_all": 0.05965,
+        "wilson95": [
+          0.0476,
+          0.0745
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 3,
+        "loss": 527,
+        "timeout": 677,
+        "ambiguous": 0,
+        "success_all": 0.00249,
+        "wilson95": [
+          0.0008,
+          0.0073
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 9,
+        "loss": 691,
+        "timeout": 506,
+        "ambiguous": 1,
+        "success_all": 0.00746,
+        "wilson95": [
+          0.0039,
+          0.0141
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 23,
+        "loss": 775,
+        "timeout": 408,
+        "ambiguous": 1,
+        "success_all": 0.01906,
+        "wilson95": [
+          0.0127,
+          0.0284
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 123,
+        "loss": 325,
+        "timeout": 758,
+        "ambiguous": 1,
+        "success_all": 0.10191,
+        "wilson95": [
+          0.0861,
+          0.1203
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 233,
+        "loss": 472,
+        "timeout": 501,
+        "ambiguous": 1,
+        "success_all": 0.19304,
+        "wilson95": [
+          0.1718,
+          0.2163
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 295,
+        "loss": 563,
+        "timeout": 348,
+        "ambiguous": 1,
+        "success_all": 0.24441,
+        "wilson95": [
+          0.221,
+          0.2694
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 16,
+        "loss": 329,
+        "timeout": 862,
+        "ambiguous": 0,
+        "success_all": 0.01326,
+        "wilson95": [
+          0.0082,
+          0.0214
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 50,
+        "loss": 489,
+        "timeout": 668,
+        "ambiguous": 0,
+        "success_all": 0.04143,
+        "wilson95": [
+          0.0316,
+          0.0542
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 86,
+        "loss": 595,
+        "timeout": 526,
+        "ambiguous": 0,
+        "success_all": 0.07125,
+        "wilson95": [
+          0.0581,
+          0.0872
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 3,
+        "loss": 329,
+        "timeout": 875,
+        "ambiguous": 0,
+        "success_all": 0.00249,
+        "wilson95": [
+          0.0008,
+          0.0073
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 10,
+        "loss": 490,
+        "timeout": 707,
+        "ambiguous": 0,
+        "success_all": 0.00829,
+        "wilson95": [
+          0.0045,
+          0.0152
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 25,
+        "loss": 597,
+        "timeout": 585,
+        "ambiguous": 0,
+        "success_all": 0.02071,
+        "wilson95": [
+          0.0141,
+          0.0304
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 131,
+        "loss": 131,
+        "timeout": 944,
+        "ambiguous": 1,
+        "success_all": 0.10853,
+        "wilson95": [
+          0.0922,
+          0.1273
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 259,
+        "loss": 226,
+        "timeout": 721,
+        "ambiguous": 1,
+        "success_all": 0.21458,
+        "wilson95": [
+          0.1923,
+          0.2386
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 337,
+        "loss": 314,
+        "timeout": 555,
+        "ambiguous": 1,
+        "success_all": 0.2792,
+        "wilson95": [
+          0.2546,
+          0.3052
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 18,
+        "loss": 134,
+        "timeout": 1055,
+        "ambiguous": 0,
+        "success_all": 0.01491,
+        "wilson95": [
+          0.0095,
+          0.0235
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 55,
+        "loss": 235,
+        "timeout": 917,
+        "ambiguous": 0,
+        "success_all": 0.04557,
+        "wilson95": [
+          0.0352,
+          0.0588
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 96,
+        "loss": 337,
+        "timeout": 774,
+        "ambiguous": 0,
+        "success_all": 0.07954,
+        "wilson95": [
+          0.0656,
+          0.0962
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 4,
+        "loss": 134,
+        "timeout": 1069,
+        "ambiguous": 0,
+        "success_all": 0.00331,
+        "wilson95": [
+          0.0013,
+          0.0085
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 11,
+        "loss": 235,
+        "timeout": 961,
+        "ambiguous": 0,
+        "success_all": 0.00911,
+        "wilson95": [
+          0.0051,
+          0.0162
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 27,
+        "loss": 338,
+        "timeout": 842,
+        "ambiguous": 0,
+        "success_all": 0.02237,
+        "wilson95": [
+          0.0154,
+          0.0324
+        ]
+      }
+    },
+    "reentry_confirmed__test": {
+      "signals": 245,
+      "s2_t5_h5": {
+        "win": 22,
+        "loss": 107,
+        "timeout": 116,
+        "ambiguous": 0,
+        "success_all": 0.0898,
+        "wilson95": [
+          0.06,
+          0.1322
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 41,
+        "loss": 134,
+        "timeout": 70,
+        "ambiguous": 0,
+        "success_all": 0.16735,
+        "wilson95": [
+          0.1258,
+          0.2191
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 51,
+        "loss": 144,
+        "timeout": 50,
+        "ambiguous": 0,
+        "success_all": 0.20816,
+        "wilson95": [
+          0.162,
+          0.2633
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 4,
+        "loss": 107,
+        "timeout": 134,
+        "ambiguous": 0,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0064,
+          0.0412
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 11,
+        "loss": 136,
+        "timeout": 98,
+        "ambiguous": 0,
+        "success_all": 0.0449,
+        "wilson95": [
+          0.0253,
+          0.0786
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 17,
+        "loss": 147,
+        "timeout": 81,
+        "ambiguous": 0,
+        "success_all": 0.06939,
+        "wilson95": [
+          0.0438,
+          0.1083
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 1,
+        "loss": 107,
+        "timeout": 137,
+        "ambiguous": 0,
+        "success_all": 0.00408,
+        "wilson95": [
+          0.0007,
+          0.0228
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 4,
+        "loss": 136,
+        "timeout": 105,
+        "ambiguous": 0,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0064,
+          0.0412
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 7,
+        "loss": 149,
+        "timeout": 89,
+        "ambiguous": 0,
+        "success_all": 0.02857,
+        "wilson95": [
+          0.0139,
+          0.0578
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 26,
+        "loss": 66,
+        "timeout": 153,
+        "ambiguous": 0,
+        "success_all": 0.10612,
+        "wilson95": [
+          0.0735,
+          0.151
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 47,
+        "loss": 93,
+        "timeout": 105,
+        "ambiguous": 0,
+        "success_all": 0.19184,
+        "wilson95": [
+          0.1474,
+          0.2457
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 59,
+        "loss": 108,
+        "timeout": 78,
+        "ambiguous": 0,
+        "success_all": 0.24082,
+        "wilson95": [
+          0.1915,
+          0.2981
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 4,
+        "loss": 66,
+        "timeout": 175,
+        "ambiguous": 0,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0064,
+          0.0412
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 12,
+        "loss": 95,
+        "timeout": 138,
+        "ambiguous": 0,
+        "success_all": 0.04898,
+        "wilson95": [
+          0.0282,
+          0.0836
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 18,
+        "loss": 112,
+        "timeout": 115,
+        "ambiguous": 0,
+        "success_all": 0.07347,
+        "wilson95": [
+          0.047,
+          0.1131
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 1,
+        "loss": 66,
+        "timeout": 178,
+        "ambiguous": 0,
+        "success_all": 0.00408,
+        "wilson95": [
+          0.0007,
+          0.0228
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 4,
+        "loss": 95,
+        "timeout": 146,
+        "ambiguous": 0,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0064,
+          0.0412
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 7,
+        "loss": 113,
+        "timeout": 125,
+        "ambiguous": 0,
+        "success_all": 0.02857,
+        "wilson95": [
+          0.0139,
+          0.0578
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 30,
+        "loss": 27,
+        "timeout": 188,
+        "ambiguous": 0,
+        "success_all": 0.12245,
+        "wilson95": [
+          0.0871,
+          0.1694
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 56,
+        "loss": 47,
+        "timeout": 142,
+        "ambiguous": 0,
+        "success_all": 0.22857,
+        "wilson95": [
+          0.1804,
+          0.2851
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 69,
+        "loss": 61,
+        "timeout": 115,
+        "ambiguous": 0,
+        "success_all": 0.28163,
+        "wilson95": [
+          0.229,
+          0.341
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 5,
+        "loss": 27,
+        "timeout": 213,
+        "ambiguous": 0,
+        "success_all": 0.02041,
+        "wilson95": [
+          0.0087,
+          0.0469
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 13,
+        "loss": 48,
+        "timeout": 184,
+        "ambiguous": 0,
+        "success_all": 0.05306,
+        "wilson95": [
+          0.0313,
+          0.0887
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 21,
+        "loss": 65,
+        "timeout": 159,
+        "ambiguous": 0,
+        "success_all": 0.08571,
+        "wilson95": [
+          0.0567,
+          0.1275
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 1,
+        "loss": 27,
+        "timeout": 217,
+        "ambiguous": 0,
+        "success_all": 0.00408,
+        "wilson95": [
+          0.0007,
+          0.0228
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 4,
+        "loss": 48,
+        "timeout": 193,
+        "ambiguous": 0,
+        "success_all": 0.01633,
+        "wilson95": [
+          0.0064,
+          0.0412
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 7,
+        "loss": 66,
+        "timeout": 172,
+        "ambiguous": 0,
+        "success_all": 0.02857,
+        "wilson95": [
+          0.0139,
+          0.0578
+        ]
+      }
+    },
+    "reentry_confirmed__train": {
+      "signals": 727,
+      "s2_t5_h5": {
+        "win": 69,
+        "loss": 328,
+        "timeout": 329,
+        "ambiguous": 1,
+        "success_all": 0.09491,
+        "wilson95": [
+          0.0757,
+          0.1184
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 123,
+        "loss": 417,
+        "timeout": 185,
+        "ambiguous": 2,
+        "success_all": 0.16919,
+        "wilson95": [
+          0.1437,
+          0.1982
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 147,
+        "loss": 457,
+        "timeout": 121,
+        "ambiguous": 2,
+        "success_all": 0.2022,
+        "wilson95": [
+          0.1746,
+          0.2329
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 11,
+        "loss": 333,
+        "timeout": 383,
+        "ambiguous": 0,
+        "success_all": 0.01513,
+        "wilson95": [
+          0.0085,
+          0.0269
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 27,
+        "loss": 433,
+        "timeout": 266,
+        "ambiguous": 1,
+        "success_all": 0.03714,
+        "wilson95": [
+          0.0256,
+          0.0535
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 43,
+        "loss": 479,
+        "timeout": 204,
+        "ambiguous": 1,
+        "success_all": 0.05915,
+        "wilson95": [
+          0.0442,
+          0.0787
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 2,
+        "loss": 333,
+        "timeout": 392,
+        "ambiguous": 0,
+        "success_all": 0.00275,
+        "wilson95": [
+          0.0008,
+          0.01
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 5,
+        "loss": 433,
+        "timeout": 288,
+        "ambiguous": 1,
+        "success_all": 0.00688,
+        "wilson95": [
+          0.0029,
+          0.016
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 12,
+        "loss": 479,
+        "timeout": 235,
+        "ambiguous": 1,
+        "success_all": 0.01651,
+        "wilson95": [
+          0.0095,
+          0.0286
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 77,
+        "loss": 207,
+        "timeout": 442,
+        "ambiguous": 1,
+        "success_all": 0.10591,
+        "wilson95": [
+          0.0856,
+          0.1304
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 144,
+        "loss": 299,
+        "timeout": 283,
+        "ambiguous": 1,
+        "success_all": 0.19807,
+        "wilson95": [
+          0.1707,
+          0.2286
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 178,
+        "loss": 350,
+        "timeout": 198,
+        "ambiguous": 1,
+        "success_all": 0.24484,
+        "wilson95": [
+          0.215,
+          0.2774
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 11,
+        "loss": 210,
+        "timeout": 506,
+        "ambiguous": 0,
+        "success_all": 0.01513,
+        "wilson95": [
+          0.0085,
+          0.0269
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 32,
+        "loss": 312,
+        "timeout": 383,
+        "ambiguous": 0,
+        "success_all": 0.04402,
+        "wilson95": [
+          0.0313,
+          0.0615
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 53,
+        "loss": 372,
+        "timeout": 302,
+        "ambiguous": 0,
+        "success_all": 0.0729,
+        "wilson95": [
+          0.0562,
+          0.0941
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 2,
+        "loss": 210,
+        "timeout": 515,
+        "ambiguous": 0,
+        "success_all": 0.00275,
+        "wilson95": [
+          0.0008,
+          0.01
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 6,
+        "loss": 313,
+        "timeout": 408,
+        "ambiguous": 0,
+        "success_all": 0.00825,
+        "wilson95": [
+          0.0038,
+          0.0179
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 14,
+        "loss": 373,
+        "timeout": 340,
+        "ambiguous": 0,
+        "success_all": 0.01926,
+        "wilson95": [
+          0.0115,
+          0.0321
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 81,
+        "loss": 83,
+        "timeout": 562,
+        "ambiguous": 1,
+        "success_all": 0.11142,
+        "wilson95": [
+          0.0906,
+          0.1364
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 157,
+        "loss": 147,
+        "timeout": 422,
+        "ambiguous": 1,
+        "success_all": 0.21596,
+        "wilson95": [
+          0.1876,
+          0.2473
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 205,
+        "loss": 200,
+        "timeout": 321,
+        "ambiguous": 1,
+        "success_all": 0.28198,
+        "wilson95": [
+          0.2505,
+          0.3158
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 12,
+        "loss": 85,
+        "timeout": 630,
+        "ambiguous": 0,
+        "success_all": 0.01651,
+        "wilson95": [
+          0.0095,
+          0.0286
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 36,
+        "loss": 153,
+        "timeout": 538,
+        "ambiguous": 0,
+        "success_all": 0.04952,
+        "wilson95": [
+          0.036,
+          0.0678
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 58,
+        "loss": 214,
+        "timeout": 455,
+        "ambiguous": 0,
+        "success_all": 0.07978,
+        "wilson95": [
+          0.0622,
+          0.1018
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 3,
+        "loss": 85,
+        "timeout": 639,
+        "ambiguous": 0,
+        "success_all": 0.00413,
+        "wilson95": [
+          0.0014,
+          0.0121
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 7,
+        "loss": 153,
+        "timeout": 567,
+        "ambiguous": 0,
+        "success_all": 0.00963,
+        "wilson95": [
+          0.0047,
+          0.0197
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 16,
+        "loss": 214,
+        "timeout": 497,
+        "ambiguous": 0,
+        "success_all": 0.02201,
+        "wilson95": [
+          0.0136,
+          0.0355
+        ]
+      }
+    },
+    "reentry_confirmed__validation": {
+      "signals": 235,
+      "s2_t5_h5": {
+        "win": 18,
+        "loss": 86,
+        "timeout": 131,
+        "ambiguous": 0,
+        "success_all": 0.0766,
+        "wilson95": [
+          0.049,
+          0.1178
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 37,
+        "loss": 118,
+        "timeout": 80,
+        "ambiguous": 0,
+        "success_all": 0.15745,
+        "wilson95": [
+          0.1164,
+          0.2095
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 52,
+        "loss": 137,
+        "timeout": 46,
+        "ambiguous": 0,
+        "success_all": 0.22128,
+        "wilson95": [
+          0.1729,
+          0.2786
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 1,
+        "loss": 87,
+        "timeout": 147,
+        "ambiguous": 0,
+        "success_all": 0.00426,
+        "wilson95": [
+          0.0008,
+          0.0237
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 5,
+        "loss": 122,
+        "timeout": 108,
+        "ambiguous": 0,
+        "success_all": 0.02128,
+        "wilson95": [
+          0.0091,
+          0.0488
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 12,
+        "loss": 147,
+        "timeout": 76,
+        "ambiguous": 0,
+        "success_all": 0.05106,
+        "wilson95": [
+          0.0294,
+          0.0871
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 0,
+        "loss": 87,
+        "timeout": 148,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 0,
+        "loss": 122,
+        "timeout": 113,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 4,
+        "loss": 147,
+        "timeout": 84,
+        "ambiguous": 0,
+        "success_all": 0.01702,
+        "wilson95": [
+          0.0066,
+          0.0429
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 20,
+        "loss": 52,
+        "timeout": 163,
+        "ambiguous": 0,
+        "success_all": 0.08511,
+        "wilson95": [
+          0.0558,
+          0.1278
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 42,
+        "loss": 80,
+        "timeout": 113,
+        "ambiguous": 0,
+        "success_all": 0.17872,
+        "wilson95": [
+          0.135,
+          0.2328
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 58,
+        "loss": 105,
+        "timeout": 72,
+        "ambiguous": 0,
+        "success_all": 0.24681,
+        "wilson95": [
+          0.196,
+          0.3057
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 1,
+        "loss": 53,
+        "timeout": 181,
+        "ambiguous": 0,
+        "success_all": 0.00426,
+        "wilson95": [
+          0.0008,
+          0.0237
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 6,
+        "loss": 82,
+        "timeout": 147,
+        "ambiguous": 0,
+        "success_all": 0.02553,
+        "wilson95": [
+          0.0118,
+          0.0546
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 15,
+        "loss": 111,
+        "timeout": 109,
+        "ambiguous": 0,
+        "success_all": 0.06383,
+        "wilson95": [
+          0.0391,
+          0.1026
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 0,
+        "loss": 53,
+        "timeout": 182,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 0,
+        "loss": 82,
+        "timeout": 153,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 4,
+        "loss": 111,
+        "timeout": 120,
+        "ambiguous": 0,
+        "success_all": 0.01702,
+        "wilson95": [
+          0.0066,
+          0.0429
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 20,
+        "loss": 21,
+        "timeout": 194,
+        "ambiguous": 0,
+        "success_all": 0.08511,
+        "wilson95": [
+          0.0558,
+          0.1278
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 46,
+        "loss": 32,
+        "timeout": 157,
+        "ambiguous": 0,
+        "success_all": 0.19574,
+        "wilson95": [
+          0.1501,
+          0.2512
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 63,
+        "loss": 53,
+        "timeout": 119,
+        "ambiguous": 0,
+        "success_all": 0.26809,
+        "wilson95": [
+          0.2155,
+          0.3281
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 1,
+        "loss": 22,
+        "timeout": 212,
+        "ambiguous": 0,
+        "success_all": 0.00426,
+        "wilson95": [
+          0.0008,
+          0.0237
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 6,
+        "loss": 34,
+        "timeout": 195,
+        "ambiguous": 0,
+        "success_all": 0.02553,
+        "wilson95": [
+          0.0118,
+          0.0546
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 17,
+        "loss": 58,
+        "timeout": 160,
+        "ambiguous": 0,
+        "success_all": 0.07234,
+        "wilson95": [
+          0.0457,
+          0.1128
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 0,
+        "loss": 22,
+        "timeout": 213,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 0,
+        "loss": 34,
+        "timeout": 201,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0161
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 4,
+        "loss": 58,
+        "timeout": 173,
+        "ambiguous": 0,
+        "success_all": 0.01702,
+        "wilson95": [
+          0.0066,
+          0.0429
+        ]
+      }
+    },
+    "stall_early__all": {
+      "signals": 1757,
+      "s2_t5_h5": {
+        "win": 158,
+        "loss": 761,
+        "timeout": 835,
+        "ambiguous": 3,
+        "success_all": 0.08993,
+        "wilson95": [
+          0.0774,
+          0.1042
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 288,
+        "loss": 979,
+        "timeout": 486,
+        "ambiguous": 4,
+        "success_all": 0.16392,
+        "wilson95": [
+          0.1473,
+          0.182
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 363,
+        "loss": 1075,
+        "timeout": 315,
+        "ambiguous": 4,
+        "success_all": 0.2066,
+        "wilson95": [
+          0.1883,
+          0.2262
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 19,
+        "loss": 770,
+        "timeout": 967,
+        "ambiguous": 1,
+        "success_all": 0.01081,
+        "wilson95": [
+          0.0069,
+          0.0168
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 60,
+        "loss": 999,
+        "timeout": 696,
+        "ambiguous": 2,
+        "success_all": 0.03415,
+        "wilson95": [
+          0.0266,
+          0.0437
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 98,
+        "loss": 1118,
+        "timeout": 539,
+        "ambiguous": 2,
+        "success_all": 0.05578,
+        "wilson95": [
+          0.046,
+          0.0675
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 3,
+        "loss": 771,
+        "timeout": 983,
+        "ambiguous": 0,
+        "success_all": 0.00171,
+        "wilson95": [
+          0.0006,
+          0.005
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 10,
+        "loss": 1000,
+        "timeout": 746,
+        "ambiguous": 1,
+        "success_all": 0.00569,
+        "wilson95": [
+          0.0031,
+          0.0104
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 30,
+        "loss": 1122,
+        "timeout": 604,
+        "ambiguous": 1,
+        "success_all": 0.01707,
+        "wilson95": [
+          0.012,
+          0.0243
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 173,
+        "loss": 486,
+        "timeout": 1096,
+        "ambiguous": 2,
+        "success_all": 0.09846,
+        "wilson95": [
+          0.0854,
+          0.1133
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 326,
+        "loss": 698,
+        "timeout": 731,
+        "ambiguous": 2,
+        "success_all": 0.18554,
+        "wilson95": [
+          0.1681,
+          0.2044
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 430,
+        "loss": 824,
+        "timeout": 501,
+        "ambiguous": 2,
+        "success_all": 0.24474,
+        "wilson95": [
+          0.2252,
+          0.2654
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 21,
+        "loss": 494,
+        "timeout": 1242,
+        "ambiguous": 0,
+        "success_all": 0.01195,
+        "wilson95": [
+          0.0078,
+          0.0182
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 68,
+        "loss": 716,
+        "timeout": 973,
+        "ambiguous": 0,
+        "success_all": 0.0387,
+        "wilson95": [
+          0.0306,
+          0.0488
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 115,
+        "loss": 866,
+        "timeout": 776,
+        "ambiguous": 0,
+        "success_all": 0.06545,
+        "wilson95": [
+          0.0548,
+          0.078
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 4,
+        "loss": 494,
+        "timeout": 1259,
+        "ambiguous": 0,
+        "success_all": 0.00228,
+        "wilson95": [
+          0.0009,
+          0.0058
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 12,
+        "loss": 716,
+        "timeout": 1029,
+        "ambiguous": 0,
+        "success_all": 0.00683,
+        "wilson95": [
+          0.0039,
+          0.0119
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 32,
+        "loss": 867,
+        "timeout": 858,
+        "ambiguous": 0,
+        "success_all": 0.01821,
+        "wilson95": [
+          0.0129,
+          0.0256
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 183,
+        "loss": 196,
+        "timeout": 1377,
+        "ambiguous": 1,
+        "success_all": 0.10415,
+        "wilson95": [
+          0.0907,
+          0.1193
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 357,
+        "loss": 345,
+        "timeout": 1054,
+        "ambiguous": 1,
+        "success_all": 0.20319,
+        "wilson95": [
+          0.185,
+          0.2226
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 490,
+        "loss": 465,
+        "timeout": 801,
+        "ambiguous": 1,
+        "success_all": 0.27888,
+        "wilson95": [
+          0.2584,
+          0.3003
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 24,
+        "loss": 201,
+        "timeout": 1532,
+        "ambiguous": 0,
+        "success_all": 0.01366,
+        "wilson95": [
+          0.0092,
+          0.0202
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 73,
+        "loss": 353,
+        "timeout": 1331,
+        "ambiguous": 0,
+        "success_all": 0.04155,
+        "wilson95": [
+          0.0332,
+          0.0519
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 127,
+        "loss": 493,
+        "timeout": 1137,
+        "ambiguous": 0,
+        "success_all": 0.07228,
+        "wilson95": [
+          0.0611,
+          0.0853
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 5,
+        "loss": 201,
+        "timeout": 1551,
+        "ambiguous": 0,
+        "success_all": 0.00285,
+        "wilson95": [
+          0.0012,
+          0.0066
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 14,
+        "loss": 353,
+        "timeout": 1390,
+        "ambiguous": 0,
+        "success_all": 0.00797,
+        "wilson95": [
+          0.0048,
+          0.0133
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 36,
+        "loss": 495,
+        "timeout": 1226,
+        "ambiguous": 0,
+        "success_all": 0.02049,
+        "wilson95": [
+          0.0148,
+          0.0282
+        ]
+      }
+    },
+    "stall_early__test": {
+      "signals": 357,
+      "s2_t5_h5": {
+        "win": 36,
+        "loss": 164,
+        "timeout": 157,
+        "ambiguous": 0,
+        "success_all": 0.10084,
+        "wilson95": [
+          0.0737,
+          0.1364
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 60,
+        "loss": 209,
+        "timeout": 88,
+        "ambiguous": 0,
+        "success_all": 0.16807,
+        "wilson95": [
+          0.1329,
+          0.2103
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 76,
+        "loss": 223,
+        "timeout": 58,
+        "ambiguous": 0,
+        "success_all": 0.21289,
+        "wilson95": [
+          0.1736,
+          0.2583
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 4,
+        "loss": 165,
+        "timeout": 188,
+        "ambiguous": 0,
+        "success_all": 0.0112,
+        "wilson95": [
+          0.0044,
+          0.0285
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 13,
+        "loss": 213,
+        "timeout": 131,
+        "ambiguous": 0,
+        "success_all": 0.03641,
+        "wilson95": [
+          0.0214,
+          0.0613
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 20,
+        "loss": 230,
+        "timeout": 107,
+        "ambiguous": 0,
+        "success_all": 0.05602,
+        "wilson95": [
+          0.0366,
+          0.0849
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 1,
+        "loss": 165,
+        "timeout": 191,
+        "ambiguous": 0,
+        "success_all": 0.0028,
+        "wilson95": [
+          0.0005,
+          0.0157
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 4,
+        "loss": 213,
+        "timeout": 140,
+        "ambiguous": 0,
+        "success_all": 0.0112,
+        "wilson95": [
+          0.0044,
+          0.0285
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 8,
+        "loss": 232,
+        "timeout": 117,
+        "ambiguous": 0,
+        "success_all": 0.02241,
+        "wilson95": [
+          0.0114,
+          0.0436
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 39,
+        "loss": 103,
+        "timeout": 215,
+        "ambiguous": 0,
+        "success_all": 0.10924,
+        "wilson95": [
+          0.0809,
+          0.1459
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 67,
+        "loss": 148,
+        "timeout": 142,
+        "ambiguous": 0,
+        "success_all": 0.18768,
+        "wilson95": [
+          0.1506,
+          0.2314
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 91,
+        "loss": 170,
+        "timeout": 96,
+        "ambiguous": 0,
+        "success_all": 0.2549,
+        "wilson95": [
+          0.2125,
+          0.3026
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 4,
+        "loss": 104,
+        "timeout": 249,
+        "ambiguous": 0,
+        "success_all": 0.0112,
+        "wilson95": [
+          0.0044,
+          0.0285
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 14,
+        "loss": 152,
+        "timeout": 191,
+        "ambiguous": 0,
+        "success_all": 0.03922,
+        "wilson95": [
+          0.0235,
+          0.0647
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 21,
+        "loss": 179,
+        "timeout": 157,
+        "ambiguous": 0,
+        "success_all": 0.05882,
+        "wilson95": [
+          0.0388,
+          0.0882
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 1,
+        "loss": 104,
+        "timeout": 252,
+        "ambiguous": 0,
+        "success_all": 0.0028,
+        "wilson95": [
+          0.0005,
+          0.0157
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 4,
+        "loss": 152,
+        "timeout": 201,
+        "ambiguous": 0,
+        "success_all": 0.0112,
+        "wilson95": [
+          0.0044,
+          0.0285
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 8,
+        "loss": 179,
+        "timeout": 170,
+        "ambiguous": 0,
+        "success_all": 0.02241,
+        "wilson95": [
+          0.0114,
+          0.0436
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 42,
+        "loss": 44,
+        "timeout": 271,
+        "ambiguous": 0,
+        "success_all": 0.11765,
+        "wilson95": [
+          0.0882,
+          0.1552
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 77,
+        "loss": 79,
+        "timeout": 201,
+        "ambiguous": 0,
+        "success_all": 0.21569,
+        "wilson95": [
+          0.1762,
+          0.2613
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 105,
+        "loss": 101,
+        "timeout": 151,
+        "ambiguous": 0,
+        "success_all": 0.29412,
+        "wilson95": [
+          0.2492,
+          0.3434
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 5,
+        "loss": 45,
+        "timeout": 307,
+        "ambiguous": 0,
+        "success_all": 0.01401,
+        "wilson95": [
+          0.006,
+          0.0324
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 15,
+        "loss": 81,
+        "timeout": 261,
+        "ambiguous": 0,
+        "success_all": 0.04202,
+        "wilson95": [
+          0.0256,
+          0.0682
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 25,
+        "loss": 108,
+        "timeout": 224,
+        "ambiguous": 0,
+        "success_all": 0.07003,
+        "wilson95": [
+          0.0479,
+          0.1013
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 1,
+        "loss": 45,
+        "timeout": 311,
+        "ambiguous": 0,
+        "success_all": 0.0028,
+        "wilson95": [
+          0.0005,
+          0.0157
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 4,
+        "loss": 81,
+        "timeout": 272,
+        "ambiguous": 0,
+        "success_all": 0.0112,
+        "wilson95": [
+          0.0044,
+          0.0285
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 8,
+        "loss": 109,
+        "timeout": 240,
+        "ambiguous": 0,
+        "success_all": 0.02241,
+        "wilson95": [
+          0.0114,
+          0.0436
+        ]
+      }
+    },
+    "stall_early__train": {
+      "signals": 1036,
+      "s2_t5_h5": {
+        "win": 99,
+        "loss": 451,
+        "timeout": 483,
+        "ambiguous": 3,
+        "success_all": 0.09556,
+        "wilson95": [
+          0.0791,
+          0.115
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 173,
+        "loss": 577,
+        "timeout": 282,
+        "ambiguous": 4,
+        "success_all": 0.16699,
+        "wilson95": [
+          0.1455,
+          0.1909
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 215,
+        "loss": 632,
+        "timeout": 185,
+        "ambiguous": 4,
+        "success_all": 0.20753,
+        "wilson95": [
+          0.1839,
+          0.2333
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 11,
+        "loss": 457,
+        "timeout": 567,
+        "ambiguous": 1,
+        "success_all": 0.01062,
+        "wilson95": [
+          0.0059,
+          0.0189
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 36,
+        "loss": 589,
+        "timeout": 409,
+        "ambiguous": 2,
+        "success_all": 0.03475,
+        "wilson95": [
+          0.0252,
+          0.0477
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 60,
+        "loss": 657,
+        "timeout": 317,
+        "ambiguous": 2,
+        "success_all": 0.05792,
+        "wilson95": [
+          0.0453,
+          0.0738
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 2,
+        "loss": 458,
+        "timeout": 576,
+        "ambiguous": 0,
+        "success_all": 0.00193,
+        "wilson95": [
+          0.0005,
+          0.007
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 4,
+        "loss": 590,
+        "timeout": 441,
+        "ambiguous": 1,
+        "success_all": 0.00386,
+        "wilson95": [
+          0.0015,
+          0.0099
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 17,
+        "loss": 659,
+        "timeout": 359,
+        "ambiguous": 1,
+        "success_all": 0.01641,
+        "wilson95": [
+          0.0103,
+          0.0261
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 109,
+        "loss": 286,
+        "timeout": 639,
+        "ambiguous": 2,
+        "success_all": 0.10521,
+        "wilson95": [
+          0.088,
+          0.1254
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 196,
+        "loss": 415,
+        "timeout": 423,
+        "ambiguous": 2,
+        "success_all": 0.18919,
+        "wilson95": [
+          0.1665,
+          0.2142
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 256,
+        "loss": 485,
+        "timeout": 293,
+        "ambiguous": 2,
+        "success_all": 0.2471,
+        "wilson95": [
+          0.2218,
+          0.2743
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 13,
+        "loss": 291,
+        "timeout": 732,
+        "ambiguous": 0,
+        "success_all": 0.01255,
+        "wilson95": [
+          0.0073,
+          0.0214
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 42,
+        "loss": 426,
+        "timeout": 568,
+        "ambiguous": 0,
+        "success_all": 0.04054,
+        "wilson95": [
+          0.0301,
+          0.0543
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 72,
+        "loss": 510,
+        "timeout": 454,
+        "ambiguous": 0,
+        "success_all": 0.0695,
+        "wilson95": [
+          0.0556,
+          0.0866
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 3,
+        "loss": 291,
+        "timeout": 742,
+        "ambiguous": 0,
+        "success_all": 0.0029,
+        "wilson95": [
+          0.001,
+          0.0085
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 6,
+        "loss": 426,
+        "timeout": 604,
+        "ambiguous": 0,
+        "success_all": 0.00579,
+        "wilson95": [
+          0.0027,
+          0.0126
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 19,
+        "loss": 511,
+        "timeout": 506,
+        "ambiguous": 0,
+        "success_all": 0.01834,
+        "wilson95": [
+          0.0118,
+          0.0285
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 114,
+        "loss": 111,
+        "timeout": 810,
+        "ambiguous": 1,
+        "success_all": 0.11004,
+        "wilson95": [
+          0.0924,
+          0.1306
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 211,
+        "loss": 200,
+        "timeout": 624,
+        "ambiguous": 1,
+        "success_all": 0.20367,
+        "wilson95": [
+          0.1803,
+          0.2293
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 292,
+        "loss": 275,
+        "timeout": 468,
+        "ambiguous": 1,
+        "success_all": 0.28185,
+        "wilson95": [
+          0.2553,
+          0.31
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 15,
+        "loss": 114,
+        "timeout": 907,
+        "ambiguous": 0,
+        "success_all": 0.01448,
+        "wilson95": [
+          0.0088,
+          0.0238
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 46,
+        "loss": 204,
+        "timeout": 786,
+        "ambiguous": 0,
+        "success_all": 0.0444,
+        "wilson95": [
+          0.0335,
+          0.0587
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 79,
+        "loss": 290,
+        "timeout": 667,
+        "ambiguous": 0,
+        "success_all": 0.07625,
+        "wilson95": [
+          0.0616,
+          0.094
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 4,
+        "loss": 114,
+        "timeout": 918,
+        "ambiguous": 0,
+        "success_all": 0.00386,
+        "wilson95": [
+          0.0015,
+          0.0099
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 8,
+        "loss": 204,
+        "timeout": 824,
+        "ambiguous": 0,
+        "success_all": 0.00772,
+        "wilson95": [
+          0.0039,
+          0.0152
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 23,
+        "loss": 291,
+        "timeout": 722,
+        "ambiguous": 0,
+        "success_all": 0.0222,
+        "wilson95": [
+          0.0148,
+          0.0331
+        ]
+      }
+    },
+    "stall_early__validation": {
+      "signals": 364,
+      "s2_t5_h5": {
+        "win": 23,
+        "loss": 146,
+        "timeout": 195,
+        "ambiguous": 0,
+        "success_all": 0.06319,
+        "wilson95": [
+          0.0425,
+          0.093
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 55,
+        "loss": 193,
+        "timeout": 116,
+        "ambiguous": 0,
+        "success_all": 0.1511,
+        "wilson95": [
+          0.118,
+          0.1915
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 72,
+        "loss": 220,
+        "timeout": 72,
+        "ambiguous": 0,
+        "success_all": 0.1978,
+        "wilson95": [
+          0.1601,
+          0.2418
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 4,
+        "loss": 148,
+        "timeout": 212,
+        "ambiguous": 0,
+        "success_all": 0.01099,
+        "wilson95": [
+          0.0043,
+          0.0279
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 11,
+        "loss": 197,
+        "timeout": 156,
+        "ambiguous": 0,
+        "success_all": 0.03022,
+        "wilson95": [
+          0.017,
+          0.0533
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 18,
+        "loss": 231,
+        "timeout": 115,
+        "ambiguous": 0,
+        "success_all": 0.04945,
+        "wilson95": [
+          0.0315,
+          0.0768
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 0,
+        "loss": 148,
+        "timeout": 216,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0104
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 2,
+        "loss": 197,
+        "timeout": 165,
+        "ambiguous": 0,
+        "success_all": 0.00549,
+        "wilson95": [
+          0.0015,
+          0.0198
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 5,
+        "loss": 231,
+        "timeout": 128,
+        "ambiguous": 0,
+        "success_all": 0.01374,
+        "wilson95": [
+          0.0059,
+          0.0317
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 25,
+        "loss": 97,
+        "timeout": 242,
+        "ambiguous": 0,
+        "success_all": 0.06868,
+        "wilson95": [
+          0.047,
+          0.0994
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 63,
+        "loss": 135,
+        "timeout": 166,
+        "ambiguous": 0,
+        "success_all": 0.17308,
+        "wilson95": [
+          0.1377,
+          0.2153
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 83,
+        "loss": 169,
+        "timeout": 112,
+        "ambiguous": 0,
+        "success_all": 0.22802,
+        "wilson95": [
+          0.1879,
+          0.2738
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 4,
+        "loss": 99,
+        "timeout": 261,
+        "ambiguous": 0,
+        "success_all": 0.01099,
+        "wilson95": [
+          0.0043,
+          0.0279
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 12,
+        "loss": 138,
+        "timeout": 214,
+        "ambiguous": 0,
+        "success_all": 0.03297,
+        "wilson95": [
+          0.019,
+          0.0567
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 22,
+        "loss": 177,
+        "timeout": 165,
+        "ambiguous": 0,
+        "success_all": 0.06044,
+        "wilson95": [
+          0.0402,
+          0.0898
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 0,
+        "loss": 99,
+        "timeout": 265,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0104
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 2,
+        "loss": 138,
+        "timeout": 224,
+        "ambiguous": 0,
+        "success_all": 0.00549,
+        "wilson95": [
+          0.0015,
+          0.0198
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 5,
+        "loss": 177,
+        "timeout": 182,
+        "ambiguous": 0,
+        "success_all": 0.01374,
+        "wilson95": [
+          0.0059,
+          0.0317
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 27,
+        "loss": 41,
+        "timeout": 296,
+        "ambiguous": 0,
+        "success_all": 0.07418,
+        "wilson95": [
+          0.0515,
+          0.1058
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 69,
+        "loss": 66,
+        "timeout": 229,
+        "ambiguous": 0,
+        "success_all": 0.18956,
+        "wilson95": [
+          0.1526,
+          0.233
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 93,
+        "loss": 89,
+        "timeout": 182,
+        "ambiguous": 0,
+        "success_all": 0.25549,
+        "wilson95": [
+          0.2134,
+          0.3027
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 4,
+        "loss": 42,
+        "timeout": 318,
+        "ambiguous": 0,
+        "success_all": 0.01099,
+        "wilson95": [
+          0.0043,
+          0.0279
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 12,
+        "loss": 68,
+        "timeout": 284,
+        "ambiguous": 0,
+        "success_all": 0.03297,
+        "wilson95": [
+          0.019,
+          0.0567
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 23,
+        "loss": 95,
+        "timeout": 246,
+        "ambiguous": 0,
+        "success_all": 0.06319,
+        "wilson95": [
+          0.0425,
+          0.093
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 0,
+        "loss": 42,
+        "timeout": 322,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0104
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 2,
+        "loss": 68,
+        "timeout": 294,
+        "ambiguous": 0,
+        "success_all": 0.00549,
+        "wilson95": [
+          0.0015,
+          0.0198
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 5,
+        "loss": 95,
+        "timeout": 264,
+        "ambiguous": 0,
+        "success_all": 0.01374,
+        "wilson95": [
+          0.0059,
+          0.0317
+        ]
+      }
+    },
+    "wick_reentry__all": {
+      "signals": 854,
+      "s2_t5_h5": {
+        "win": 77,
+        "loss": 361,
+        "timeout": 415,
+        "ambiguous": 1,
+        "success_all": 0.09016,
+        "wilson95": [
+          0.0727,
+          0.1113
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 146,
+        "loss": 490,
+        "timeout": 217,
+        "ambiguous": 1,
+        "success_all": 0.17096,
+        "wilson95": [
+          0.1472,
+          0.1977
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 177,
+        "loss": 539,
+        "timeout": 137,
+        "ambiguous": 1,
+        "success_all": 0.20726,
+        "wilson95": [
+          0.1814,
+          0.2357
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 16,
+        "loss": 368,
+        "timeout": 470,
+        "ambiguous": 0,
+        "success_all": 0.01874,
+        "wilson95": [
+          0.0116,
+          0.0302
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 30,
+        "loss": 506,
+        "timeout": 318,
+        "ambiguous": 0,
+        "success_all": 0.03513,
+        "wilson95": [
+          0.0247,
+          0.0497
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 45,
+        "loss": 567,
+        "timeout": 242,
+        "ambiguous": 0,
+        "success_all": 0.05269,
+        "wilson95": [
+          0.0396,
+          0.0698
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 5,
+        "loss": 369,
+        "timeout": 480,
+        "ambiguous": 0,
+        "success_all": 0.00585,
+        "wilson95": [
+          0.0025,
+          0.0136
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 12,
+        "loss": 509,
+        "timeout": 333,
+        "ambiguous": 0,
+        "success_all": 0.01405,
+        "wilson95": [
+          0.0081,
+          0.0244
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 15,
+        "loss": 570,
+        "timeout": 269,
+        "ambiguous": 0,
+        "success_all": 0.01756,
+        "wilson95": [
+          0.0107,
+          0.0288
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 84,
+        "loss": 228,
+        "timeout": 541,
+        "ambiguous": 1,
+        "success_all": 0.09836,
+        "wilson95": [
+          0.0801,
+          0.1202
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 164,
+        "loss": 346,
+        "timeout": 343,
+        "ambiguous": 1,
+        "success_all": 0.19204,
+        "wilson95": [
+          0.167,
+          0.2198
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 205,
+        "loss": 414,
+        "timeout": 234,
+        "ambiguous": 1,
+        "success_all": 0.24005,
+        "wilson95": [
+          0.2126,
+          0.2698
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 17,
+        "loss": 232,
+        "timeout": 605,
+        "ambiguous": 0,
+        "success_all": 0.01991,
+        "wilson95": [
+          0.0125,
+          0.0316
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 33,
+        "loss": 361,
+        "timeout": 460,
+        "ambiguous": 0,
+        "success_all": 0.03864,
+        "wilson95": [
+          0.0276,
+          0.0538
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 49,
+        "loss": 437,
+        "timeout": 368,
+        "ambiguous": 0,
+        "success_all": 0.05738,
+        "wilson95": [
+          0.0437,
+          0.075
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 5,
+        "loss": 233,
+        "timeout": 616,
+        "ambiguous": 0,
+        "success_all": 0.00585,
+        "wilson95": [
+          0.0025,
+          0.0136
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 12,
+        "loss": 363,
+        "timeout": 479,
+        "ambiguous": 0,
+        "success_all": 0.01405,
+        "wilson95": [
+          0.0081,
+          0.0244
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 16,
+        "loss": 441,
+        "timeout": 397,
+        "ambiguous": 0,
+        "success_all": 0.01874,
+        "wilson95": [
+          0.0116,
+          0.0302
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 90,
+        "loss": 89,
+        "timeout": 675,
+        "ambiguous": 0,
+        "success_all": 0.10539,
+        "wilson95": [
+          0.0865,
+          0.1278
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 178,
+        "loss": 185,
+        "timeout": 491,
+        "ambiguous": 0,
+        "success_all": 0.20843,
+        "wilson95": [
+          0.1825,
+          0.2369
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 233,
+        "loss": 247,
+        "timeout": 374,
+        "ambiguous": 0,
+        "success_all": 0.27283,
+        "wilson95": [
+          0.244,
+          0.3037
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 17,
+        "loss": 91,
+        "timeout": 746,
+        "ambiguous": 0,
+        "success_all": 0.01991,
+        "wilson95": [
+          0.0125,
+          0.0316
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 36,
+        "loss": 195,
+        "timeout": 623,
+        "ambiguous": 0,
+        "success_all": 0.04215,
+        "wilson95": [
+          0.0306,
+          0.0578
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 56,
+        "loss": 262,
+        "timeout": 536,
+        "ambiguous": 0,
+        "success_all": 0.06557,
+        "wilson95": [
+          0.0508,
+          0.0842
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 5,
+        "loss": 92,
+        "timeout": 757,
+        "ambiguous": 0,
+        "success_all": 0.00585,
+        "wilson95": [
+          0.0025,
+          0.0136
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 13,
+        "loss": 196,
+        "timeout": 645,
+        "ambiguous": 0,
+        "success_all": 0.01522,
+        "wilson95": [
+          0.0089,
+          0.0259
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 17,
+        "loss": 266,
+        "timeout": 571,
+        "ambiguous": 0,
+        "success_all": 0.01991,
+        "wilson95": [
+          0.0125,
+          0.0316
+        ]
+      }
+    },
+    "wick_reentry__test": {
+      "signals": 148,
+      "s2_t5_h5": {
+        "win": 10,
+        "loss": 67,
+        "timeout": 70,
+        "ambiguous": 1,
+        "success_all": 0.06757,
+        "wilson95": [
+          0.0371,
+          0.1199
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 21,
+        "loss": 92,
+        "timeout": 34,
+        "ambiguous": 1,
+        "success_all": 0.14189,
+        "wilson95": [
+          0.0947,
+          0.2072
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 29,
+        "loss": 95,
+        "timeout": 23,
+        "ambiguous": 1,
+        "success_all": 0.19595,
+        "wilson95": [
+          0.14,
+          0.2672
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 3,
+        "loss": 68,
+        "timeout": 77,
+        "ambiguous": 0,
+        "success_all": 0.02027,
+        "wilson95": [
+          0.0069,
+          0.0579
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 4,
+        "loss": 94,
+        "timeout": 50,
+        "ambiguous": 0,
+        "success_all": 0.02703,
+        "wilson95": [
+          0.0106,
+          0.0674
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 7,
+        "loss": 98,
+        "timeout": 43,
+        "ambiguous": 0,
+        "success_all": 0.0473,
+        "wilson95": [
+          0.0231,
+          0.0944
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 1,
+        "loss": 68,
+        "timeout": 79,
+        "ambiguous": 0,
+        "success_all": 0.00676,
+        "wilson95": [
+          0.0012,
+          0.0373
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 2,
+        "loss": 95,
+        "timeout": 51,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 2,
+        "loss": 99,
+        "timeout": 47,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 10,
+        "loss": 39,
+        "timeout": 98,
+        "ambiguous": 1,
+        "success_all": 0.06757,
+        "wilson95": [
+          0.0371,
+          0.1199
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 22,
+        "loss": 68,
+        "timeout": 57,
+        "ambiguous": 1,
+        "success_all": 0.14865,
+        "wilson95": [
+          0.1003,
+          0.2148
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 33,
+        "loss": 78,
+        "timeout": 36,
+        "ambiguous": 1,
+        "success_all": 0.22297,
+        "wilson95": [
+          0.1634,
+          0.2966
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 3,
+        "loss": 40,
+        "timeout": 105,
+        "ambiguous": 0,
+        "success_all": 0.02027,
+        "wilson95": [
+          0.0069,
+          0.0579
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 4,
+        "loss": 71,
+        "timeout": 73,
+        "ambiguous": 0,
+        "success_all": 0.02703,
+        "wilson95": [
+          0.0106,
+          0.0674
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 7,
+        "loss": 81,
+        "timeout": 60,
+        "ambiguous": 0,
+        "success_all": 0.0473,
+        "wilson95": [
+          0.0231,
+          0.0944
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 1,
+        "loss": 40,
+        "timeout": 107,
+        "ambiguous": 0,
+        "success_all": 0.00676,
+        "wilson95": [
+          0.0012,
+          0.0373
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 2,
+        "loss": 72,
+        "timeout": 74,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 2,
+        "loss": 82,
+        "timeout": 64,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 11,
+        "loss": 14,
+        "timeout": 123,
+        "ambiguous": 0,
+        "success_all": 0.07432,
+        "wilson95": [
+          0.042,
+          0.1282
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 25,
+        "loss": 40,
+        "timeout": 83,
+        "ambiguous": 0,
+        "success_all": 0.16892,
+        "wilson95": [
+          0.1171,
+          0.2375
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 36,
+        "loss": 49,
+        "timeout": 63,
+        "ambiguous": 0,
+        "success_all": 0.24324,
+        "wilson95": [
+          0.1812,
+          0.3183
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 3,
+        "loss": 15,
+        "timeout": 130,
+        "ambiguous": 0,
+        "success_all": 0.02027,
+        "wilson95": [
+          0.0069,
+          0.0579
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 4,
+        "loss": 42,
+        "timeout": 102,
+        "ambiguous": 0,
+        "success_all": 0.02703,
+        "wilson95": [
+          0.0106,
+          0.0674
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 7,
+        "loss": 52,
+        "timeout": 89,
+        "ambiguous": 0,
+        "success_all": 0.0473,
+        "wilson95": [
+          0.0231,
+          0.0944
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 1,
+        "loss": 15,
+        "timeout": 132,
+        "ambiguous": 0,
+        "success_all": 0.00676,
+        "wilson95": [
+          0.0012,
+          0.0373
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 2,
+        "loss": 42,
+        "timeout": 104,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 2,
+        "loss": 53,
+        "timeout": 93,
+        "ambiguous": 0,
+        "success_all": 0.01351,
+        "wilson95": [
+          0.0037,
+          0.0479
+        ]
+      }
+    },
+    "wick_reentry__train": {
+      "signals": 531,
+      "s2_t5_h5": {
+        "win": 48,
+        "loss": 235,
+        "timeout": 248,
+        "ambiguous": 0,
+        "success_all": 0.0904,
+        "wilson95": [
+          0.0689,
+          0.1178
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 87,
+        "loss": 307,
+        "timeout": 137,
+        "ambiguous": 0,
+        "success_all": 0.16384,
+        "wilson95": [
+          0.1348,
+          0.1977
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 104,
+        "loss": 343,
+        "timeout": 84,
+        "ambiguous": 0,
+        "success_all": 0.19586,
+        "wilson95": [
+          0.1643,
+          0.2317
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 10,
+        "loss": 240,
+        "timeout": 281,
+        "ambiguous": 0,
+        "success_all": 0.01883,
+        "wilson95": [
+          0.0103,
+          0.0343
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 21,
+        "loss": 318,
+        "timeout": 192,
+        "ambiguous": 0,
+        "success_all": 0.03955,
+        "wilson95": [
+          0.026,
+          0.0597
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 32,
+        "loss": 360,
+        "timeout": 139,
+        "ambiguous": 0,
+        "success_all": 0.06026,
+        "wilson95": [
+          0.043,
+          0.0838
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 4,
+        "loss": 241,
+        "timeout": 286,
+        "ambiguous": 0,
+        "success_all": 0.00753,
+        "wilson95": [
+          0.0029,
+          0.0192
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 9,
+        "loss": 319,
+        "timeout": 203,
+        "ambiguous": 0,
+        "success_all": 0.01695,
+        "wilson95": [
+          0.0089,
+          0.0319
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 11,
+        "loss": 361,
+        "timeout": 159,
+        "ambiguous": 0,
+        "success_all": 0.02072,
+        "wilson95": [
+          0.0116,
+          0.0367
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 54,
+        "loss": 151,
+        "timeout": 326,
+        "ambiguous": 0,
+        "success_all": 0.10169,
+        "wilson95": [
+          0.0788,
+          0.1303
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 102,
+        "loss": 217,
+        "timeout": 212,
+        "ambiguous": 0,
+        "success_all": 0.19209,
+        "wilson95": [
+          0.1608,
+          0.2278
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 122,
+        "loss": 260,
+        "timeout": 149,
+        "ambiguous": 0,
+        "success_all": 0.22976,
+        "wilson95": [
+          0.196,
+          0.2674
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 11,
+        "loss": 154,
+        "timeout": 366,
+        "ambiguous": 0,
+        "success_all": 0.02072,
+        "wilson95": [
+          0.0116,
+          0.0367
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 23,
+        "loss": 227,
+        "timeout": 281,
+        "ambiguous": 0,
+        "success_all": 0.04331,
+        "wilson95": [
+          0.029,
+          0.0642
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 35,
+        "loss": 274,
+        "timeout": 222,
+        "ambiguous": 0,
+        "success_all": 0.06591,
+        "wilson95": [
+          0.0478,
+          0.0903
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 4,
+        "loss": 155,
+        "timeout": 372,
+        "ambiguous": 0,
+        "success_all": 0.00753,
+        "wilson95": [
+          0.0029,
+          0.0192
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 9,
+        "loss": 228,
+        "timeout": 294,
+        "ambiguous": 0,
+        "success_all": 0.01695,
+        "wilson95": [
+          0.0089,
+          0.0319
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 11,
+        "loss": 276,
+        "timeout": 244,
+        "ambiguous": 0,
+        "success_all": 0.02072,
+        "wilson95": [
+          0.0116,
+          0.0367
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 58,
+        "loss": 62,
+        "timeout": 411,
+        "ambiguous": 0,
+        "success_all": 0.10923,
+        "wilson95": [
+          0.0855,
+          0.1386
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 112,
+        "loss": 116,
+        "timeout": 303,
+        "ambiguous": 0,
+        "success_all": 0.21092,
+        "wilson95": [
+          0.1784,
+          0.2476
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 145,
+        "loss": 160,
+        "timeout": 226,
+        "ambiguous": 0,
+        "success_all": 0.27307,
+        "wilson95": [
+          0.2369,
+          0.3125
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 11,
+        "loss": 63,
+        "timeout": 457,
+        "ambiguous": 0,
+        "success_all": 0.02072,
+        "wilson95": [
+          0.0116,
+          0.0367
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 26,
+        "loss": 122,
+        "timeout": 383,
+        "ambiguous": 0,
+        "success_all": 0.04896,
+        "wilson95": [
+          0.0336,
+          0.0708
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 42,
+        "loss": 168,
+        "timeout": 321,
+        "ambiguous": 0,
+        "success_all": 0.0791,
+        "wilson95": [
+          0.059,
+          0.1052
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 4,
+        "loss": 64,
+        "timeout": 463,
+        "ambiguous": 0,
+        "success_all": 0.00753,
+        "wilson95": [
+          0.0029,
+          0.0192
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 10,
+        "loss": 123,
+        "timeout": 398,
+        "ambiguous": 0,
+        "success_all": 0.01883,
+        "wilson95": [
+          0.0103,
+          0.0343
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 12,
+        "loss": 171,
+        "timeout": 348,
+        "ambiguous": 0,
+        "success_all": 0.0226,
+        "wilson95": [
+          0.013,
+          0.0391
+        ]
+      }
+    },
+    "wick_reentry__validation": {
+      "signals": 175,
+      "s2_t5_h5": {
+        "win": 19,
+        "loss": 59,
+        "timeout": 97,
+        "ambiguous": 0,
+        "success_all": 0.10857,
+        "wilson95": [
+          0.0706,
+          0.1633
+        ]
+      },
+      "s2_t5_h10": {
+        "win": 38,
+        "loss": 91,
+        "timeout": 46,
+        "ambiguous": 0,
+        "success_all": 0.21714,
+        "wilson95": [
+          0.1625,
+          0.284
+        ]
+      },
+      "s2_t5_h15": {
+        "win": 44,
+        "loss": 101,
+        "timeout": 30,
+        "ambiguous": 0,
+        "success_all": 0.25143,
+        "wilson95": [
+          0.193,
+          0.3206
+        ]
+      },
+      "s2_t10_h5": {
+        "win": 3,
+        "loss": 60,
+        "timeout": 112,
+        "ambiguous": 0,
+        "success_all": 0.01714,
+        "wilson95": [
+          0.0058,
+          0.0492
+        ]
+      },
+      "s2_t10_h10": {
+        "win": 5,
+        "loss": 94,
+        "timeout": 76,
+        "ambiguous": 0,
+        "success_all": 0.02857,
+        "wilson95": [
+          0.0123,
+          0.0651
+        ]
+      },
+      "s2_t10_h15": {
+        "win": 6,
+        "loss": 109,
+        "timeout": 60,
+        "ambiguous": 0,
+        "success_all": 0.03429,
+        "wilson95": [
+          0.0158,
+          0.0728
+        ]
+      },
+      "s2_t15_h5": {
+        "win": 0,
+        "loss": 60,
+        "timeout": 115,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0215
+        ]
+      },
+      "s2_t15_h10": {
+        "win": 1,
+        "loss": 95,
+        "timeout": 79,
+        "ambiguous": 0,
+        "success_all": 0.00571,
+        "wilson95": [
+          0.001,
+          0.0317
+        ]
+      },
+      "s2_t15_h15": {
+        "win": 2,
+        "loss": 110,
+        "timeout": 63,
+        "ambiguous": 0,
+        "success_all": 0.01143,
+        "wilson95": [
+          0.0031,
+          0.0407
+        ]
+      },
+      "s3_t5_h5": {
+        "win": 20,
+        "loss": 38,
+        "timeout": 117,
+        "ambiguous": 0,
+        "success_all": 0.11429,
+        "wilson95": [
+          0.0752,
+          0.1699
+        ]
+      },
+      "s3_t5_h10": {
+        "win": 40,
+        "loss": 61,
+        "timeout": 74,
+        "ambiguous": 0,
+        "success_all": 0.22857,
+        "wilson95": [
+          0.1726,
+          0.2962
+        ]
+      },
+      "s3_t5_h15": {
+        "win": 50,
+        "loss": 76,
+        "timeout": 49,
+        "ambiguous": 0,
+        "success_all": 0.28571,
+        "wilson95": [
+          0.2239,
+          0.3567
+        ]
+      },
+      "s3_t10_h5": {
+        "win": 3,
+        "loss": 38,
+        "timeout": 134,
+        "ambiguous": 0,
+        "success_all": 0.01714,
+        "wilson95": [
+          0.0058,
+          0.0492
+        ]
+      },
+      "s3_t10_h10": {
+        "win": 6,
+        "loss": 63,
+        "timeout": 106,
+        "ambiguous": 0,
+        "success_all": 0.03429,
+        "wilson95": [
+          0.0158,
+          0.0728
+        ]
+      },
+      "s3_t10_h15": {
+        "win": 7,
+        "loss": 82,
+        "timeout": 86,
+        "ambiguous": 0,
+        "success_all": 0.04,
+        "wilson95": [
+          0.0195,
+          0.0803
+        ]
+      },
+      "s3_t15_h5": {
+        "win": 0,
+        "loss": 38,
+        "timeout": 137,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0215
+        ]
+      },
+      "s3_t15_h10": {
+        "win": 1,
+        "loss": 63,
+        "timeout": 111,
+        "ambiguous": 0,
+        "success_all": 0.00571,
+        "wilson95": [
+          0.001,
+          0.0317
+        ]
+      },
+      "s3_t15_h15": {
+        "win": 3,
+        "loss": 83,
+        "timeout": 89,
+        "ambiguous": 0,
+        "success_all": 0.01714,
+        "wilson95": [
+          0.0058,
+          0.0492
+        ]
+      },
+      "s5_t5_h5": {
+        "win": 21,
+        "loss": 13,
+        "timeout": 141,
+        "ambiguous": 0,
+        "success_all": 0.12,
+        "wilson95": [
+          0.0798,
+          0.1765
+        ]
+      },
+      "s5_t5_h10": {
+        "win": 41,
+        "loss": 29,
+        "timeout": 105,
+        "ambiguous": 0,
+        "success_all": 0.23429,
+        "wilson95": [
+          0.1777,
+          0.3023
+        ]
+      },
+      "s5_t5_h15": {
+        "win": 52,
+        "loss": 38,
+        "timeout": 85,
+        "ambiguous": 0,
+        "success_all": 0.29714,
+        "wilson95": [
+          0.2344,
+          0.3686
+        ]
+      },
+      "s5_t10_h5": {
+        "win": 3,
+        "loss": 13,
+        "timeout": 159,
+        "ambiguous": 0,
+        "success_all": 0.01714,
+        "wilson95": [
+          0.0058,
+          0.0492
+        ]
+      },
+      "s5_t10_h10": {
+        "win": 6,
+        "loss": 31,
+        "timeout": 138,
+        "ambiguous": 0,
+        "success_all": 0.03429,
+        "wilson95": [
+          0.0158,
+          0.0728
+        ]
+      },
+      "s5_t10_h15": {
+        "win": 7,
+        "loss": 42,
+        "timeout": 126,
+        "ambiguous": 0,
+        "success_all": 0.04,
+        "wilson95": [
+          0.0195,
+          0.0803
+        ]
+      },
+      "s5_t15_h5": {
+        "win": 0,
+        "loss": 13,
+        "timeout": 162,
+        "ambiguous": 0,
+        "success_all": 0.0,
+        "wilson95": [
+          0.0,
+          0.0215
+        ]
+      },
+      "s5_t15_h10": {
+        "win": 1,
+        "loss": 31,
+        "timeout": 143,
+        "ambiguous": 0,
+        "success_all": 0.00571,
+        "wilson95": [
+          0.001,
+          0.0317
+        ]
+      },
+      "s5_t15_h15": {
+        "win": 3,
+        "loss": 42,
+        "timeout": 130,
+        "ambiguous": 0,
+        "success_all": 0.01714,
+        "wilson95": [
+          0.0058,
+          0.0492
+        ]
+      }
+    }
+  }
+}
