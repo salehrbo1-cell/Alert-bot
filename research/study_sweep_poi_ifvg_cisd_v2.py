@@ -104,7 +104,7 @@ def cisd(s,inv,origin,m15,ends):
         if valid:return dict(time=c[1],idx=i,close=c[5],body=body,origin=price)
     return None
 
-def nearest_target(s,entry_bid,at,pivots,m15,ends,spread):
+def nearest_target(s,entry_bid,at,pivots,m15,ends,spread,target_scope):
     # Target is nearest PREVIOUSLY confirmed, UNSWEPT swing on the other side.
     # No hindsight: availability and consumption both checked as of 'at'.
     target_side='sell_target' if s['side']=='sell' else 'buy_target'
@@ -112,6 +112,7 @@ def nearest_target(s,entry_bid,at,pivots,m15,ends,spread):
     choices=[]
     for p in pivots:
         if p['side']!=target_side or p['avail']>=at:continue
+        if target_scope=='htf_only' and p['tf']=='M15':continue
         if s['side']=='sell' and p['price']>=entry_bid-1:continue
         if s['side']=='buy' and p['price']<=entry_bid+spread+1:continue
         k=bisect.bisect_right(ends,p['avail'])
@@ -175,8 +176,8 @@ def run(path,out):
     all_pivots=pivot15(m15)+[dict(tf=p['tf'],side='sell_target' if p['side']=='buy' else 'buy_target',
         price=p['price'],avail=p['avail'],id=p['id']) for p in htf_pivots]
     variants={}
-    for hold in (False,True):
-        name='ifvg_immediate' if not hold else 'ifvg_one_closed_bar_hold'
+    for hold,target_scope in ((h,scope) for h in (False,True) for scope in ('m15_h1_h4','htf_only')):
+        name=('ifvg_immediate' if not hold else 'ifvg_one_closed_bar_hold')+'_'+target_scope
         counts=Counter();trades=[];last={}
         for s in ss:
             counts['sweep']+=1
@@ -206,7 +207,7 @@ def run(path,out):
                 post=[x[4] for x in m15 if inv['time']<=x[1]<=at]
                 stop=min(post)-.20 if post else None
             if stop is None:continue
-            target=nearest_target(s,entry_bid,at,all_pivots,m15,ends,.30)
+            target=nearest_target(s,entry_bid,at,all_pivots,m15,ends,.30,target_scope)
             if not target:
                 counts['no_untouched_opposing_liquidity']+=1;continue
             outcome=execute(m1,starts,at,s['side'],stop,target['price'])
@@ -237,7 +238,7 @@ def run(path,out):
             cisd='M15 displacement body >=1.2x median last20 and >=60% range; fresh CLOSE beyond first sweep-run candle low/high; IFVG overlap in last 3 M15 candles',
             entry='Next M1 BID open after M15 CISD close; BUY pays 0.30 USD assumed ASK spread',
             stop='Highest/lowest M15 wick since IFVG inversion until CISD plus 0.20 USD buffer',
-            target='Nearest prior confirmed and unconsumed M15/H1/H4 swing on opposing side, >=1 USD away',
+            target='Sensitivity: nearest prior confirmed and unconsumed M15/H1/H4 swing OR HTF-only H1/H4 swing on opposing side, >=1 USD away',
             exit='Target or stop first within 12 hours, otherwise close at 12h; within-M1 ambiguity treated as stop; 0.10 USD slippage each side',
             cooldown='Four hours same direction; excludes signals lacking full 12h observation'),
         warnings=['The supplied explanation is from a second model, not independently verified from video.',
