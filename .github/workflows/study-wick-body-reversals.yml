@@ -1,0 +1,50 @@
+name: Test gold wick/body reversal on M5 and M15
+on:
+  push:
+    paths:
+      - ".github/workflows/study-wick-body-reversals.yml"
+      - "research/study_wick_body_reversals.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: research-wick-body-reversals
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download 12 months Dukascopy XAUUSD M1 BID and warmup
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-10-01 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("No M1 source")
+          source=max(files,key=lambda p:p.stat().st_size)
+          print("SOURCE",source,source.stat().st_size)
+          shutil.copyfile(source,"/tmp/xau_wicks_m1.csv")
+          PY
+      - name: Evaluate wick/body ratio against structural-stop R outcomes
+        run: |
+          python -m py_compile research/study_wick_body_reversals.py
+          python research/study_wick_body_reversals.py /tmp/xau_wicks_m1.csv research/results_wick_body_reversals
+      - name: Commit wick/body study
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_wick_body_reversals/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save XAUUSD M5 M15 wick/body reversal statistics"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
