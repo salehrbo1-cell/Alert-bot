@@ -4,6 +4,7 @@ on:
     paths:
       - ".github/workflows/study-fast-moves.yml"
       - "research/study_fast_moves_m1.py"
+      - "research/study_precursors_m1.py"
   workflow_dispatch:
 permissions:
   contents: write
@@ -35,9 +36,10 @@ jobs:
           Path("/tmp/m1_source_path.txt").write_text(str(source))
           PY
           python research/study_fast_moves_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_fast_moves
+          python research/study_precursors_m1.py "$(cat /tmp/m1_source_path.txt)" research/results_precursors
       - name: Commit summary and event classifications (no raw large dataset)
         run: |
           git config user.name "research-data-bot"
           git config user.email "research-data-bot@users.noreply.github.com"
-          git add research/results_fast_moves/
+          git add research/results_fast_moves/ research/results_precursors/
           git diff --cached --quiet || (git commit -m "Save historical M1 fast-move research results" && git pull --rebase && git push)
