@@ -1,13 +1,13 @@
 {
   "source": "Dukascopy XAUUSD BID M1 (delayed feed, not broker's executable ask)",
-  "latest_available_utc": "2026-11-17T17:52:00+00:00",
-  "window_start_utc": "2026-11-17T13:52:00+00:00",
-  "window_end_utc": "2026-11-17T17:52:00+00:00",
+  "latest_available_utc": "2026-11-17T18:46:00+00:00",
+  "window_start_utc": "2026-11-17T14:46:00+00:00",
+  "window_end_utc": "2026-11-17T18:46:00+00:00",
   "bars": 241,
   "missing_minute_gaps": 0,
   "window_high": 3890.69,
-  "window_low": 3844.91,
-  "window_high_low_range": 45.78,
+  "window_low": 3854.82,
+  "window_high_low_range": 35.87,
   "independent_close_swings_reversal3": [
     {
       "direction": "up",
@@ -133,66 +133,6 @@
   "independent_close_swings_reversal5": [
     {
       "direction": "up",
-      "from_utc": "2026-11-17T13:53:00+00:00",
-      "from_price": 3846.3,
-      "to_utc": "2026-11-17T14:35:00+00:00",
-      "to_price": 3869.34,
-      "dollars": 23.03,
-      "duration_minutes": 42,
-      "start_pivot_confirmed_utc": "2026-11-17T14:00:00+00:00",
-      "start_pivot_confirmation_delay_min": 7,
-      "start_pivot_confirmation_price": 3851.64,
-      "observable_at_start_pivot_not_yet_confirmed": {
-        "last_closed_bar_utc": "2026-11-17T13:53:00+00:00",
-        "last_close_bid": 3846.305,
-        "previous_30m_high": 3859.4,
-        "previous_30m_low": 3836.655,
-        "average_1m_range_60": 2.354,
-        "current_1m_range": 2.165,
-        "current_range_vs_60m": 0.92,
-        "current_body": 0.52,
-        "upper_wick_ratio": 0.113,
-        "lower_wick_ratio": 0.647,
-        "close_change_3m": -1.285,
-        "close_change_5m": -0.7,
-        "close_change_15m": 5.965,
-        "closed_above_prior30m_high": false,
-        "closed_below_prior30m_low": false,
-        "failed_break_up_last_2bars": false,
-        "failed_break_down_last_2bars": false,
-        "early_stall_after_break_up": false,
-        "early_stall_after_break_down": false,
-        "signal_status": "research observation only; NOT a verified buy/sell signal"
-      },
-      "observable_at_confirmation": {
-        "last_closed_bar_utc": "2026-11-17T14:00:00+00:00",
-        "last_close_bid": 3851.64,
-        "previous_30m_high": 3857.045,
-        "previous_30m_low": 3836.655,
-        "average_1m_range_60": 2.454,
-        "current_1m_range": 2.012,
-        "current_range_vs_60m": 0.82,
-        "current_body": 0.572,
-        "upper_wick_ratio": 0.716,
-        "lower_wick_ratio": 0.0,
-        "close_change_3m": 2.722,
-        "close_change_5m": 2.555,
-        "close_change_15m": 4.635,
-        "closed_above_prior30m_high": false,
-        "closed_below_prior30m_low": false,
-        "failed_break_up_last_2bars": false,
-        "failed_break_down_last_2bars": false,
-        "early_stall_after_break_up": false,
-        "early_stall_after_break_down": false,
-        "signal_status": "research observation only; NOT a verified buy/sell signal"
-      },
-      "hypothetical_entry_after_confirmation": 3851.63,
-      "max_favorable_next60_after_confirmation": 21.41,
-      "max_adverse_next60_after_confirmation": 0.215,
-      "20target_5stop_next60": "win"
-    },
-    {
-      "direction": "up",
       "from_utc": "2026-11-17T15:16:00+00:00",
       "from_price": 3855.22,
       "to_utc": "2026-11-17T15:38:00+00:00",
@@ -313,75 +253,75 @@
     }
   ],
   "rolling_60m_20usd_opportunities_overlapping": {
-    "buy_overlapping_minutes": 63,
+    "buy_overlapping_minutes": 48,
     "sell_overlapping_minutes": 4
   },
   "rolling_60m_examples": [
     {
-      "entry_utc": "2026-11-17T13:53:00+00:00",
-      "entry": 3846.82,
-      "max_up_next60": 26.22,
-      "max_down_next60": 1.92
+      "entry_utc": "2026-11-17T14:47:00+00:00",
+      "entry": 3868.39,
+      "max_up_next60": 22.3,
+      "max_down_next60": 13.56
     },
     {
-      "entry_utc": "2026-11-17T13:54:00+00:00",
-      "entry": 3846.3,
-      "max_up_next60": 26.74,
-      "max_down_next60": 0.0
+      "entry_utc": "2026-11-17T14:48:00+00:00",
+      "entry": 3865.3,
+      "max_up_next60": 25.39,
+      "max_down_next60": 10.48
     },
     {
-      "entry_utc": "2026-11-17T13:55:00+00:00",
-      "entry": 3849.11,
-      "max_up_next60": 23.93,
-      "max_down_next60": 1.27
+      "entry_utc": "2026-11-17T14:49:00+00:00",
+      "entry": 3865.74,
+      "max_up_next60": 24.95,
+      "max_down_next60": 10.92
     },
     {
-      "entry_utc": "2026-11-17T13:56:00+00:00",
-      "entry": 3849.14,
-      "max_up_next60": 23.9,
-      "max_down_next60": 1.3
+      "entry_utc": "2026-11-17T14:50:00+00:00",
+      "entry": 3865.13,
+      "max_up_next60": 25.56,
+      "max_down_next60": 10.3
     },
     {
-      "entry_utc": "2026-11-17T13:57:00+00:00",
-      "entry": 3848.91,
-      "max_up_next60": 24.12,
-      "max_down_next60": 1.03
+      "entry_utc": "2026-11-17T14:51:00+00:00",
+      "entry": 3866.37,
+      "max_up_next60": 24.32,
+      "max_down_next60": 11.55
     },
     {
-      "entry_utc": "2026-11-17T13:58:00+00:00",
-      "entry": 3848.92,
-      "max_up_next60": 24.12,
-      "max_down_next60": 0.08
+      "entry_utc": "2026-11-17T14:52:00+00:00",
+      "entry": 3866.81,
+      "max_up_next60": 23.88,
+      "max_down_next60": 11.98
     },
     {
-      "entry_utc": "2026-11-17T13:59:00+00:00",
-      "entry": 3851.22,
-      "max_up_next60": 21.82,
-      "max_down_next60": 0.71
+      "entry_utc": "2026-11-17T14:53:00+00:00",
+      "entry": 3865.27,
+      "max_up_next60": 25.42,
+      "max_down_next60": 10.45
     },
     {
-      "entry_utc": "2026-11-17T14:00:00+00:00",
-      "entry": 3851.07,
-      "max_up_next60": 21.97,
-      "max_down_next60": 0.0
+      "entry_utc": "2026-11-17T14:54:00+00:00",
+      "entry": 3861.48,
+      "max_up_next60": 29.21,
+      "max_down_next60": 6.66
     }
   ],
   "latest_closed_bar_state": {
-    "last_closed_bar_utc": "2026-11-17T17:52:00+00:00",
-    "last_close_bid": 3865.168,
-    "previous_30m_high": 3871.208,
-    "previous_30m_low": 3863.438,
-    "average_1m_range_60": 1.611,
-    "current_1m_range": 0.927,
-    "current_range_vs_60m": 0.575,
-    "current_body": 0.52,
-    "upper_wick_ratio": 0.115,
-    "lower_wick_ratio": 0.324,
-    "close_change_3m": -0.327,
-    "close_change_5m": 1.341,
-    "close_change_15m": -2.42,
+    "last_closed_bar_utc": "2026-11-17T18:46:00+00:00",
+    "last_close_bid": 3855.177,
+    "previous_30m_high": 3863.33,
+    "previous_30m_low": 3856.377,
+    "average_1m_range_60": 1.207,
+    "current_1m_range": 1.917,
+    "current_range_vs_60m": 1.588,
+    "current_body": 1.875,
+    "upper_wick_ratio": 0.0,
+    "lower_wick_ratio": 0.022,
+    "close_change_3m": -2.008,
+    "close_change_5m": -1.598,
+    "close_change_15m": -6.791,
     "closed_above_prior30m_high": false,
-    "closed_below_prior30m_low": false,
+    "closed_below_prior30m_low": true,
     "failed_break_up_last_2bars": false,
     "failed_break_down_last_2bars": false,
     "early_stall_after_break_up": false,
