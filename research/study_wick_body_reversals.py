@@ -47,8 +47,8 @@ def one_trade(m1,starts,entry_t,side,stop_bid,atr,tf,n=6):
     pnl={1:None,2:None}
     prev=None
     end=entry_t+n*tf*M
-    for x in m1[idx:]:
-        if x[0]>=end:break
+    end_idx=bisect.bisect_left(starts,end,lo=idx)
+    for x in m1[idx:end_idx]:
         if prev is not None and x[0]!=prev[1]:
             for r in (1,2):
                 if pnl[r] is None:result[r]="gap"
