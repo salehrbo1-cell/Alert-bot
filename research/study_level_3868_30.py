@@ -172,7 +172,7 @@ def run(path,out):
     for center in (P-6,P-4,P-2,P,P+2,P+4,P+6):
         a=[x for x in focus if x[3]>=center-1 and x[4]<=center+1]
         bins.append(dict(center=rnd(center),bars_touching=len(a),
-            sum_feed_volume=rnd(sum(vol_by_t.get(x[0],0) for x in a))))
+            sum_feed_volume=(rnd(sum(vol_by_t.get(x[0],0) for x in a)) if vol_by_t else None)))
     results=dict(price=P,data=dict(first_utc=iso(m1[0][0]),last_utc=iso(m1[-1][0]),
         last_ksa=ksa(m1[-1][0]),m1=len(m1),m5=len(m5),m15=len(m15),h1=len(h1),h4=len(h4)),
         periods=periods,nearby_confirmed_pivots=near[:45],
@@ -184,12 +184,12 @@ def run(path,out):
             reset="Independent touch only after price closes at least 3 or 5 USD away, minimum 5 minutes separation",
             approach="Resistance approached from below, support approached from above; state known before touch",
             bounce="Within next 5/15/30/60 min: $3 in rejection direction before $2 against = reject_3_first",
-            break="Within next 5/15/30/60 min: $2 adverse before $3 favorable = break_2_first",
+            break_rule="Within next 5/15/30/60 min: $2 adverse before $3 favorable = break_2_first",
             incomplete="Insufficient future data not counted as success/failure",
             ambiguity="Both thresholds in same minute classified ambiguous",
             wick="M5/M15 bearish/bullish wick >= 1.5x candle body and candle closes back on approach side",
             htf_pivots="Strict k=3 H1, k=2 H4, k=2 M15 pivots confirmed only after right bars close",
-            volume="Feed volume is not centralized traded volume"),
+            volume="This Dukascopy download omits volume; any missing volume metric is null. No COMEX/order book volume is available."),
         caveats=["Price 3868.30 is not a point with infinite precision; broker spreads, liquidity and volatility create zones.",
             "Multiple retests of one level are not independent statistical samples.",
             "A resistance may flip to support after a confirmed break; count both separately.",
