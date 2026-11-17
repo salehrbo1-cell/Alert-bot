@@ -1,10 +1,10 @@
 {
   "source": "Dukascopy XAUUSD M1 BID, 2026-09-01 to 2026-11-17",
-  "raw_rows": 93526,
-  "nonflat_rows": 76034,
-  "eligible_signal_minutes": 70729,
+  "raw_rows": 93527,
+  "nonflat_rows": 76035,
+  "eligible_signal_minutes": 70730,
   "first_utc": "2026-09-01T00:00:00+00:00",
-  "last_utc": "2026-11-17T05:49:00+00:00",
+  "last_utc": "2026-11-17T05:50:00+00:00",
   "predefined_patterns": [
     "sweep_1bar",
     "false_break_2bar",
