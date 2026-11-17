@@ -1,0 +1,39 @@
+name: Download XAUUSD M15 history (research)
+on:
+  push:
+    paths:
+      - ".github/workflows/download-xau-m15.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download historical BID candles from Dukascopy
+        run: npx -y dukascopy-node -i xauusd -from 2026-10-18 -to 2026-11-18 -t m15 -f csv -p bid
+      - name: Preserve dataset
+        run: |
+          mkdir -p research
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files = list(Path("download").rglob("*.csv"))
+          if not files:
+              raise SystemExit("No CSV was downloaded")
+          source = max(files, key=lambda p: p.stat().st_size)
+          target = Path("research/XAUUSD_M15_BID_2026-10-18_to_2026-11-17.csv")
+          shutil.copyfile(source, target)
+          print(f"Saved {target} ({target.stat().st_size} bytes)")
+          PY
+      - name: Commit dataset to research folder
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add research/XAUUSD_M15_BID_2026-10-18_to_2026-11-17.csv
+          git diff --cached --quiet || (git commit -m "Download XAUUSD M15 historical data for backtesting" && git push)
