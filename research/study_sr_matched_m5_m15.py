@@ -116,9 +116,22 @@ def run(path):
                 return dict(n=len(rows),valid=len(a),target=s["target"],stop=s["stop"],
                     timeout=s["timeout"],censored=s["censored"],gap=s["gap"],
                     total_r=round(sum(a),3),mean_r=round(sum(a)/len(a),3) if a else None)
-            out[name]=dict(m15_all=q.summarize(m15t),m15_one_position=q.summarize(q.nonoverlap(m15t)),
-                m5_same_touches=oldstats(m5t),matched_touch_count=len(touched),
-                m15_signals=len(cs))
+            m5recalc=[]
+            for x in m5t:
+                at=b.ts(x["signal"])
+                result=q.simulate(m1,starts,at,x["side"],float(x["stop_bid"]),float(x["target_bid"]))
+                if result.get("planned_rr") is None:continue
+                m5recalc.append(dict(entry_t=at,period=x["period"],result=result))
+            out[name]=dict(m15_all=q.summarize(m15t),
+                m15_one_position=q.summarize(q.nonoverlap(m15t)),
+                m5_same_touches=oldstats(m5t),
+                m5_recalculated=q.summarize(m5recalc),
+                m5_one_position=q.summarize(q.nonoverlap(m5recalc)),
+                m15_train=q.summarize([x for x in m15t if x["period"]=="train"]),
+                m15_test=q.summarize([x for x in m15t if x["period"]=="test"]),
+                m5_train=q.summarize([x for x in m5recalc if x["period"]=="train"]),
+                m5_test=q.summarize([x for x in m5recalc if x["period"]=="test"]),
+                matched_touch_count=len(touched),m15_signals=len(cs))
     dest=p/"matched_m5_touch_comparison.json"
     dest.write_text(json.dumps(dict(counts=dict(counts),results=out,
         methodology="Same pre-detected independent M5 touches; M15 confirmation within <=60m, duplicates at same zone/close merged; causal target levels; M5 original trades subset of identical touch timestamps"),indent=2))
