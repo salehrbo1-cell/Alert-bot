@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - ".github/workflows/research-backtest.yml"
+      - "research/backtest_resistance.py"
   workflow_dispatch:
 permissions:
   contents: write
@@ -18,20 +19,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Download 6.5 months of M15 BID candles
-        run: npx -y dukascopy-node -i xauusd -from 2026-05-01 -to 2026-11-18 -t m15 -f csv -p bid
+      - name: Download 6.5 months of M15 BID candles when absent
+        run: |
+          if [ ! -s research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv ]; then
+            npx -y dukascopy-node -i xauusd -from 2026-05-01 -to 2026-11-18 -t m15 -f csv -p bid
+          fi
       - name: Run no-lookahead historical study
         run: |
           python - <<'PY'
           from pathlib import Path
           import shutil
-          files = list(Path("download").rglob("*.csv"))
-          if not files:
-              raise SystemExit("No CSV downloaded")
-          source = max(files, key=lambda p: p.stat().st_size)
           target = Path("research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv")
-          shutil.copyfile(source, target)
-          print(f"Downloaded {target.stat().st_size} bytes from {source}")
+          if not target.is_file():
+              files = list(Path("download").rglob("*.csv"))
+              if not files:
+                  raise SystemExit("No CSV downloaded")
+              source = max(files, key=lambda p: p.stat().st_size)
+              shutil.copyfile(source, target)
+          print(f"Using {target} ({target.stat().st_size} bytes)")
           PY
           python research/backtest_resistance.py research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv research/results
       - name: Save reproducible dataset and backtest outputs
