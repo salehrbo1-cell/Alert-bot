@@ -3,13 +3,13 @@
   "start_utc": "2026-09-17T09:00:00+00:00",
   "end_utc": "2026-11-17T09:00:00+00:00",
   "data": {
-    "m1": 93809,
-    "m15": 6250,
-    "h1": 1559,
-    "h4": 383,
+    "m1": 93810,
+    "m15": 6251,
+    "h1": 1560,
+    "h4": 384,
     "last_utc": "2026-11-17T10:32:00+00:00",
     "htf_pivots": 261,
-    "m15_pivots": 634
+    "m15_pivots": 635
   },
   "assumptions": {
     "sweep": "H1/H4 confirmed swing wick-only sweep; same as V1",
@@ -36,7 +36,7 @@
   "variants": {
     "ifvg_immediate": {
       "stage_counts": {
-        "sweep": 402,
+        "sweep": 404,
         "poi": 285,
         "sweep_run_origin": 168,
         "ifvg": 67,
@@ -91,7 +91,7 @@
     },
     "ifvg_one_closed_bar_hold": {
       "stage_counts": {
-        "sweep": 402,
+        "sweep": 404,
         "poi": 285,
         "sweep_run_origin": 168,
         "ifvg": 59,
