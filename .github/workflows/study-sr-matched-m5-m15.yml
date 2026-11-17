@@ -1,0 +1,48 @@
+name: Matched M5 touch M15 confirmation gold backtest
+on:
+  push:
+    paths:
+      - ".github/workflows/study-sr-matched-m5-m15.yml"
+      - "research/study_sr_matched_m5_m15.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: research-sr-matched-m5-m15
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download XAUUSD BID M1 plus warmup
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-10-01 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("Missing M1")
+          shutil.copyfile(max(files,key=lambda p:p.stat().st_size),"/tmp/xau_m1.csv")
+          PY
+      - name: Run matched M5 touch vs M15 confirmation study
+        run: |
+          python -m py_compile research/study_sr_matched_m5_m15.py
+          python research/study_sr_matched_m5_m15.py /tmp/xau_m1.csv
+      - name: Save matched results
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_sr_retests_m5_m15/matched_m5_touch_comparison.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save matched M5 touch M15 confirmation sensitivity"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
