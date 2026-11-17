@@ -144,12 +144,32 @@ def scenarios():
     out.append(dict(id='limit_edge_cisd_stop_rr2_london_ny',mode='limit',stop='cisd_candle',session=True,rr=True,scope='all',location='near_edge'))
     out.append(dict(id='limit_mid_cisd_stop_rr2_london_ny_htf_target',mode='limit',stop='cisd_candle',session=True,rr=True,scope='htf_only',location='midpoint'))
     return out
+def nearest_target_fast(s,entry_bid,at,pivots,spread,scope):
+    target_side='sell_target' if s['side']=='sell' else 'buy_target'
+    choices=[]
+    for p in pivots:
+        if p['side']!=target_side or p['avail']>=at or p['consumed']<=at:continue
+        if scope=='htf_only' and p['tf']=='M15':continue
+        if s['side']=='sell' and p['price']>=entry_bid-1:continue
+        if s['side']=='buy' and p['price']<=entry_bid+spread+1:continue
+        choices.append(p)
+    if not choices:return None
+    return max(choices,key=lambda p:p['price']) if s['side']=='sell' else min(choices,key=lambda p:p['price'])
+
 def build_candidates(m1,m15,h1,h4):
     htf_pivots,zones=b.build_htf(h1,h4)
     sweeps=b.sweeps(h1,h4,htf_pivots);gaps=b.m15_gaps(m15)
     ends=[x[1] for x in m15]
     pivots=v2.pivot15(m15)+[dict(tf=p['tf'],side='sell_target' if p['side']=='buy' else 'buy_target',
         price=p['price'],avail=p['avail'],id=p['id']) for p in htf_pivots]
+    # Cache first post-confirmation touch of each prior liquidity swing.
+    # This matches v2's m15[k:i] check but avoids repeated long scans.
+    for p in pivots:
+        k=bisect.bisect_right(ends,p['avail'])
+        p['consumed']=10**18
+        for bar in m15[k:]:
+            if (p['side']=='sell_target' and bar[4]<=p['price']) or (p['side']=='buy_target' and bar[3]>=p['price']):
+                p['consumed']=bar[1];break
     stages=Counter();candidates=[]
     for s in sweeps:
         stages['sweep']+=1
@@ -193,7 +213,7 @@ def run(path,out):
             else:
                 quote_bid=limit_quote(inv,side,cfg['location'])
                 if side=='buy':quote_bid-=SPREAD # ask limit is IFVG level
-            target=v2.nearest_target(s,quote_bid,at,pivots,m15,ends,SPREAD,cfg['scope'])
+            target=nearest_target_fast(s,quote_bid,at,pivots,SPREAD,cfg['scope'])
             if target is None:
                 counts['no_opposing_liquidity']+=1;continue
             risk,reward=prices(side,quote_bid,stop,target['price'])
