@@ -229,14 +229,20 @@ def main():
             if min(abs(x["c"]-p) for x in cs[i-2:i+1]) > max(
                     2*(ind["atr"][i] or 0), p*0.004):
                 continue
+            # Compare the momentum filter on exactly the SAME baseline events.
+            # Independent cooldowns caused a biased, unmatched comparison.
+            baseline_side = classify(cs, i, lev, ind, False)
+            if not baseline_side:
+                continue
+            key = (baseline_side, round(math.log(p)/0.002))
+            if t - cooldown.get(key, -10**15) < COOLDOWN_MS:
+                continue
+            cooldown[key] = t
+            filtered_side = classify(cs, i, lev, ind, True)
             for filtered in (False, True):
-                side = classify(cs, i, lev, ind, filtered)
-                if not side:
+                if filtered and filtered_side != baseline_side:
                     continue
-                key = (filtered, side, round(math.log(p)/0.002))
-                if t - cooldown.get(key, -10**15) < COOLDOWN_MS:
-                    continue
-                cooldown[key] = t
+                side = baseline_side
                 # Use fixed $5 first-touch and ATR-normalized alternative.
                 outcome5 = outcome(cs, i, side, 5.0, 8)
                 atr_dist = max(5, (ind["atr"][i] or 0)*0.75)
@@ -262,7 +268,7 @@ def main():
         "flat_synthetic_removed": len(raw)-len(cs),
         "first_utc": datetime.fromtimestamp(cs[0]["t"]/1000, timezone.utc).isoformat(),
         "last_utc": datetime.fromtimestamp(cs[-1]["t"]/1000, timezone.utc).isoformat(),
-        "method": "historically confirmed H1/H4/D1 pivots (score>=5), M15 closed, entry next open, target/stop +/-$5, 8 M15 candles, no spread/slippage",
+        "method": "historically confirmed H1/H4/D1 pivots (score>=5), M15 closed, entry next open, target/stop +/-$5, 8 M15 candles, no spread/slippage; momentum-filtered events are matched subset of baseline",
         "warnings": [
             "Dukascopy BID feed differs from bot Twelve Data feed.",
             "UTC H4/daily boundaries may differ from broker.",
