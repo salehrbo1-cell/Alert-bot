@@ -1,0 +1,29 @@
+name: Audit M5 M15 support resistance backtest
+on:
+  push:
+    paths:
+      - ".github/workflows/audit-sr-retests-m5-m15.yml"
+      - "research/audit_sr_retests_m5_m15.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit trade R, touch counts and screenshot zone
+        run: python research/audit_sr_retests_m5_m15.py
+      - name: Commit audit results
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_sr_retests_m5_m15/audit.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Audit M5 M15 strong level retests and trade distribution"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
