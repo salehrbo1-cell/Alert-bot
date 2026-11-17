@@ -1,0 +1,43 @@
+name: Research V3 12-month IFVG limit versus market
+on:
+  push:
+    paths:
+      - ".github/workflows/study-sweep-poi-ifvg-cisd-v3-12mo.yml"
+      - "research/study_sweep_poi_ifvg_cisd_v3_12mo.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: xau-four-stage-v3-12mo
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download 12 months M1 BID gold with HTF warmup
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-10-01 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("Dukascopy M1 CSV missing")
+          source=max(files,key=lambda p:p.stat().st_size)
+          print("Source",source,"bytes",source.stat().st_size)
+          shutil.copyfile(source,"/tmp/gold_m1.csv")
+          PY
+      - name: Run full-year sensitivity and export R distributions
+        run: |
+          python -m py_compile research/study_sweep_poi_ifvg_cisd_v3.py research/study_sweep_poi_ifvg_cisd_v3_12mo.py
+          python research/study_sweep_poi_ifvg_cisd_v3_12mo.py /tmp/gold_m1.csv research/results_sweep_poi_ifvg_cisd_v3_12mo
+      - name: Commit full-year research results
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add research/results_sweep_poi_ifvg_cisd_v3_12mo/
+          git diff --cached --quiet || (git commit -m "Save 12-month IFVG limit 2R session-filter research" && git pull --rebase && git push)
