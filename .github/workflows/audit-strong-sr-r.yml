@@ -1,0 +1,29 @@
+name: Audit R distribution for strong support resistance
+on:
+  push:
+    paths:
+      - ".github/workflows/audit-strong-sr-r.yml"
+      - "research/summarize_strong_sr_trades.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Summarize R values, top outliers and test period
+        run: python research/summarize_strong_sr_trades.py
+      - name: Save distribution audit
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_strong_sr_bounces/r_distribution.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Audit R distribution of strong support resistance trades"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
