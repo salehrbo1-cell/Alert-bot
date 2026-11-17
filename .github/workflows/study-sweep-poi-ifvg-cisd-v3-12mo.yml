@@ -39,5 +39,12 @@ jobs:
         run: |
           git config user.name "research-data-bot"
           git config user.email "research-data-bot@users.noreply.github.com"
-          git add research/results_sweep_poi_ifvg_cisd_v3_12mo/
-          git diff --cached --quiet || (git commit -m "Save 12-month IFVG limit 2R session-filter research" && git pull --rebase && git push)
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_sweep_poi_ifvg_cisd_v3_12mo/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save 12-month IFVG limit 2R session-filter research"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
