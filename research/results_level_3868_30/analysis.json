@@ -1,0 +1,2764 @@
+{
+  "price": 3868.3,
+  "data": {
+    "first_utc": "2026-11-10T00:00:00+00:00",
+    "last_utc": "2026-11-17T15:13:00+00:00",
+    "last_ksa": "2026-11-17 18:13",
+    "m1": 9430,
+    "m5": 1882,
+    "m15": 624,
+    "h1": 153,
+    "h4": 34
+  },
+  "periods": {
+    "2026-11-12": {
+      "ohlc": {
+        "first_ksa": "2026-11-12 00:00",
+        "last_ksa": "2026-11-12 23:59",
+        "n": 1440,
+        "open": 3985.091,
+        "high": 4000.33,
+        "low": 3852.348,
+        "close": 3874.625
+      },
+      "M1": {
+        "width_0.5": {
+          "total": 1440,
+          "close_above": 1376,
+          "close_below": 53,
+          "close_inside": 11,
+          "crossed_up": 5,
+          "crossed_down": 5
+        },
+        "width_1.0": {
+          "total": 1440,
+          "close_above": 1376,
+          "close_below": 48,
+          "close_inside": 16,
+          "crossed_up": 5,
+          "crossed_down": 5
+        },
+        "width_1.5": {
+          "total": 1440,
+          "close_above": 1371,
+          "close_below": 44,
+          "close_inside": 25,
+          "crossed_up": 4,
+          "crossed_down": 4
+        }
+      },
+      "M5": {
+        "width_0.5": {
+          "total": 288,
+          "close_above": 277,
+          "close_below": 9,
+          "close_inside": 2,
+          "crossed_up": 2,
+          "crossed_down": 2
+        },
+        "width_1.0": {
+          "total": 288,
+          "close_above": 277,
+          "close_below": 9,
+          "close_inside": 2,
+          "crossed_up": 2,
+          "crossed_down": 2
+        },
+        "width_1.5": {
+          "total": 288,
+          "close_above": 276,
+          "close_below": 8,
+          "close_inside": 4,
+          "crossed_up": 1,
+          "crossed_down": 1
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 0,
+            "samples": []
+          },
+          "S": {
+            "count": 2,
+            "samples": [
+              {
+                "t": "2026-11-12 18:00",
+                "o": 3869.615,
+                "h": 3873.095,
+                "l": 3864.995,
+                "c": 3870.56,
+                "wick_body": 4.889
+              },
+              {
+                "t": "2026-11-12 19:00",
+                "o": 3870.065,
+                "h": 3870.945,
+                "l": 3867.015,
+                "c": 3870.715,
+                "wick_body": 4.692
+              }
+            ]
+          }
+        },
+        "atr14_last": 3.033
+      },
+      "M15": {
+        "width_0.5": {
+          "total": 96,
+          "close_above": 93,
+          "close_below": 2,
+          "close_inside": 1,
+          "crossed_up": 1,
+          "crossed_down": 1
+        },
+        "width_1.0": {
+          "total": 96,
+          "close_above": 93,
+          "close_below": 2,
+          "close_inside": 1,
+          "crossed_up": 1,
+          "crossed_down": 1
+        },
+        "width_1.5": {
+          "total": 96,
+          "close_above": 92,
+          "close_below": 2,
+          "close_inside": 2,
+          "crossed_up": 1,
+          "crossed_down": 1
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 0,
+            "samples": []
+          },
+          "S": {
+            "count": 0,
+            "samples": []
+          }
+        },
+        "atr14_last": 5.863
+      }
+    },
+    "2026-11-13": {
+      "ohlc": {
+        "first_ksa": "2026-11-13 00:00",
+        "last_ksa": "2026-11-13 23:59",
+        "n": 1439,
+        "open": 3874.665,
+        "high": 3922.995,
+        "low": 3867.637,
+        "close": 3878.187
+      },
+      "M1": {
+        "width_0.5": {
+          "total": 1439,
+          "close_above": 1438,
+          "close_below": 0,
+          "close_inside": 1,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.0": {
+          "total": 1439,
+          "close_above": 1438,
+          "close_below": 0,
+          "close_inside": 1,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.5": {
+          "total": 1439,
+          "close_above": 1438,
+          "close_below": 0,
+          "close_inside": 1,
+          "crossed_up": 0,
+          "crossed_down": 0
+        }
+      },
+      "M5": {
+        "width_0.5": {
+          "total": 287,
+          "close_above": 287,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.0": {
+          "total": 287,
+          "close_above": 287,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.5": {
+          "total": 287,
+          "close_above": 287,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 0,
+            "samples": []
+          },
+          "S": {
+            "count": 0,
+            "samples": []
+          }
+        },
+        "atr14_last": 3.086
+      },
+      "M15": {
+        "width_0.5": {
+          "total": 95,
+          "close_above": 95,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.0": {
+          "total": 95,
+          "close_above": 95,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "width_1.5": {
+          "total": 95,
+          "close_above": 95,
+          "close_below": 0,
+          "close_inside": 0,
+          "crossed_up": 0,
+          "crossed_down": 0
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 0,
+            "samples": []
+          },
+          "S": {
+            "count": 0,
+            "samples": []
+          }
+        },
+        "atr14_last": 4.892
+      }
+    },
+    "2026-11-16": {
+      "ohlc": {
+        "first_ksa": "2026-11-16 00:00",
+        "last_ksa": "2026-11-16 23:59",
+        "n": 1439,
+        "open": 3878.948,
+        "high": 3901.06,
+        "low": 3832.138,
+        "close": 3851.355
+      },
+      "M1": {
+        "width_0.5": {
+          "total": 1439,
+          "close_above": 658,
+          "close_below": 731,
+          "close_inside": 50,
+          "crossed_up": 15,
+          "crossed_down": 16
+        },
+        "width_1.0": {
+          "total": 1439,
+          "close_above": 641,
+          "close_below": 696,
+          "close_inside": 102,
+          "crossed_up": 12,
+          "crossed_down": 13
+        },
+        "width_1.5": {
+          "total": 1439,
+          "close_above": 620,
+          "close_below": 677,
+          "close_inside": 142,
+          "crossed_up": 11,
+          "crossed_down": 12
+        }
+      },
+      "M5": {
+        "width_0.5": {
+          "total": 287,
+          "close_above": 131,
+          "close_below": 148,
+          "close_inside": 8,
+          "crossed_up": 9,
+          "crossed_down": 10
+        },
+        "width_1.0": {
+          "total": 287,
+          "close_above": 127,
+          "close_below": 141,
+          "close_inside": 19,
+          "crossed_up": 7,
+          "crossed_down": 8
+        },
+        "width_1.5": {
+          "total": 287,
+          "close_above": 125,
+          "close_below": 138,
+          "close_inside": 24,
+          "crossed_up": 6,
+          "crossed_down": 7
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 4,
+            "samples": [
+              {
+                "t": "2026-11-16 13:40",
+                "o": 3866.679,
+                "h": 3869.095,
+                "l": 3865.998,
+                "c": 3866.298,
+                "wick_body": 6.341
+              },
+              {
+                "t": "2026-11-16 16:20",
+                "o": 3865.468,
+                "h": 3868.2,
+                "l": 3861.945,
+                "c": 3865.035,
+                "wick_body": 6.309
+              },
+              {
+                "t": "2026-11-16 18:30",
+                "o": 3864.86,
+                "h": 3868.34,
+                "l": 3863.288,
+                "c": 3864.136,
+                "wick_body": 4.807
+              },
+              {
+                "t": "2026-11-16 20:10",
+                "o": 3866.705,
+                "h": 3868.878,
+                "l": 3865.985,
+                "c": 3866.085,
+                "wick_body": 3.505
+              }
+            ]
+          },
+          "S": {
+            "count": 4,
+            "samples": [
+              {
+                "t": "2026-11-16 04:10",
+                "o": 3872.055,
+                "h": 3876.73,
+                "l": 3868.525,
+                "c": 3872.24,
+                "wick_body": 19.081
+              },
+              {
+                "t": "2026-11-16 04:15",
+                "o": 3872.256,
+                "h": 3876.18,
+                "l": 3866.55,
+                "c": 3872.735,
+                "wick_body": 11.912
+              },
+              {
+                "t": "2026-11-16 04:35",
+                "o": 3870.925,
+                "h": 3875.373,
+                "l": 3867.663,
+                "c": 3871.4,
+                "wick_body": 6.867
+              },
+              {
+                "t": "2026-11-16 06:10",
+                "o": 3870.116,
+                "h": 3871.687,
+                "l": 3867.327,
+                "c": 3871.034,
+                "wick_body": 3.038
+              }
+            ]
+          }
+        },
+        "atr14_last": 2.783
+      },
+      "M15": {
+        "width_0.5": {
+          "total": 95,
+          "close_above": 44,
+          "close_below": 49,
+          "close_inside": 2,
+          "crossed_up": 5,
+          "crossed_down": 6
+        },
+        "width_1.0": {
+          "total": 95,
+          "close_above": 41,
+          "close_below": 48,
+          "close_inside": 6,
+          "crossed_up": 3,
+          "crossed_down": 4
+        },
+        "width_1.5": {
+          "total": 95,
+          "close_above": 41,
+          "close_below": 47,
+          "close_inside": 7,
+          "crossed_up": 3,
+          "crossed_down": 4
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 0,
+            "samples": []
+          },
+          "S": {
+            "count": 4,
+            "samples": [
+              {
+                "t": "2026-11-16 04:15",
+                "o": 3872.256,
+                "h": 3879.25,
+                "l": 3866.55,
+                "c": 3874.829,
+                "wick_body": 2.218
+              },
+              {
+                "t": "2026-11-16 04:30",
+                "o": 3875.0,
+                "h": 3878.68,
+                "l": 3867.663,
+                "c": 3876.777,
+                "wick_body": 4.129
+              },
+              {
+                "t": "2026-11-16 06:30",
+                "o": 3870.407,
+                "h": 3872.724,
+                "l": 3862.49,
+                "c": 3872.088,
+                "wick_body": 4.71
+              },
+              {
+                "t": "2026-11-16 07:15",
+                "o": 3872.575,
+                "h": 3874.516,
+                "l": 3868.428,
+                "c": 3873.628,
+                "wick_body": 3.938
+              }
+            ]
+          }
+        },
+        "atr14_last": 6.803
+      }
+    },
+    "2026-11-17": {
+      "ohlc": {
+        "first_ksa": "2026-11-17 00:00",
+        "last_ksa": "2026-11-17 18:13",
+        "n": 1093,
+        "open": 3851.355,
+        "high": 3886.575,
+        "low": 3836.655,
+        "close": 3857.398
+      },
+      "M1": {
+        "width_0.5": {
+          "total": 1093,
+          "close_above": 313,
+          "close_below": 742,
+          "close_inside": 38,
+          "crossed_up": 9,
+          "crossed_down": 9
+        },
+        "width_1.0": {
+          "total": 1093,
+          "close_above": 300,
+          "close_below": 731,
+          "close_inside": 62,
+          "crossed_up": 7,
+          "crossed_down": 7
+        },
+        "width_1.5": {
+          "total": 1093,
+          "close_above": 286,
+          "close_below": 699,
+          "close_inside": 108,
+          "crossed_up": 6,
+          "crossed_down": 6
+        }
+      },
+      "M5": {
+        "width_0.5": {
+          "total": 217,
+          "close_above": 63,
+          "close_below": 145,
+          "close_inside": 9,
+          "crossed_up": 5,
+          "crossed_down": 5
+        },
+        "width_1.0": {
+          "total": 217,
+          "close_above": 62,
+          "close_below": 143,
+          "close_inside": 12,
+          "crossed_up": 5,
+          "crossed_down": 5
+        },
+        "width_1.5": {
+          "total": 217,
+          "close_above": 60,
+          "close_below": 136,
+          "close_inside": 21,
+          "crossed_up": 5,
+          "crossed_down": 5
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 5,
+            "samples": [
+              {
+                "t": "2026-11-17 05:05",
+                "o": 3865.863,
+                "h": 3867.91,
+                "l": 3863.753,
+                "c": 3864.883,
+                "wick_body": 2.089
+              },
+              {
+                "t": "2026-11-17 05:50",
+                "o": 3864.56,
+                "h": 3867.54,
+                "l": 3861.955,
+                "c": 3863.45,
+                "wick_body": 2.685
+              },
+              {
+                "t": "2026-11-17 11:05",
+                "o": 3867.025,
+                "h": 3868.135,
+                "l": 3865.228,
+                "c": 3866.485,
+                "wick_body": 2.056
+              },
+              {
+                "t": "2026-11-17 11:35",
+                "o": 3866.53,
+                "h": 3867.658,
+                "l": 3864.537,
+                "c": 3865.971,
+                "wick_body": 2.018
+              },
+              {
+                "t": "2026-11-17 17:50",
+                "o": 3865.127,
+                "h": 3872.443,
+                "l": 3860.175,
+                "c": 3862.635,
+                "wick_body": 2.936
+              }
+            ]
+          },
+          "S": {
+            "count": 2,
+            "samples": [
+              {
+                "t": "2026-11-17 06:00",
+                "o": 3870.025,
+                "h": 3871.227,
+                "l": 3867.655,
+                "c": 3870.275,
+                "wick_body": 9.48
+              },
+              {
+                "t": "2026-11-17 07:10",
+                "o": 3869.945,
+                "h": 3870.88,
+                "l": 3869.069,
+                "c": 3870.078,
+                "wick_body": 6.586
+              }
+            ]
+          }
+        },
+        "atr14_last": 6.695
+      },
+      "M15": {
+        "width_0.5": {
+          "total": 71,
+          "close_above": 22,
+          "close_below": 45,
+          "close_inside": 4,
+          "crossed_up": 3,
+          "crossed_down": 3
+        },
+        "width_1.0": {
+          "total": 71,
+          "close_above": 22,
+          "close_below": 45,
+          "close_inside": 4,
+          "crossed_up": 3,
+          "crossed_down": 3
+        },
+        "width_1.5": {
+          "total": 71,
+          "close_above": 20,
+          "close_below": 44,
+          "close_inside": 7,
+          "crossed_up": 2,
+          "crossed_down": 2
+        },
+        "wick_rejections": {
+          "R": {
+            "count": 1,
+            "samples": [
+              {
+                "t": "2026-11-17 05:30",
+                "o": 3863.325,
+                "h": 3868.74,
+                "l": 3861.983,
+                "c": 3862.367,
+                "wick_body": 5.652
+              }
+            ]
+          },
+          "S": {
+            "count": 0,
+            "samples": []
+          }
+        },
+        "atr14_last": 9.092
+      }
+    }
+  },
+  "nearby_confirmed_pivots": [
+    {
+      "tf": "M15",
+      "kind": "swing_high",
+      "price": 3867.945,
+      "occurred_ksa": "2026-11-17 12:45",
+      "confirmed_ksa": "2026-11-17 13:30",
+      "diff_from_3868": -0.355
+    },
+    {
+      "tf": "H1",
+      "kind": "swing_low",
+      "price": 3867.637,
+      "occurred_ksa": "2026-11-13 19:00",
+      "confirmed_ksa": "2026-11-13 23:00",
+      "diff_from_3868": -0.663
+    },
+    {
+      "tf": "H4",
+      "kind": "swing_low",
+      "price": 3867.637,
+      "occurred_ksa": "2026-11-13 19:00",
+      "confirmed_ksa": "2026-11-15 11:00",
+      "diff_from_3868": -0.663
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_low",
+      "price": 3867.637,
+      "occurred_ksa": "2026-11-13 19:00",
+      "confirmed_ksa": "2026-11-13 19:45",
+      "diff_from_3868": -0.663
+    },
+    {
+      "tf": "H1",
+      "kind": "swing_low",
+      "price": 3869.308,
+      "occurred_ksa": "2026-11-14 00:00",
+      "confirmed_ksa": "2026-11-15 06:00",
+      "diff_from_3868": 1.008
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_low",
+      "price": 3869.308,
+      "occurred_ksa": "2026-11-14 00:00",
+      "confirmed_ksa": "2026-11-14 00:45",
+      "diff_from_3868": 1.008
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_low",
+      "price": 3869.955,
+      "occurred_ksa": "2026-11-17 09:45",
+      "confirmed_ksa": "2026-11-17 10:30",
+      "diff_from_3868": 1.655
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_low",
+      "price": 3870.075,
+      "occurred_ksa": "2026-11-12 20:15",
+      "confirmed_ksa": "2026-11-12 21:00",
+      "diff_from_3868": 1.775
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_high",
+      "price": 3866.438,
+      "occurred_ksa": "2026-11-16 22:30",
+      "confirmed_ksa": "2026-11-16 23:15",
+      "diff_from_3868": -1.862
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_high",
+      "price": 3870.816,
+      "occurred_ksa": "2026-11-16 20:15",
+      "confirmed_ksa": "2026-11-16 21:00",
+      "diff_from_3868": 2.516
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_high",
+      "price": 3870.863,
+      "occurred_ksa": "2026-11-17 14:45",
+      "confirmed_ksa": "2026-11-17 15:30",
+      "diff_from_3868": 2.563
+    },
+    {
+      "tf": "M15",
+      "kind": "swing_low",
+      "price": 3865.475,
+      "occurred_ksa": "2026-11-12 19:30",
+      "confirmed_ksa": "2026-11-12 20:15",
+      "diff_from_3868": -2.825
+    }
+  ],
+  "independent_touch_sensitivity": {
+    "halfwidth_0.5_reset_3.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 10,
+          "outcome_30m": {
+            "break_2_first": 6,
+            "reject_3_first": 4
+          },
+          "median_30m_close_move": 1.115,
+          "median_30m_favorable_excursion": 2.729,
+          "first_touches": [
+            "2026-11-16 06:42",
+            "2026-11-16 08:04",
+            "2026-11-16 08:41",
+            "2026-11-16 13:40",
+            "2026-11-16 16:20",
+            "2026-11-16 16:25",
+            "2026-11-16 17:19",
+            "2026-11-16 17:30",
+            "2026-11-16 18:32",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 17,
+          "outcome_30m": {
+            "reject_3_first": 10,
+            "break_2_first": 7
+          },
+          "median_30m_close_move": 4.449,
+          "median_30m_favorable_excursion": 7.07,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:22",
+            "2026-11-16 04:36",
+            "2026-11-16 04:56",
+            "2026-11-16 06:06",
+            "2026-11-16 06:26",
+            "2026-11-16 07:21",
+            "2026-11-16 07:52",
+            "2026-11-16 08:30",
+            "2026-11-16 15:08",
+            "2026-11-16 15:33",
+            "2026-11-16 16:12",
+            "2026-11-16 16:37"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 11,
+          "outcome_30m": {
+            "reject_3_first": 7,
+            "break_2_first": 3,
+            "incomplete": 1
+          },
+          "median_30m_close_move": 0.16,
+          "median_30m_favorable_excursion": 6.345,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 05:06",
+            "2026-11-17 05:38",
+            "2026-11-17 05:48",
+            "2026-11-17 05:58",
+            "2026-11-17 07:34",
+            "2026-11-17 11:28",
+            "2026-11-17 12:47",
+            "2026-11-17 14:47",
+            "2026-11-17 17:33",
+            "2026-11-17 17:45"
+          ]
+        },
+        "S": {
+          "touches": 4,
+          "outcome_30m": {
+            "break_2_first": 4
+          },
+          "median_30m_close_move": -3.535,
+          "median_30m_favorable_excursion": 2.14,
+          "first_touches": [
+            "2026-11-17 05:21",
+            "2026-11-17 07:02",
+            "2026-11-17 11:02",
+            "2026-11-17 11:57"
+          ]
+        }
+      }
+    },
+    "halfwidth_0.5_reset_5.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 4,
+          "outcome_30m": {
+            "break_2_first": 3,
+            "reject_3_first": 1
+          },
+          "median_30m_close_move": -7.28,
+          "median_30m_favorable_excursion": 2.517,
+          "first_touches": [
+            "2026-11-16 13:40",
+            "2026-11-16 17:19",
+            "2026-11-16 17:30",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 12,
+          "outcome_30m": {
+            "reject_3_first": 8,
+            "break_2_first": 4
+          },
+          "median_30m_close_move": 3.695,
+          "median_30m_favorable_excursion": 7.141,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:36",
+            "2026-11-16 04:56",
+            "2026-11-16 06:06",
+            "2026-11-16 07:21",
+            "2026-11-16 08:30",
+            "2026-11-16 15:08",
+            "2026-11-16 15:33",
+            "2026-11-16 16:37",
+            "2026-11-16 18:20"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 9,
+          "outcome_30m": {
+            "reject_3_first": 7,
+            "break_2_first": 2
+          },
+          "median_30m_close_move": 1.487,
+          "median_30m_favorable_excursion": 6.345,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 05:06",
+            "2026-11-17 05:38",
+            "2026-11-17 05:48",
+            "2026-11-17 05:58",
+            "2026-11-17 11:28",
+            "2026-11-17 12:47",
+            "2026-11-17 14:47",
+            "2026-11-17 17:33"
+          ]
+        },
+        "S": {
+          "touches": 2,
+          "outcome_30m": {
+            "break_2_first": 2
+          },
+          "median_30m_close_move": -2.273,
+          "median_30m_favorable_excursion": 2.24,
+          "first_touches": [
+            "2026-11-17 07:02",
+            "2026-11-17 11:02"
+          ]
+        }
+      }
+    },
+    "halfwidth_1.0_reset_3.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 10,
+          "outcome_30m": {
+            "break_2_first": 6,
+            "reject_3_first": 4
+          },
+          "median_30m_close_move": 1.59,
+          "median_30m_favorable_excursion": 2.729,
+          "first_touches": [
+            "2026-11-16 06:42",
+            "2026-11-16 08:04",
+            "2026-11-16 08:41",
+            "2026-11-16 13:40",
+            "2026-11-16 16:25",
+            "2026-11-16 17:19",
+            "2026-11-16 17:30",
+            "2026-11-16 18:32",
+            "2026-11-16 18:45",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 15,
+          "outcome_30m": {
+            "reject_3_first": 10,
+            "break_2_first": 5
+          },
+          "median_30m_close_move": 4.449,
+          "median_30m_favorable_excursion": 7.212,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:22",
+            "2026-11-16 04:36",
+            "2026-11-16 04:55",
+            "2026-11-16 06:06",
+            "2026-11-16 07:21",
+            "2026-11-16 07:52",
+            "2026-11-16 08:30",
+            "2026-11-16 15:07",
+            "2026-11-16 15:33",
+            "2026-11-16 16:10",
+            "2026-11-16 16:35",
+            "2026-11-16 18:20"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 12,
+          "outcome_30m": {
+            "reject_3_first": 9,
+            "break_2_first": 3
+          },
+          "median_30m_close_move": -0.561,
+          "median_30m_favorable_excursion": 6.345,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 04:59",
+            "2026-11-17 05:06",
+            "2026-11-17 05:37",
+            "2026-11-17 05:48",
+            "2026-11-17 05:53",
+            "2026-11-17 05:58",
+            "2026-11-17 07:34",
+            "2026-11-17 11:26",
+            "2026-11-17 12:44",
+            "2026-11-17 14:46",
+            "2026-11-17 17:33"
+          ]
+        },
+        "S": {
+          "touches": 4,
+          "outcome_30m": {
+            "break_2_first": 4
+          },
+          "median_30m_close_move": -3.535,
+          "median_30m_favorable_excursion": 2.377,
+          "first_touches": [
+            "2026-11-17 05:21",
+            "2026-11-17 07:02",
+            "2026-11-17 11:01",
+            "2026-11-17 11:57"
+          ]
+        }
+      }
+    },
+    "halfwidth_1.0_reset_5.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 4,
+          "outcome_30m": {
+            "break_2_first": 3,
+            "reject_3_first": 1
+          },
+          "median_30m_close_move": -1.813,
+          "median_30m_favorable_excursion": 2.517,
+          "first_touches": [
+            "2026-11-16 13:40",
+            "2026-11-16 17:30",
+            "2026-11-16 18:45",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 12,
+          "outcome_30m": {
+            "reject_3_first": 8,
+            "break_2_first": 4
+          },
+          "median_30m_close_move": 3.695,
+          "median_30m_favorable_excursion": 7.141,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:36",
+            "2026-11-16 04:55",
+            "2026-11-16 06:06",
+            "2026-11-16 07:21",
+            "2026-11-16 08:30",
+            "2026-11-16 15:07",
+            "2026-11-16 15:33",
+            "2026-11-16 16:35",
+            "2026-11-16 18:20"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 6,
+          "outcome_30m": {
+            "reject_3_first": 5,
+            "break_2_first": 1
+          },
+          "median_30m_close_move": 4.018,
+          "median_30m_favorable_excursion": 8.28,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 04:59",
+            "2026-11-17 11:26",
+            "2026-11-17 12:44",
+            "2026-11-17 14:46",
+            "2026-11-17 17:33"
+          ]
+        },
+        "S": {
+          "touches": 2,
+          "outcome_30m": {
+            "break_2_first": 2
+          },
+          "median_30m_close_move": -2.565,
+          "median_30m_favorable_excursion": 2.478,
+          "first_touches": [
+            "2026-11-17 07:02",
+            "2026-11-17 11:01"
+          ]
+        }
+      }
+    },
+    "halfwidth_1.5_reset_3.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 10,
+          "outcome_30m": {
+            "break_2_first": 6,
+            "reject_3_first": 4
+          },
+          "median_30m_close_move": 0.636,
+          "median_30m_favorable_excursion": 2.65,
+          "first_touches": [
+            "2026-11-16 06:41",
+            "2026-11-16 08:03",
+            "2026-11-16 08:41",
+            "2026-11-16 13:39",
+            "2026-11-16 16:25",
+            "2026-11-16 17:19",
+            "2026-11-16 17:30",
+            "2026-11-16 18:31",
+            "2026-11-16 18:44",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 17,
+          "outcome_30m": {
+            "reject_3_first": 13,
+            "break_2_first": 4
+          },
+          "median_30m_close_move": 4.612,
+          "median_30m_favorable_excursion": 7.212,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:22",
+            "2026-11-16 04:33",
+            "2026-11-16 04:41",
+            "2026-11-16 04:55",
+            "2026-11-16 06:06",
+            "2026-11-16 07:11",
+            "2026-11-16 07:21",
+            "2026-11-16 07:52",
+            "2026-11-16 08:30",
+            "2026-11-16 15:07",
+            "2026-11-16 15:33",
+            "2026-11-16 16:08"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 12,
+          "outcome_30m": {
+            "reject_3_first": 10,
+            "break_2_first": 2
+          },
+          "median_30m_close_move": -0.095,
+          "median_30m_favorable_excursion": 6.345,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 04:59",
+            "2026-11-17 05:06",
+            "2026-11-17 05:30",
+            "2026-11-17 05:36",
+            "2026-11-17 05:47",
+            "2026-11-17 05:52",
+            "2026-11-17 05:58",
+            "2026-11-17 11:22",
+            "2026-11-17 12:44",
+            "2026-11-17 14:45",
+            "2026-11-17 17:33"
+          ]
+        },
+        "S": {
+          "touches": 3,
+          "outcome_30m": {
+            "reject_3_first": 1,
+            "break_2_first": 2
+          },
+          "median_30m_close_move": -2.415,
+          "median_30m_favorable_excursion": 2.38,
+          "first_touches": [
+            "2026-11-17 06:57",
+            "2026-11-17 11:00",
+            "2026-11-17 11:57"
+          ]
+        }
+      }
+    },
+    "halfwidth_1.5_reset_5.0": {
+      "2026-11-16": {
+        "R": {
+          "touches": 4,
+          "outcome_30m": {
+            "break_2_first": 3,
+            "reject_3_first": 1
+          },
+          "median_30m_close_move": -0.968,
+          "median_30m_favorable_excursion": 2.517,
+          "first_touches": [
+            "2026-11-16 13:39",
+            "2026-11-16 17:30",
+            "2026-11-16 18:44",
+            "2026-11-16 20:01"
+          ]
+        },
+        "S": {
+          "touches": 11,
+          "outcome_30m": {
+            "reject_3_first": 8,
+            "break_2_first": 3
+          },
+          "median_30m_close_move": 4.612,
+          "median_30m_favorable_excursion": 7.212,
+          "first_touches": [
+            "2026-11-16 02:00",
+            "2026-11-16 04:01",
+            "2026-11-16 04:11",
+            "2026-11-16 04:33",
+            "2026-11-16 04:55",
+            "2026-11-16 06:06",
+            "2026-11-16 07:11",
+            "2026-11-16 08:30",
+            "2026-11-16 15:07",
+            "2026-11-16 15:33",
+            "2026-11-16 18:20"
+          ]
+        }
+      },
+      "2026-11-17": {
+        "R": {
+          "touches": 5,
+          "outcome_30m": {
+            "reject_3_first": 4,
+            "break_2_first": 1
+          },
+          "median_30m_close_move": 4.975,
+          "median_30m_favorable_excursion": 9.735,
+          "first_touches": [
+            "2026-11-17 04:41",
+            "2026-11-17 04:59",
+            "2026-11-17 12:44",
+            "2026-11-17 14:45",
+            "2026-11-17 17:33"
+          ]
+        },
+        "S": {
+          "touches": 2,
+          "outcome_30m": {
+            "reject_3_first": 1,
+            "break_2_first": 1
+          },
+          "median_30m_close_move": -1.855,
+          "median_30m_favorable_excursion": 2.928,
+          "first_touches": [
+            "2026-11-17 06:57",
+            "2026-11-17 11:00"
+          ]
+        }
+      }
+    }
+  },
+  "detailed_touches": [
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 02:00",
+      "touch_utc": "2026-11-15T23:00:00+00:00",
+      "i": 120,
+      "entry_side_price": 3878.948,
+      "touch_high": 3879.488,
+      "touch_low": 3863.935,
+      "touch_close": 3878.948,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 18.345,
+          "favorable_excursion": 20.173,
+          "adverse_excursion": -8.266
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 12.945,
+          "favorable_excursion": 20.173,
+          "adverse_excursion": -8.266
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 13.088,
+          "favorable_excursion": 20.173,
+          "adverse_excursion": -8.266
+        },
+        "60": {
+          "status": "incomplete"
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 04:01",
+      "touch_utc": "2026-11-16T01:01:00+00:00",
+      "i": 240,
+      "entry_side_price": 3874.803,
+      "touch_high": 3875.575,
+      "touch_low": 3868.315,
+      "touch_close": 3872.625,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 5.293,
+          "favorable_excursion": 5.995,
+          "adverse_excursion": 8.205
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 3.23,
+          "favorable_excursion": 12.748,
+          "adverse_excursion": 8.205
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 7.095,
+          "favorable_excursion": 12.748,
+          "adverse_excursion": 8.205
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 2.68,
+          "favorable_excursion": 12.748,
+          "adverse_excursion": 8.205
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 04:11",
+      "touch_utc": "2026-11-16T01:11:00+00:00",
+      "i": 250,
+      "entry_side_price": 3875.639,
+      "touch_high": 3875.88,
+      "touch_low": 3868.525,
+      "touch_close": 3870.685,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 3.23,
+          "favorable_excursion": 8.43,
+          "adverse_excursion": 1.75
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 3.313,
+          "favorable_excursion": 8.43,
+          "adverse_excursion": 1.75
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 5.967,
+          "favorable_excursion": 10.95,
+          "adverse_excursion": 1.75
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 15.577,
+          "favorable_excursion": 17.908,
+          "adverse_excursion": 4.475
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 04:22",
+      "touch_utc": "2026-11-16T01:22:00+00:00",
+      "i": 261,
+      "entry_side_price": 3873.138,
+      "touch_high": 3873.425,
+      "touch_low": 3867.795,
+      "touch_close": 3870.605,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 8.29,
+          "favorable_excursion": 8.4,
+          "adverse_excursion": 0.313
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 0.35,
+          "favorable_excursion": 10.95,
+          "adverse_excursion": 0.637
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 8.42,
+          "favorable_excursion": 11.73,
+          "adverse_excursion": 0.637
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 15.722,
+          "favorable_excursion": 18.973,
+          "adverse_excursion": 4.475
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 04:36",
+      "touch_utc": "2026-11-16T01:36:00+00:00",
+      "i": 275,
+      "entry_side_price": 3872.925,
+      "touch_high": 3875.373,
+      "touch_low": 3868.753,
+      "touch_close": 3868.753,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 5.967,
+          "favorable_excursion": 6.24,
+          "adverse_excursion": 0.637
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 5.843,
+          "favorable_excursion": 11.73,
+          "adverse_excursion": 0.637
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 9.614,
+          "favorable_excursion": 11.73,
+          "adverse_excursion": 4.475
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 13.069,
+          "favorable_excursion": 18.973,
+          "adverse_excursion": 4.475
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 04:55",
+      "touch_utc": "2026-11-16T01:55:00+00:00",
+      "i": 294,
+      "entry_side_price": 3873.53,
+      "touch_high": 3873.54,
+      "touch_low": 3869.195,
+      "touch_close": 3870.215,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": -3.285,
+          "favorable_excursion": 3.303,
+          "adverse_excursion": 4.475
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 16.455,
+          "favorable_excursion": 16.895,
+          "adverse_excursion": 4.475
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 18.065,
+          "favorable_excursion": 18.973,
+          "adverse_excursion": 4.475
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 7.375,
+          "favorable_excursion": 19.112,
+          "adverse_excursion": 4.475
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 06:06",
+      "touch_utc": "2026-11-16T03:06:00+00:00",
+      "i": 365,
+      "entry_side_price": 3870.477,
+      "touch_high": 3870.466,
+      "touch_low": 3868.695,
+      "touch_close": 3870.413,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 0.175,
+          "favorable_excursion": 5.165,
+          "adverse_excursion": 0.973
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -1.317,
+          "favorable_excursion": 5.165,
+          "adverse_excursion": 2.193
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -3.906,
+          "favorable_excursion": 5.165,
+          "adverse_excursion": 5.81
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 3.418,
+          "favorable_excursion": 8.857,
+          "adverse_excursion": 5.81
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 06:42",
+      "touch_utc": "2026-11-16T03:42:00+00:00",
+      "i": 401,
+      "entry_side_price": 3867.016,
+      "touch_high": 3870.427,
+      "touch_low": 3867.11,
+      "touch_close": 3870.117,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -4.765,
+          "favorable_excursion": -1.177,
+          "adverse_excursion": 5.029
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -4.967,
+          "favorable_excursion": -1.177,
+          "adverse_excursion": 6.787
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -1.745,
+          "favorable_excursion": -1.148,
+          "adverse_excursion": 8.857
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -4.618,
+          "favorable_excursion": -0.128,
+          "adverse_excursion": 8.857
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 07:21",
+      "touch_utc": "2026-11-16T04:21:00+00:00",
+      "i": 440,
+      "entry_side_price": 3870.437,
+      "touch_high": 3870.534,
+      "touch_low": 3868.428,
+      "touch_close": 3868.428,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 4.384,
+          "favorable_excursion": 6.216,
+          "adverse_excursion": -0.178
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 4.148,
+          "favorable_excursion": 6.245,
+          "adverse_excursion": -0.178
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 2.941,
+          "favorable_excursion": 6.245,
+          "adverse_excursion": -0.178
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 8.155,
+          "favorable_excursion": 8.469,
+          "adverse_excursion": 4.885
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 07:52",
+      "touch_utc": "2026-11-16T04:52:00+00:00",
+      "i": 471,
+      "entry_side_price": 3871.241,
+      "touch_high": 3871.308,
+      "touch_low": 3868.577,
+      "touch_close": 3868.588,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": -1.261,
+          "favorable_excursion": 2.134,
+          "adverse_excursion": 1.345
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -0.863,
+          "favorable_excursion": 2.134,
+          "adverse_excursion": 4.885
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 7.78,
+          "favorable_excursion": 9.897,
+          "adverse_excursion": 4.885
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -27.185,
+          "favorable_excursion": 9.965,
+          "adverse_excursion": 32.945
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 08:04",
+      "touch_utc": "2026-11-16T05:04:00+00:00",
+      "i": 483,
+      "entry_side_price": 3866.578,
+      "touch_high": 3868.122,
+      "touch_low": 3866.505,
+      "touch_close": 3867.715,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -1.07,
+          "favorable_excursion": 2.042,
+          "adverse_excursion": 2.049
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -4.655,
+          "favorable_excursion": 2.042,
+          "adverse_excursion": 6.245
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 2.115,
+          "favorable_excursion": 2.725,
+          "adverse_excursion": 9.965
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 17.733,
+          "favorable_excursion": 36.162,
+          "adverse_excursion": 9.965
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 08:30",
+      "touch_utc": "2026-11-16T05:30:00+00:00",
+      "i": 509,
+      "entry_side_price": 3873.005,
+      "touch_high": 3873.357,
+      "touch_low": 3865.733,
+      "touch_close": 3868.052,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -3.265,
+          "favorable_excursion": 2.535,
+          "adverse_excursion": 4.286
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -5.617,
+          "favorable_excursion": 2.535,
+          "adverse_excursion": 6.435
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -32.117,
+          "favorable_excursion": 2.535,
+          "adverse_excursion": 36.162
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -20.215,
+          "favorable_excursion": 2.535,
+          "adverse_excursion": 36.162
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 08:41",
+      "touch_utc": "2026-11-16T05:41:00+00:00",
+      "i": 520,
+      "entry_side_price": 3866.322,
+      "touch_high": 3868.138,
+      "touch_low": 3866.043,
+      "touch_close": 3868.104,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 15.815,
+          "favorable_excursion": 18.593,
+          "adverse_excursion": -0.059
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 33.737,
+          "favorable_excursion": 35.37,
+          "adverse_excursion": -0.059
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 18.175,
+          "favorable_excursion": 36.162,
+          "adverse_excursion": -0.059
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 27.563,
+          "favorable_excursion": 36.162,
+          "adverse_excursion": -0.059
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 13:40",
+      "touch_utc": "2026-11-16T10:40:00+00:00",
+      "i": 819,
+      "entry_side_price": 3866.63,
+      "touch_high": 3869.095,
+      "touch_low": 3866.677,
+      "touch_close": 3868.452,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": -0.148,
+          "favorable_excursion": 2.302,
+          "adverse_excursion": 0.65
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -2.072,
+          "favorable_excursion": 2.302,
+          "adverse_excursion": 4.808
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -5.045,
+          "favorable_excursion": 2.302,
+          "adverse_excursion": 5.455
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -5.228,
+          "favorable_excursion": 2.302,
+          "adverse_excursion": 7.57
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 15:07",
+      "touch_utc": "2026-11-16T12:07:00+00:00",
+      "i": 906,
+      "entry_side_price": 3870.945,
+      "touch_high": 3871.345,
+      "touch_low": 3869.1,
+      "touch_close": 3869.488,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": 1.738,
+          "favorable_excursion": 2.05,
+          "adverse_excursion": 1.042
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 2.973,
+          "favorable_excursion": 4.623,
+          "adverse_excursion": 1.042
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -1.203,
+          "favorable_excursion": 7.212,
+          "adverse_excursion": 2.042
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 3.187,
+          "favorable_excursion": 7.212,
+          "adverse_excursion": 3.245
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 15:33",
+      "touch_utc": "2026-11-16T12:33:00+00:00",
+      "i": 932,
+      "entry_side_price": 3870.255,
+      "touch_high": 3870.29,
+      "touch_low": 3867.297,
+      "touch_close": 3867.765,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": 0.108,
+          "favorable_excursion": 1.29,
+          "adverse_excursion": 2.042
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": 0.417,
+          "favorable_excursion": 1.29,
+          "adverse_excursion": 3.245
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 4.449,
+          "favorable_excursion": 7.07,
+          "adverse_excursion": 3.245
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 6.008,
+          "favorable_excursion": 7.07,
+          "adverse_excursion": 6.355
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 16:10",
+      "touch_utc": "2026-11-16T13:10:00+00:00",
+      "i": 969,
+      "entry_side_price": 3869.758,
+      "touch_high": 3870.318,
+      "touch_low": 3868.85,
+      "touch_close": 3869.038,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": -2.07,
+          "favorable_excursion": 3.028,
+          "adverse_excursion": 3.182
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 0.34,
+          "favorable_excursion": 3.028,
+          "adverse_excursion": 6.355
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -2.034,
+          "favorable_excursion": 6.615,
+          "adverse_excursion": 6.355
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -4.702,
+          "favorable_excursion": 6.615,
+          "adverse_excursion": 6.355
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 16:25",
+      "touch_utc": "2026-11-16T13:25:00+00:00",
+      "i": 984,
+      "entry_side_price": 3865.035,
+      "touch_high": 3869.87,
+      "touch_low": 3864.938,
+      "touch_close": 3868.64,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -5.315,
+          "favorable_excursion": -0.102,
+          "adverse_excursion": 5.655
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": 2.034,
+          "favorable_excursion": 2.462,
+          "adverse_excursion": 6.615
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 1.761,
+          "favorable_excursion": 2.462,
+          "adverse_excursion": 6.615
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 5.456,
+          "favorable_excursion": 7.109,
+          "adverse_excursion": 6.615
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 16:35",
+      "touch_utc": "2026-11-16T13:35:00+00:00",
+      "i": 994,
+      "entry_side_price": 3869.908,
+      "touch_high": 3871.53,
+      "touch_low": 3869.018,
+      "touch_close": 3871.11,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -2.034,
+          "favorable_excursion": 2.81,
+          "adverse_excursion": 2.462
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -0.81,
+          "favorable_excursion": 4.76,
+          "adverse_excursion": 2.462
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -5.412,
+          "favorable_excursion": 4.76,
+          "adverse_excursion": 5.669
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 11.927,
+          "favorable_excursion": 15.108,
+          "adverse_excursion": 7.109
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 17:19",
+      "touch_utc": "2026-11-16T14:19:00+00:00",
+      "i": 1038,
+      "entry_side_price": 3866.23,
+      "touch_high": 3867.9,
+      "touch_low": 3865.48,
+      "touch_close": 3865.818,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 6.912,
+          "favorable_excursion": 7.052,
+          "adverse_excursion": -1.132
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -5.218,
+          "favorable_excursion": 7.109,
+          "adverse_excursion": 6.117
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -17.205,
+          "favorable_excursion": 7.109,
+          "adverse_excursion": 20.538
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -3.428,
+          "favorable_excursion": 7.109,
+          "adverse_excursion": 20.538
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 17:30",
+      "touch_utc": "2026-11-16T14:30:00+00:00",
+      "i": 1049,
+      "entry_side_price": 3865.288,
+      "touch_high": 3870.758,
+      "touch_low": 3863.281,
+      "touch_close": 3869.627,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -11.927,
+          "favorable_excursion": -0.841,
+          "adverse_excursion": 15.108
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -12.397,
+          "favorable_excursion": -0.841,
+          "adverse_excursion": 16.948
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -9.515,
+          "favorable_excursion": -0.841,
+          "adverse_excursion": 20.538
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 4.62,
+          "favorable_excursion": 5.012,
+          "adverse_excursion": 20.538
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-16 18:20",
+      "touch_utc": "2026-11-16T15:20:00+00:00",
+      "i": 1099,
+      "entry_side_price": 3871.728,
+      "touch_high": 3872.018,
+      "touch_low": 3868.18,
+      "touch_close": 3868.18,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -2.96,
+          "favorable_excursion": 1.941,
+          "adverse_excursion": 3.892
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -3.936,
+          "favorable_excursion": 1.941,
+          "adverse_excursion": 5.012
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -3.272,
+          "favorable_excursion": 1.941,
+          "adverse_excursion": 7.052
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -8.674,
+          "favorable_excursion": 1.941,
+          "adverse_excursion": 12.031
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 18:32",
+      "touch_utc": "2026-11-16T15:32:00+00:00",
+      "i": 1111,
+      "entry_side_price": 3865.58,
+      "touch_high": 3868.34,
+      "touch_low": 3865.58,
+      "touch_close": 3866.98,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 6.58,
+          "favorable_excursion": 6.99,
+          "adverse_excursion": -0.91
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 3.512,
+          "favorable_excursion": 7.052,
+          "adverse_excursion": -0.86
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 10.48,
+          "favorable_excursion": 11.155,
+          "adverse_excursion": -0.86
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 9.652,
+          "favorable_excursion": 12.031,
+          "adverse_excursion": -0.86
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 18:45",
+      "touch_utc": "2026-11-16T15:45:00+00:00",
+      "i": 1124,
+      "entry_side_price": 3866.448,
+      "touch_high": 3867.44,
+      "touch_low": 3865.128,
+      "touch_close": 3865.938,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 3.272,
+          "favorable_excursion": 6.342,
+          "adverse_excursion": -1.67
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 9.97,
+          "favorable_excursion": 11.08,
+          "adverse_excursion": -1.67
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 9.852,
+          "favorable_excursion": 12.031,
+          "adverse_excursion": -1.67
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 9.232,
+          "favorable_excursion": 12.312,
+          "adverse_excursion": -1.67
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-16 20:01",
+      "touch_utc": "2026-11-16T17:01:00+00:00",
+      "i": 1200,
+      "entry_side_price": 3865.685,
+      "touch_high": 3870.71,
+      "touch_low": 3865.765,
+      "touch_close": 3869.205,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -0.115,
+          "favorable_excursion": 1.295,
+          "adverse_excursion": 2.065
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": 2.642,
+          "favorable_excursion": 2.732,
+          "adverse_excursion": 2.065
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 1.419,
+          "favorable_excursion": 2.732,
+          "adverse_excursion": 2.516
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 15.125,
+          "favorable_excursion": 15.389,
+          "adverse_excursion": 2.516
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 04:41",
+      "touch_utc": "2026-11-17T01:41:00+00:00",
+      "i": 1719,
+      "entry_side_price": 3862.797,
+      "touch_high": 3868.52,
+      "touch_low": 3861.385,
+      "touch_close": 3867.407,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 0.965,
+          "favorable_excursion": 3.87,
+          "adverse_excursion": 3.973
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 8.307,
+          "favorable_excursion": 9.735,
+          "adverse_excursion": 3.973
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 1.487,
+          "favorable_excursion": 9.735,
+          "adverse_excursion": 3.973
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 2.205,
+          "favorable_excursion": 9.735,
+          "adverse_excursion": 4.5
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 04:59",
+      "touch_utc": "2026-11-17T01:59:00+00:00",
+      "i": 1737,
+      "entry_side_price": 3865.195,
+      "touch_high": 3867.575,
+      "touch_low": 3864.805,
+      "touch_close": 3866.085,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 2.34,
+          "favorable_excursion": 6.825,
+          "adverse_excursion": -1.56
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -0.21,
+          "favorable_excursion": 6.825,
+          "adverse_excursion": 1.567
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 4.975,
+          "favorable_excursion": 6.825,
+          "adverse_excursion": 4.5
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -1.723,
+          "favorable_excursion": 6.825,
+          "adverse_excursion": 4.5
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 05:06",
+      "touch_utc": "2026-11-17T02:06:00+00:00",
+      "i": 1744,
+      "entry_side_price": 3864.89,
+      "touch_high": 3867.91,
+      "touch_low": 3864.835,
+      "touch_close": 3866.975,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 1.487,
+          "favorable_excursion": 4.087,
+          "adverse_excursion": -0.44
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -0.075,
+          "favorable_excursion": 4.087,
+          "adverse_excursion": 4.5
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 2.115,
+          "favorable_excursion": 6.317,
+          "adverse_excursion": 4.5
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -4.9,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 5.507
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-17 05:21",
+      "touch_utc": "2026-11-17T02:21:00+00:00",
+      "i": 1759,
+      "entry_side_price": 3870.393,
+      "touch_high": 3870.635,
+      "touch_low": 3867.515,
+      "touch_close": 3868.375,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -2.135,
+          "favorable_excursion": 1.28,
+          "adverse_excursion": 2.605
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -2.115,
+          "favorable_excursion": 1.28,
+          "adverse_excursion": 6.317
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -3.895,
+          "favorable_excursion": 1.28,
+          "adverse_excursion": 6.345
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 10.615,
+          "favorable_excursion": 11.56,
+          "adverse_excursion": 6.345
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 05:37",
+      "touch_utc": "2026-11-17T02:37:00+00:00",
+      "i": 1775,
+      "entry_side_price": 3866.185,
+      "touch_high": 3867.59,
+      "touch_low": 3864.805,
+      "touch_close": 3865.61,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 3.315,
+          "favorable_excursion": 4.935,
+          "adverse_excursion": 0.44
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 1.923,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 0.44
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -6.333,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 7.83
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -5.087,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 11.56
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 05:48",
+      "touch_utc": "2026-11-17T02:48:00+00:00",
+      "i": 1786,
+      "entry_side_price": 3866.677,
+      "touch_high": 3868.555,
+      "touch_low": 3866.185,
+      "touch_close": 3866.42,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 3.885,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": -0.76
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -0.11,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 2.5
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -4.97,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 8.7
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -4.577,
+          "favorable_excursion": 6.345,
+          "adverse_excursion": 11.56
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 05:53",
+      "touch_utc": "2026-11-17T02:53:00+00:00",
+      "i": 1791,
+      "entry_side_price": 3866.377,
+      "touch_high": 3867.54,
+      "touch_low": 3864.243,
+      "touch_close": 3864.415,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": -0.189,
+          "favorable_excursion": 5.796,
+          "adverse_excursion": 0.22
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": -8.065,
+          "favorable_excursion": 5.796,
+          "adverse_excursion": 8.7
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -7.88,
+          "favorable_excursion": 5.796,
+          "adverse_excursion": 11.56
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": -2.555,
+          "favorable_excursion": 5.796,
+          "adverse_excursion": 11.56
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 05:58",
+      "touch_utc": "2026-11-17T02:58:00+00:00",
+      "i": 1796,
+      "entry_side_price": 3865.435,
+      "touch_high": 3868.52,
+      "touch_low": 3864.316,
+      "touch_close": 3868.489,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -0.11,
+          "favorable_excursion": 0.645,
+          "adverse_excursion": 2.5
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -3.327,
+          "favorable_excursion": 0.645,
+          "adverse_excursion": 8.7
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -6.9,
+          "favorable_excursion": 0.645,
+          "adverse_excursion": 11.56
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -1.85,
+          "favorable_excursion": 0.645,
+          "adverse_excursion": 11.56
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-17 07:02",
+      "touch_utc": "2026-11-17T04:02:00+00:00",
+      "i": 1860,
+      "entry_side_price": 3870.207,
+      "touch_high": 3870.218,
+      "touch_low": 3868.483,
+      "touch_close": 3868.595,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": 0.878,
+          "favorable_excursion": 1.52,
+          "adverse_excursion": 0.215
+        },
+        "15": {
+          "status": "neither",
+          "close_move": -1.808,
+          "favorable_excursion": 2.58,
+          "adverse_excursion": 1.808
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -3.175,
+          "favorable_excursion": 2.58,
+          "adverse_excursion": 5.15
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 6.525,
+          "favorable_excursion": 7.207,
+          "adverse_excursion": 5.15
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 07:34",
+      "touch_utc": "2026-11-17T04:34:00+00:00",
+      "i": 1892,
+      "entry_side_price": 3866.805,
+      "touch_high": 3868.115,
+      "touch_low": 3866.735,
+      "touch_close": 3867.687,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -3.111,
+          "favorable_excursion": 0.913,
+          "adverse_excursion": 3.665
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -5.485,
+          "favorable_excursion": 0.913,
+          "adverse_excursion": 6.39
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -5.265,
+          "favorable_excursion": 0.913,
+          "adverse_excursion": 7.207
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -17.587,
+          "favorable_excursion": 0.913,
+          "adverse_excursion": 17.785
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-17 11:01",
+      "touch_utc": "2026-11-17T08:01:00+00:00",
+      "i": 2099,
+      "entry_side_price": 3869.589,
+      "touch_high": 3870.57,
+      "touch_low": 3868.82,
+      "touch_close": 3869.16,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": -0.77,
+          "favorable_excursion": 2.375,
+          "adverse_excursion": 3.072
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -6.12,
+          "favorable_excursion": 2.375,
+          "adverse_excursion": 6.215
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -1.955,
+          "favorable_excursion": 2.375,
+          "adverse_excursion": 6.745
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 1.345,
+          "favorable_excursion": 5.75,
+          "adverse_excursion": 6.745
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 11:26",
+      "touch_utc": "2026-11-17T08:26:00+00:00",
+      "i": 2124,
+      "entry_side_price": 3866.525,
+      "touch_high": 3867.39,
+      "touch_low": 3866.39,
+      "touch_close": 3866.59,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": 1.955,
+          "favorable_excursion": 2.535,
+          "adverse_excursion": 1.06
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 1.295,
+          "favorable_excursion": 3.763,
+          "adverse_excursion": 1.06
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": -2.61,
+          "favorable_excursion": 3.763,
+          "adverse_excursion": 5.75
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 5.895,
+          "favorable_excursion": 8.835,
+          "adverse_excursion": 5.75
+        }
+      }
+    },
+    {
+      "side": "S",
+      "touch_ksa": "2026-11-17 11:57",
+      "touch_utc": "2026-11-17T08:57:00+00:00",
+      "i": 2155,
+      "entry_side_price": 3870.91,
+      "touch_high": 3870.97,
+      "touch_low": 3868.765,
+      "touch_close": 3869.115,
+      "outcome": {
+        "5": {
+          "status": "neither",
+          "close_move": 0.944,
+          "favorable_excursion": 2.38,
+          "adverse_excursion": -0.455
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -1.975,
+          "favorable_excursion": 2.38,
+          "adverse_excursion": 2.616
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": -6.185,
+          "favorable_excursion": 2.38,
+          "adverse_excursion": 8.835
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": -2.635,
+          "favorable_excursion": 2.38,
+          "adverse_excursion": 8.835
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 12:44",
+      "touch_utc": "2026-11-17T09:44:00+00:00",
+      "i": 2202,
+      "entry_side_price": 3866.105,
+      "touch_high": 3867.41,
+      "touch_low": 3866.145,
+      "touch_close": 3866.565,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 2.73,
+          "favorable_excursion": 3.205,
+          "adverse_excursion": -0.355
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 2.905,
+          "favorable_excursion": 3.205,
+          "adverse_excursion": -0.355
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 11.609,
+          "favorable_excursion": 12.635,
+          "adverse_excursion": -0.355
+        },
+        "60": {
+          "status": "reject_3_first",
+          "close_move": 8.835,
+          "favorable_excursion": 15.515,
+          "adverse_excursion": -0.355
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 14:46",
+      "touch_utc": "2026-11-17T11:46:00+00:00",
+      "i": 2324,
+      "entry_side_price": 3867.025,
+      "touch_high": 3867.635,
+      "touch_low": 3866.435,
+      "touch_close": 3867.025,
+      "outcome": {
+        "5": {
+          "status": "break_2_first",
+          "close_move": 0.15,
+          "favorable_excursion": 1.7,
+          "adverse_excursion": 2.563
+        },
+        "15": {
+          "status": "break_2_first",
+          "close_move": -0.065,
+          "favorable_excursion": 2.485,
+          "adverse_excursion": 2.563
+        },
+        "30": {
+          "status": "break_2_first",
+          "close_move": 3.06,
+          "favorable_excursion": 6.375,
+          "adverse_excursion": 2.563
+        },
+        "60": {
+          "status": "break_2_first",
+          "close_move": 11.433,
+          "favorable_excursion": 14.564,
+          "adverse_excursion": 2.563
+        }
+      }
+    },
+    {
+      "side": "R",
+      "touch_ksa": "2026-11-17 17:33",
+      "touch_utc": "2026-11-17T14:33:00+00:00",
+      "i": 2491,
+      "entry_side_price": 3862.81,
+      "touch_high": 3869.185,
+      "touch_low": 3862.719,
+      "touch_close": 3868.935,
+      "outcome": {
+        "5": {
+          "status": "reject_3_first",
+          "close_move": 1.665,
+          "favorable_excursion": 4.165,
+          "adverse_excursion": 4.74
+        },
+        "15": {
+          "status": "reject_3_first",
+          "close_move": 2.545,
+          "favorable_excursion": 5.305,
+          "adverse_excursion": 4.74
+        },
+        "30": {
+          "status": "reject_3_first",
+          "close_move": 6.455,
+          "favorable_excursion": 10.675,
+          "adverse_excursion": 4.74
+        },
+        "60": {
+          "status": "incomplete"
+        }
+      }
+    }
+  ],
+  "nearby_price_activity_bins": [
+    {
+      "center": 3862.3,
+      "bars_touching": 282,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3864.3,
+      "bars_touching": 307,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3866.3,
+      "bars_touching": 339,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3868.3,
+      "bars_touching": 335,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3870.3,
+      "bars_touching": 313,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3872.3,
+      "bars_touching": 359,
+      "sum_feed_volume": 0.0
+    },
+    {
+      "center": 3874.3,
+      "bars_touching": 301,
+      "sum_feed_volume": 0.0
+    }
+  ],
+  "rules": {
+    "timezone": "Saudi Arabia UTC+03:00; day boundary 21:00 UTC",
+    "quote": "Dukascopy XAUUSD BID (not live MT5 broker quote)",
+    "area": "center 3868.30, +/- 0.5 / 1.0 / 1.5 USD tested",
+    "reset": "Independent touch only after price closes at least 3 or 5 USD away, minimum 5 minutes separation",
+    "approach": "Resistance approached from below, support approached from above; state known before touch",
+    "bounce": "Within next 5/15/30/60 min: $3 in rejection direction before $2 against = reject_3_first",
+    "break_rule": "Within next 5/15/30/60 min: $2 adverse before $3 favorable = break_2_first",
+    "incomplete": "Insufficient future data not counted as success/failure",
+    "ambiguity": "Both thresholds in same minute classified ambiguous",
+    "wick": "M5/M15 bearish/bullish wick >= 1.5x candle body and candle closes back on approach side",
+    "htf_pivots": "Strict k=3 H1, k=2 H4, k=2 M15 pivots confirmed only after right bars close",
+    "volume": "This Dukascopy download omits volume; any missing volume metric is null. No COMEX/order book volume is available."
+  },
+  "caveats": [
+    "Price 3868.30 is not a point with infinite precision; broker spreads, liquidity and volatility create zones.",
+    "Multiple retests of one level are not independent statistical samples.",
+    "A resistance may flip to support after a confirmed break; count both separately.",
+    "No order book, resting orders, institutional positioning, or actual MT5 broker spread in this data.",
+    "If most recent Dukascopy candle is earlier than current time, today's study is incomplete.",
+    "Observed historical reactions cannot guarantee the next reaction."
+  ]
+}
