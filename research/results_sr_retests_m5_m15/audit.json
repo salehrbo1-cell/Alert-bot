@@ -1,0 +1,1265 @@
+{
+  "scenarios": {
+    "M5": {
+      "reclaim": {
+        "all": {
+          "n": 859,
+          "valid": 837,
+          "status": {
+            "target": 166,
+            "stop": 663,
+            "censored": 20,
+            "timeout": 8,
+            "gap": 2
+          },
+          "net_r": -73.576,
+          "median_r": -1.0,
+          "median_planned_rr": 3.539,
+          "median_risk": 8.324,
+          "target_r": 576.856,
+          "timeout_r": 12.568,
+          "stop_r": -663.0,
+          "top_3_r": 30.755,
+          "bottom_3_r": -3.0
+        },
+        "train": {
+          "n": 645,
+          "valid": 629,
+          "status": {
+            "target": 127,
+            "stop": 494,
+            "censored": 15,
+            "timeout": 8,
+            "gap": 1
+          },
+          "net_r": -63.164,
+          "median_r": -1.0,
+          "median_planned_rr": 3.51,
+          "median_risk": 8.558,
+          "target_r": 418.268,
+          "timeout_r": 12.568,
+          "stop_r": -494.0,
+          "top_3_r": 20.451,
+          "bottom_3_r": -3.0
+        },
+        "test": {
+          "n": 214,
+          "valid": 208,
+          "status": {
+            "stop": 169,
+            "target": 39,
+            "censored": 5,
+            "gap": 1
+          },
+          "net_r": -10.412,
+          "median_r": -1.0,
+          "median_planned_rr": 3.743,
+          "median_risk": 7.722,
+          "target_r": 158.589,
+          "timeout_r": 0,
+          "stop_r": -169.0,
+          "top_3_r": 30.755,
+          "bottom_3_r": -3.0
+        }
+      },
+      "break2": {
+        "all": {
+          "n": 243,
+          "valid": 230,
+          "status": {
+            "stop": 177,
+            "target": 47,
+            "timeout": 6,
+            "censored": 12,
+            "gap": 1
+          },
+          "net_r": -18.377,
+          "median_r": -1.0,
+          "median_planned_rr": 3.243,
+          "median_risk": 12.123,
+          "target_r": 149.688,
+          "timeout_r": 8.935,
+          "stop_r": -177.0,
+          "top_3_r": 16.31,
+          "bottom_3_r": -3.0
+        },
+        "train": {
+          "n": 186,
+          "valid": 176,
+          "status": {
+            "stop": 137,
+            "target": 33,
+            "timeout": 6,
+            "censored": 10
+          },
+          "net_r": -22.942,
+          "median_r": -1.0,
+          "median_planned_rr": 3.256,
+          "median_risk": 12.701,
+          "target_r": 105.124,
+          "timeout_r": 8.935,
+          "stop_r": -137.0,
+          "top_3_r": 13.996,
+          "bottom_3_r": -3.0
+        },
+        "test": {
+          "n": 57,
+          "valid": 54,
+          "status": {
+            "stop": 40,
+            "target": 14,
+            "censored": 2,
+            "gap": 1
+          },
+          "net_r": 4.565,
+          "median_r": -1.0,
+          "median_planned_rr": 3.198,
+          "median_risk": 10.426,
+          "target_r": 44.565,
+          "timeout_r": 0,
+          "stop_r": -40.0,
+          "top_3_r": 15.681,
+          "bottom_3_r": -3.0
+        }
+      }
+    },
+    "M15": {
+      "reclaim": {
+        "all": {
+          "n": 74,
+          "valid": 56,
+          "status": {
+            "target": 25,
+            "stop": 8,
+            "timeout": 23,
+            "censored": 17,
+            "gap": 1
+          },
+          "net_r": 256.51,
+          "median_r": 4.159,
+          "median_planned_rr": 6.669,
+          "median_risk": 14.518,
+          "target_r": 163.278,
+          "timeout_r": 101.232,
+          "stop_r": -8.0,
+          "top_3_r": 48.205,
+          "bottom_3_r": -3.0
+        },
+        "train": {
+          "n": 57,
+          "valid": 44,
+          "status": {
+            "target": 23,
+            "stop": 6,
+            "timeout": 15,
+            "censored": 12,
+            "gap": 1
+          },
+          "net_r": 214.827,
+          "median_r": 4.159,
+          "median_planned_rr": 6.627,
+          "median_risk": 14.363,
+          "target_r": 155.812,
+          "timeout_r": 65.015,
+          "stop_r": -6.0,
+          "top_3_r": 48.205,
+          "bottom_3_r": -3.0
+        },
+        "test": {
+          "n": 17,
+          "valid": 12,
+          "status": {
+            "timeout": 8,
+            "stop": 2,
+            "censored": 5,
+            "target": 2
+          },
+          "net_r": 41.682,
+          "median_r": 3.669,
+          "median_planned_rr": 6.712,
+          "median_risk": 14.724,
+          "target_r": 7.466,
+          "timeout_r": 36.216,
+          "stop_r": -2.0,
+          "top_3_r": 23.837,
+          "bottom_3_r": -1.87
+        }
+      },
+      "break2": {
+        "all": {
+          "n": 41,
+          "valid": 30,
+          "status": {
+            "target": 12,
+            "stop": 4,
+            "censored": 10,
+            "timeout": 14,
+            "gap": 1
+          },
+          "net_r": 93.867,
+          "median_r": 3.117,
+          "median_planned_rr": 4.673,
+          "median_risk": 20.063,
+          "target_r": 50.045,
+          "timeout_r": 47.822,
+          "stop_r": -4.0,
+          "top_3_r": 23.575,
+          "bottom_3_r": -3.0
+        },
+        "train": {
+          "n": 33,
+          "valid": 25,
+          "status": {
+            "target": 11,
+            "stop": 4,
+            "censored": 7,
+            "timeout": 10,
+            "gap": 1
+          },
+          "net_r": 81.236,
+          "median_r": 3.26,
+          "median_planned_rr": 4.673,
+          "median_risk": 19.473,
+          "target_r": 45.684,
+          "timeout_r": 39.552,
+          "stop_r": -4.0,
+          "top_3_r": 23.575,
+          "bottom_3_r": -3.0
+        },
+        "test": {
+          "n": 8,
+          "valid": 5,
+          "status": {
+            "timeout": 4,
+            "censored": 3,
+            "target": 1
+          },
+          "net_r": 12.632,
+          "median_r": 2.837,
+          "median_planned_rr": 4.698,
+          "median_risk": 24.508,
+          "target_r": 4.361,
+          "timeout_r": 8.27,
+          "stop_r": 0,
+          "top_3_r": 10.289,
+          "bottom_3_r": 5.18
+        }
+      }
+    }
+  },
+  "touches": {
+    "M5": {
+      "all": {
+        "n": 5287,
+        "reclaim": 3556,
+        "break2": 1692,
+        "unique_rounded_levels": 1130,
+        "levels_3plus": 724,
+        "max_retests_rounded": 27,
+        "top_10_levels": [
+          [
+            4324,
+            27
+          ],
+          [
+            4127,
+            25
+          ],
+          [
+            4051,
+            22
+          ],
+          [
+            4073,
+            21
+          ],
+          [
+            4171,
+            20
+          ],
+          [
+            4335,
+            20
+          ],
+          [
+            4161,
+            19
+          ],
+          [
+            4435,
+            19
+          ],
+          [
+            4342,
+            18
+          ],
+          [
+            4052,
+            18
+          ]
+        ]
+      },
+      "strong": {
+        "n": 2127,
+        "reclaim": 1438,
+        "break2": 691,
+        "unique_rounded_levels": 703,
+        "levels_3plus": 325,
+        "max_retests_rounded": 16,
+        "top_10_levels": [
+          [
+            4171,
+            16
+          ],
+          [
+            4219,
+            14
+          ],
+          [
+            4342,
+            14
+          ],
+          [
+            4335,
+            13
+          ],
+          [
+            3868,
+            13
+          ],
+          [
+            4116,
+            12
+          ],
+          [
+            4324,
+            11
+          ],
+          [
+            4857,
+            11
+          ],
+          [
+            4052,
+            11
+          ],
+          [
+            4024,
+            11
+          ]
+        ]
+      },
+      "weak": {
+        "n": 3160,
+        "reclaim": 2118,
+        "break2": 1001,
+        "unique_rounded_levels": 977,
+        "levels_3plus": 476,
+        "max_retests_rounded": 20,
+        "top_10_levels": [
+          [
+            4127,
+            20
+          ],
+          [
+            4073,
+            16
+          ],
+          [
+            4324,
+            16
+          ],
+          [
+            4161,
+            15
+          ],
+          [
+            4467,
+            13
+          ],
+          [
+            4613,
+            13
+          ],
+          [
+            4160,
+            12
+          ],
+          [
+            4130,
+            12
+          ],
+          [
+            4023,
+            12
+          ],
+          [
+            4067,
+            12
+          ]
+        ]
+      }
+    },
+    "M15": {
+      "all": {
+        "n": 443,
+        "reclaim": 428,
+        "break2": 274,
+        "unique_rounded_levels": 247,
+        "levels_3plus": 48,
+        "max_retests_rounded": 7,
+        "top_10_levels": [
+          [
+            4517,
+            7
+          ],
+          [
+            5074,
+            6
+          ],
+          [
+            4706,
+            6
+          ],
+          [
+            4146,
+            6
+          ],
+          [
+            4639,
+            5
+          ],
+          [
+            4616,
+            5
+          ],
+          [
+            5008,
+            5
+          ],
+          [
+            5173,
+            5
+          ],
+          [
+            3959,
+            5
+          ],
+          [
+            4040,
+            4
+          ]
+        ]
+      },
+      "strong": {
+        "n": 118,
+        "reclaim": 118,
+        "break2": 77,
+        "unique_rounded_levels": 73,
+        "levels_3plus": 12,
+        "max_retests_rounded": 6,
+        "top_10_levels": [
+          [
+            4146,
+            6
+          ],
+          [
+            3959,
+            5
+          ],
+          [
+            4857,
+            4
+          ],
+          [
+            4313,
+            4
+          ],
+          [
+            4054,
+            3
+          ],
+          [
+            4156,
+            3
+          ],
+          [
+            4175,
+            3
+          ],
+          [
+            4188,
+            3
+          ],
+          [
+            4710,
+            3
+          ],
+          [
+            4706,
+            3
+          ]
+        ]
+      },
+      "weak": {
+        "n": 325,
+        "reclaim": 310,
+        "break2": 197,
+        "unique_rounded_levels": 199,
+        "levels_3plus": 27,
+        "max_retests_rounded": 7,
+        "top_10_levels": [
+          [
+            4517,
+            7
+          ],
+          [
+            5074,
+            6
+          ],
+          [
+            4639,
+            5
+          ],
+          [
+            5008,
+            5
+          ],
+          [
+            4040,
+            4
+          ],
+          [
+            4346,
+            4
+          ],
+          [
+            4311,
+            4
+          ],
+          [
+            4324,
+            4
+          ],
+          [
+            4581,
+            4
+          ],
+          [
+            4616,
+            4
+          ]
+        ]
+      }
+    }
+  },
+  "audit": {
+    "M5": {
+      "top_12": [
+        {
+          "touch": "2026-11-09T23:10:00+00:00",
+          "signal": "2026-11-09T23:20:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4143.582",
+          "stop_bid": "4147.455",
+          "target_bid": "4092.626",
+          "planned_rr": "11.5392",
+          "realized_r": "11.5392",
+          "status": "target",
+          "risk": "4.373",
+          "period": "test"
+        },
+        {
+          "touch": "2026-09-07T11:55:00+00:00",
+          "signal": "2026-09-07T12:05:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4384.935",
+          "entry_bid": "4386.175",
+          "stop_bid": "4383.268",
+          "target_bid": "4422.394",
+          "planned_rr": "10.4837",
+          "realized_r": "10.4837",
+          "status": "target",
+          "risk": "3.407",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-05T03:50:00+00:00",
+          "signal": "2026-11-05T04:00:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4140.145",
+          "stop_bid": "4148.795",
+          "target_bid": "4059.747",
+          "planned_rr": "8.7318",
+          "realized_r": "8.7318",
+          "status": "target",
+          "risk": "9.15",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-05T04:45:00+00:00",
+          "signal": "2026-11-05T04:50:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4140.955",
+          "stop_bid": "4149.797",
+          "target_bid": "4059.747",
+          "planned_rr": "8.6397",
+          "realized_r": "8.6397",
+          "status": "target",
+          "risk": "9.342",
+          "period": "test"
+        },
+        {
+          "touch": "2026-06-15T14:45:00+00:00",
+          "signal": "2026-06-15T14:55:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4363.205",
+          "entry_bid": "4361.188",
+          "stop_bid": "4365.634",
+          "target_bid": "4326.384",
+          "planned_rr": "6.9361",
+          "realized_r": "6.9361",
+          "status": "target",
+          "risk": "4.946",
+          "period": "train"
+        },
+        {
+          "touch": "2026-04-23T00:45:00+00:00",
+          "signal": "2026-04-23T01:00:00+00:00",
+          "side": "R",
+          "tier": "H1",
+          "zone_center": "4749.565",
+          "entry_bid": "4747.485",
+          "stop_bid": "4754.42",
+          "target_bid": "4695.558",
+          "planned_rr": "6.9167",
+          "realized_r": "6.9167",
+          "status": "target",
+          "risk": "7.435",
+          "period": "train"
+        },
+        {
+          "touch": "2026-01-15T16:10:00+00:00",
+          "signal": "2026-01-15T16:20:00+00:00",
+          "side": "R",
+          "tier": "H1",
+          "zone_center": "4622.755",
+          "entry_bid": "4620.475",
+          "stop_bid": "4625.244",
+          "target_bid": "4585.212",
+          "planned_rr": "6.5979",
+          "realized_r": "6.5979",
+          "status": "target",
+          "risk": "5.269",
+          "period": "train"
+        },
+        {
+          "touch": "2026-11-05T04:15:00+00:00",
+          "signal": "2026-11-05T04:20:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4137.165",
+          "stop_bid": "4148.754",
+          "target_bid": "4059.747",
+          "planned_rr": "6.3626",
+          "realized_r": "6.3626",
+          "status": "target",
+          "risk": "12.089",
+          "period": "test"
+        },
+        {
+          "touch": "2026-09-11T03:45:00+00:00",
+          "signal": "2026-09-11T03:55:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4301.395",
+          "entry_bid": "4303.959",
+          "stop_bid": "4298.951",
+          "target_bid": "4338.435",
+          "planned_rr": "6.1682",
+          "realized_r": "6.1682",
+          "status": "target",
+          "risk": "5.508",
+          "period": "test"
+        },
+        {
+          "touch": "2026-01-26T21:35:00+00:00",
+          "signal": "2026-01-26T21:45:00+00:00",
+          "side": "S",
+          "tier": "H4",
+          "zone_center": "5001.098",
+          "entry_bid": "5004.175",
+          "stop_bid": "4987.785",
+          "target_bid": "5108.635",
+          "planned_rr": "6.1551",
+          "realized_r": "6.1551",
+          "status": "target",
+          "risk": "16.89",
+          "period": "train"
+        },
+        {
+          "touch": "2026-11-09T21:25:00+00:00",
+          "signal": "2026-11-09T21:35:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4140.387",
+          "stop_bid": "4147.715",
+          "target_bid": "4092.965",
+          "planned_rr": "5.9939",
+          "realized_r": "5.9939",
+          "status": "target",
+          "risk": "7.828",
+          "period": "test"
+        },
+        {
+          "touch": "2026-06-30T03:30:00+00:00",
+          "signal": "2026-06-30T03:40:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3958.695",
+          "entry_bid": "3964.305",
+          "stop_bid": "3955.45",
+          "target_bid": "4019.878",
+          "planned_rr": "5.8867",
+          "realized_r": "5.8867",
+          "status": "target",
+          "risk": "9.355",
+          "period": "train"
+        }
+      ],
+      "worst_8": [
+        {
+          "touch": "2026-11-16T01:00:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "9.7731",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "12.96",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T01:15:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "16.8979",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "7.433",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T01:35:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "3.5548",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "6.304",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T03:05:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "3.3298",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "6.688",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T03:15:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "2.726",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "7.779",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T04:10:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "2.5414",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "8.172",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T04:20:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3867.637",
+          "planned_rr": "2.15",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "9.204",
+          "period": "test"
+        },
+        {
+          "touch": "2026-11-16T11:50:00+00:00",
+          "side": "R",
+          "tier": "M15_repeated",
+          "zone_center": "3877.711",
+          "planned_rr": "3.0704",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "6.784",
+          "period": "test"
+        }
+      ],
+      "min_risk": 2.67,
+      "under_1_risk": 0,
+      "under_2_risk": 0,
+      "top_3_timeout": 0,
+      "screenshot_zone_3868": [
+        {
+          "touch": "2026-11-16T01:00:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.771,
+          "hi": 3868.503,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T01:10:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T01:15:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.439,
+          "hi": 3868.835,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T01:20:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T01:20:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.439,
+          "hi": 3868.835,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T01:30:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T01:35:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.294,
+          "hi": 3868.98,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T01:40:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T01:55:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.168,
+          "hi": 3869.106,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T02:05:00+00:00",
+            "break2": "2026-11-16T02:05:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T03:05:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3865.781,
+          "hi": 3869.493,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T03:15:00+00:00",
+            "break2": "2026-11-16T03:25:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T03:15:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3865.751,
+          "hi": 3869.523,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T03:25:00+00:00",
+            "break2": "2026-11-16T03:25:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T03:25:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3865.751,
+          "hi": 3869.523,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T03:45:00+00:00",
+            "break2": "2026-11-16T03:45:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T04:10:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3865.821,
+          "hi": 3869.453,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T04:15:00+00:00",
+            "break2": "2026-11-16T04:30:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T04:20:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3865.801,
+          "hi": 3869.473,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T04:30:00+00:00",
+            "break2": "2026-11-16T04:30:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T04:50:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.155,
+          "hi": 3869.119,
+          "tier": "H1",
+          "strong": true,
+          "signals": {
+            "reclaim": "2026-11-16T05:10:00+00:00"
+          }
+        },
+        {
+          "touch": "2026-11-16T05:30:00+00:00",
+          "side": "S",
+          "center": 3867.637,
+          "lo": 3866.287,
+          "hi": 3868.987,
+          "tier": "H1",
+          "strong": true,
+          "signals": {}
+        }
+      ]
+    },
+    "M15": {
+      "top_12": [
+        {
+          "touch": "2026-01-29T06:15:00+00:00",
+          "signal": "2026-01-29T06:45:00+00:00",
+          "side": "R",
+          "tier": "H1",
+          "zone_center": "5596.805",
+          "entry_bid": "5581.975",
+          "stop_bid": "5600.343",
+          "target_bid": "5083.125",
+          "planned_rr": "26.412",
+          "realized_r": "22.4821",
+          "status": "timeout",
+          "risk": "18.868",
+          "period": "train"
+        },
+        {
+          "touch": "2026-07-01T07:00:00+00:00",
+          "signal": "2026-07-01T07:30:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3959.265",
+          "entry_bid": "3964.105",
+          "stop_bid": "3956.908",
+          "target_bid": "4066.892",
+          "planned_rr": "13.29",
+          "realized_r": "13.29",
+          "status": "target",
+          "risk": "7.697",
+          "period": "train"
+        },
+        {
+          "touch": "2026-05-14T12:45:00+00:00",
+          "signal": "2026-05-14T13:15:00+00:00",
+          "side": "R",
+          "tier": "M15_repeated",
+          "zone_center": "4705.845",
+          "entry_bid": "4703.815",
+          "stop_bid": "4708.42",
+          "target_bid": "4639.848",
+          "planned_rr": "12.4325",
+          "realized_r": "12.4325",
+          "status": "target",
+          "risk": "5.105",
+          "period": "train"
+        },
+        {
+          "touch": "2026-02-17T23:45:00+00:00",
+          "signal": "2026-02-18T00:15:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4856.648",
+          "entry_bid": "4863.485",
+          "stop_bid": "4853.069",
+          "target_bid": "4997.732",
+          "planned_rr": "12.2518",
+          "realized_r": "12.2518",
+          "status": "target",
+          "risk": "10.916",
+          "period": "train"
+        },
+        {
+          "touch": "2026-11-05T04:45:00+00:00",
+          "signal": "2026-11-05T05:00:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4145.641",
+          "entry_bid": "4140.565",
+          "stop_bid": "4149.73",
+          "target_bid": "4033.775",
+          "planned_rr": "10.9976",
+          "realized_r": "9.8915",
+          "status": "timeout",
+          "risk": "9.665",
+          "period": "test"
+        },
+        {
+          "touch": "2026-07-29T14:30:00+00:00",
+          "signal": "2026-07-29T15:00:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3998.035",
+          "entry_bid": "4004.635",
+          "stop_bid": "3995.839",
+          "target_bid": "4091.922",
+          "planned_rr": "9.3358",
+          "realized_r": "9.3358",
+          "status": "target",
+          "risk": "9.296",
+          "period": "train"
+        },
+        {
+          "touch": "2026-02-17T14:45:00+00:00",
+          "signal": "2026-02-17T15:30:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4856.648",
+          "entry_bid": "4861.105",
+          "stop_bid": "4846.639",
+          "target_bid": "4997.145",
+          "planned_rr": "9.0562",
+          "realized_r": "9.0562",
+          "status": "target",
+          "risk": "14.966",
+          "period": "train"
+        },
+        {
+          "touch": "2026-07-30T19:30:00+00:00",
+          "signal": "2026-07-30T19:45:00+00:00",
+          "side": "R",
+          "tier": "M15_repeated",
+          "zone_center": "4117.605",
+          "entry_bid": "4112.045",
+          "stop_bid": "4120.764",
+          "target_bid": "4029.479",
+          "planned_rr": "8.9018",
+          "realized_r": "8.9018",
+          "status": "target",
+          "risk": "9.219",
+          "period": "train"
+        },
+        {
+          "touch": "2026-05-11T23:45:00+00:00",
+          "signal": "2026-05-12T00:30:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4764.595",
+          "entry_bid": "4762.035",
+          "stop_bid": "4773.903",
+          "target_bid": "4651.721",
+          "planned_rr": "8.8787",
+          "realized_r": "8.8787",
+          "status": "target",
+          "risk": "12.368",
+          "period": "train"
+        },
+        {
+          "touch": "2026-05-12T00:15:00+00:00",
+          "signal": "2026-05-12T00:30:00+00:00",
+          "side": "R",
+          "tier": "H4",
+          "zone_center": "4772.165",
+          "entry_bid": "4762.035",
+          "stop_bid": "4773.903",
+          "target_bid": "4651.721",
+          "planned_rr": "8.8787",
+          "realized_r": "8.8787",
+          "status": "target",
+          "risk": "12.368",
+          "period": "train"
+        },
+        {
+          "touch": "2025-12-29T05:30:00+00:00",
+          "signal": "2025-12-29T06:00:00+00:00",
+          "side": "R",
+          "tier": "M15_repeated",
+          "zone_center": "4519.75",
+          "entry_bid": "4506.325",
+          "stop_bid": "4521.857",
+          "target_bid": "4272.471",
+          "planned_rr": "14.555",
+          "realized_r": "8.0135",
+          "status": "timeout",
+          "risk": "16.032",
+          "period": "train"
+        },
+        {
+          "touch": "2026-07-29T14:00:00+00:00",
+          "signal": "2026-07-29T14:30:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "3998.035",
+          "entry_bid": "4005.305",
+          "stop_bid": "3994.938",
+          "target_bid": "4092.01",
+          "planned_rr": "7.9325",
+          "realized_r": "7.9325",
+          "status": "target",
+          "risk": "10.867",
+          "period": "train"
+        }
+      ],
+      "worst_8": [
+        {
+          "touch": "2025-11-18T04:15:00+00:00",
+          "side": "S",
+          "tier": "H4",
+          "zone_center": "4001.916",
+          "planned_rr": "3.7084",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "19.87",
+          "period": "train"
+        },
+        {
+          "touch": "2026-03-30T23:00:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4492.885",
+          "planned_rr": "34.424",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "14.769",
+          "period": "train"
+        },
+        {
+          "touch": "2026-05-14T04:30:00+00:00",
+          "side": "R",
+          "tier": "H1",
+          "zone_center": "4709.635",
+          "planned_rr": "2.6666",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "11.761",
+          "period": "train"
+        },
+        {
+          "touch": "2026-05-14T12:15:00+00:00",
+          "side": "R",
+          "tier": "M15_repeated",
+          "zone_center": "4705.845",
+          "planned_rr": "10.3539",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "6.037",
+          "period": "train"
+        },
+        {
+          "touch": "2026-07-05T23:15:00+00:00",
+          "side": "R",
+          "tier": "H1",
+          "zone_center": "4198.435",
+          "planned_rr": "35.7845",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "6.56",
+          "period": "train"
+        },
+        {
+          "touch": "2026-08-14T01:30:00+00:00",
+          "side": "S",
+          "tier": "H1",
+          "zone_center": "4312.935",
+          "planned_rr": "9.5331",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "9.46",
+          "period": "train"
+        },
+        {
+          "touch": "2026-09-04T12:30:00+00:00",
+          "side": "S",
+          "tier": "M15_repeated",
+          "zone_center": "4381.445",
+          "planned_rr": "3.814",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "20.847",
+          "period": "test"
+        },
+        {
+          "touch": "2026-09-04T12:45:00+00:00",
+          "side": "S",
+          "tier": "M15_repeated",
+          "zone_center": "4381.445",
+          "planned_rr": "4.8964",
+          "realized_r": "-1.0",
+          "status": "stop",
+          "risk": "16.238",
+          "period": "test"
+        }
+      ],
+      "min_risk": 5.105,
+      "under_1_risk": 0,
+      "under_2_risk": 0,
+      "top_3_timeout": 1,
+      "screenshot_zone_3868": []
+    }
+  }
+}
