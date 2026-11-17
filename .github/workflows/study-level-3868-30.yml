@@ -1,0 +1,47 @@
+name: Study gold level 3868.30 detailed
+on:
+  push:
+    paths:
+      - ".github/workflows/study-level-3868-30.yml"
+      - "research/study_level_3868_30.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  level:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download historical Dukascopy BID M1 up to latest available
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2026-11-10 -to 2026-11-18 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files:raise SystemExit("No M1 file")
+          source=max(files,key=lambda x:x.stat().st_size)
+          print("Source",source,source.stat().st_size)
+          shutil.copyfile(source,"/tmp/xau_level_3868_m1.csv")
+          PY
+      - name: Analyze exact level, both sides and sensitivity
+        run: |
+          python -m py_compile research/study_level_3868_30.py
+          python research/study_level_3868_30.py /tmp/xau_level_3868_m1.csv research/results_level_3868_30
+      - name: Save focused level report and all touch events
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_level_3868_30/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Save 3868.30 XAUUSD intraday S/R zone characteristics"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
