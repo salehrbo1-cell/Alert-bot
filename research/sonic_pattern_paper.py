@@ -510,46 +510,68 @@ def aggregate_closed_5m(candles, now):
 
 
 def evaluate_m5_structure_exit_rule(state, candles, now):
-    """Paper exit: invalidate at the swept extreme, then trail confirmed M5 pivots."""
+    """Paper exit: use a valid confirmed M5 pivot, then trail structural pivots."""
     bars = aggregate_closed_5m(candles, now)
     out = []
     horizon_ms = OBSERVATION_MINUTES * 60_000
     by_time = {bar["t"]: i for i, bar in enumerate(candles)}
+
     for trade in state.get("trades", []):
         direction = 1 if trade["direction"] == "buy" else -1
         entry_t = trade["entry_t"]
         entry_price = trade["entry_price"]
-        sweep_index = by_time.get(trade["sweep_t"])
-        initial_type = "swept_low_support" if direction == 1 else "swept_high_resistance"
-        if sweep_index is not None:
-            initial_level = candles[sweep_index]["l"] if direction == 1 else candles[sweep_index]["h"]
-        elif trade.get("sweep_extreme") is not None:
-            initial_level = float(trade["sweep_extreme"])
-        else:
-            initial_level = float(trade["sweep_level"])
+        pre = [b for b in bars if b["end_t"] <= entry_t]
+        initial_level = None
+        initial_type = ""
 
-        # If a completed M1 close had already broken the swept extreme before
-        # the simulated entry, this setup is cancelled rather than entered.
-        entry_index = by_time.get(entry_t)
-        invalid_bar = None
-        if sweep_index is not None and entry_index is not None:
-            for m1 in candles[sweep_index + 1:entry_index]:
-                crossed = m1["c"] < initial_level if direction == 1 else m1["c"] > initial_level
-                if crossed:
-                    invalid_bar = m1
-                    break
-        if entry_price <= initial_level if direction == 1 else entry_price >= initial_level:
-            invalid_bar = invalid_bar or (candles[entry_index] if entry_index is not None else None)
+        # Choose the latest confirmed pivot on the protective side of entry
+        # that had not already been closed through before entry.
+        for confirm_i in range(4, len(pre)):
+            pivot_i = confirm_i - 2
+            if direction == 1 and is_pivot_low(pre, pivot_i):
+                level = pre[pivot_i]["l"]
+                valid_side = level < entry_price
+                invalidated = any(b["c"] < level for b in pre[confirm_i + 1:])
+                if valid_side and not invalidated:
+                    initial_level = level
+                    initial_type = "last_confirmed_m5_support"
+            elif direction == -1 and is_pivot_high(pre, pivot_i):
+                level = pre[pivot_i]["h"]
+                valid_side = level > entry_price
+                invalidated = any(b["c"] > level for b in pre[confirm_i + 1:])
+                if valid_side and not invalidated:
+                    initial_level = level
+                    initial_type = "last_confirmed_m5_resistance"
 
-        if invalid_bar is not None:
+        # If no valid M5 pivot exists, fall back to the swept candle's extreme
+        # only when price has not closed through it since the sweep.
+        if initial_level is None:
+            sweep_index = by_time.get(trade["sweep_t"])
+            if sweep_index is not None:
+                sweep_level = candles[sweep_index]["l"] if direction == 1 else candles[sweep_index]["h"]
+            else:
+                sweep_level = trade.get("sweep_extreme")
+            if sweep_level is not None:
+                sweep_level = float(sweep_level)
+                entry_index = by_time.get(entry_t, len(candles))
+                side_valid = sweep_level < entry_price if direction == 1 else sweep_level > entry_price
+                post_sweep = candles[sweep_index + 1:entry_index] if sweep_index is not None else []
+                crossed = any(
+                    (b["c"] < sweep_level if direction == 1 else b["c"] > sweep_level)
+                    for b in post_sweep
+                )
+                if side_valid and not crossed:
+                    initial_level = sweep_level
+                    initial_type = "sweep_extreme_fallback"
+
+        if initial_level is None:
             out.append({
                 "trade_id": trade["trade_id"], "side": trade["direction"],
                 "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
-                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
-                "last_trailing_level": round(initial_level, 4),
-                "status": "invalidated_before_entry", "exit_at_utc": iso(invalid_bar["t"]),
-                "minutes_from_entry": "", "exit_close": round(invalid_bar["c"], 4),
-                "exit_move_usd": "", "reason": "إغلاق M1 تجاوز قاع/قمة السحب قبل الدخول؛ يُلغى الإعداد",
+                "initial_level_type": "", "initial_level": "",
+                "last_trailing_level": "", "status": "no_valid_structure_at_entry",
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "reason": "لا يوجد دعم/مقاومة M5 صالح تحت/فوق الدخول",
                 "pnl_at_60m_usd": "", "observed_m5_bars": 0,
             })
             continue
@@ -571,7 +593,7 @@ def evaluate_m5_structure_exit_rule(state, candles, now):
                 exit_bar = bar
                 break
 
-            # Confirm a pivot only after two full M5 bars on its right close.
+            # Promote only confirmed higher lows for longs / lower highs for shorts.
             pivot_i = i - 2
             if direction == 1 and is_pivot_low(bars, pivot_i):
                 new_level = bars[pivot_i]["l"]
