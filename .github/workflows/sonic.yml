@@ -1,0 +1,39 @@
+name: sonic-paper-monitor
+on:
+  push:
+    paths:
+      - ".github/workflows/sonic.yml"
+      - "research/sonic_pattern_paper.py"
+  schedule:
+    - cron: "2-59/5 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sonic-paper-monitor
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: python -m py_compile research/sonic_pattern_paper.py
+      - name: Monitor Sonic entry sequence with paper trades
+        run: python research/sonic_pattern_paper.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+      - run: |
+          git config user.name "alert-bot"
+          git config user.email "alert-bot@users.noreply.github.com"
+          git add research/sonic_paper/state.json research/sonic_paper/trades.csv research/sonic_paper/minute_path.csv
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Sonic paper state"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
