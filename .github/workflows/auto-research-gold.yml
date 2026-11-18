@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "research/auto_research_gold.py"
+      - "research/ai_hypothesis_agent.py"
       - ".github/workflows/auto-research-gold.yml"
   schedule:
     - cron: "30 3 * * *" # 06:30 Saudi; GitHub may delay scheduled starts
@@ -23,7 +24,7 @@ jobs:
           node-version: "22"
       - name: Validate Python researcher
         run: |
-          python -m py_compile research/auto_research_gold.py
+          python -m py_compile research/auto_research_gold.py research/ai_hypothesis_agent.py
       - name: Download 260 days of historical XAUUSD M1 BID
         run: |
           START=$(date -u -d '260 days ago' +%F)
@@ -45,6 +46,11 @@ jobs:
           python research/auto_research_gold.py /tmp/xau_autoresearch_m1.csv research/auto_research
           mkdir -p research/auto_research/history
           cp research/auto_research/latest.json "research/auto_research/history/$(date -u +%F).json"
+      - name: Invent and test bounded new hypotheses (free offline, optional Gemini)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python research/ai_hypothesis_agent.py /tmp/xau_autoresearch_m1.csv research/ai_hypotheses
       - name: Upload detailed results as Actions artifact
         uses: actions/upload-artifact@v4
         with:
@@ -53,6 +59,8 @@ jobs:
             research/auto_research/latest.json
             research/auto_research/all_variants.csv
             research/auto_research/README.md
+            research/ai_hypotheses/latest.json
+            research/ai_hypotheses/README.md
           retention-days: 30
       - name: Save results to GitHub without modifying production bot
         run: |
@@ -61,7 +69,7 @@ jobs:
           for attempt in 1 2 3; do
             git fetch origin main
             git reset --mixed origin/main
-            git add research/auto_research/
+            git add research/auto_research/ research/ai_hypotheses/
             if git diff --cached --quiet; then echo "No new results"; exit 0; fi
             git commit -m "AutoResearch gold: save daily backtest results"
             if git push origin HEAD:main; then exit 0; fi
