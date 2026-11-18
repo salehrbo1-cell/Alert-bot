@@ -30,7 +30,7 @@ jobs:
       - run: |
           git config user.name "alert-bot"
           git config user.email "alert-bot@users.noreply.github.com"
-          git add state.json research/sonic_paper/state.json research/sonic_paper/trades.csv research/sonic_paper/minute_path.csv research/sonic_paper/exit_rule_tp20_sl5.csv
+          git add state.json
           if ! git diff --cached --quiet; then
             git commit -m "Update gold bot state"
             git pull --rebase origin "${GITHUB_REF_NAME}"
