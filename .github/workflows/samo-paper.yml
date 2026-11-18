@@ -19,7 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Sync latest branch state before sampling
-        run: git pull --rebase origin "${GITHUB_REF_NAME}"
+        run: |
+          git fetch origin "${GITHUB_REF_NAME}"
+          git reset --hard "origin/${GITHUB_REF_NAME}"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
