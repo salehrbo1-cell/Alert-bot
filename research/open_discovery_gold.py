@@ -176,11 +176,13 @@ def main(src,dst):
     train=begin+int(.7*(end-begin));valid=begin+int(.85*(end-begin))
     pos,neg=screen(data,begin,train)
     path=Path(dst);path.mkdir(parents=True,exist_ok=True);mem=path/"memory.json"
-    try:history=json.loads(mem.read_text()).get("history",[]) if mem.exists() else []
-    except (ValueError,TypeError):history=[]
+    try:memory=json.loads(mem.read_text()) if mem.exists() else {}
+    except (ValueError,TypeError):memory={}
+    history=memory.get("history",[])
+    seen=set(memory.get("seen_ids",[]))|{x.get("id") for x in history if x.get("id")}
     ai,status=gemini(pos,neg,history)
-    ideas=ai+offline(pos,int(datetime.now(timezone.utc).strftime("%Y%m%d"))+len(history)*1049)
-    seen={x.get("id") for x in history};rules=[]
+    ideas=ai+offline(pos,int(datetime.now(timezone.utc).strftime("%Y%m%d"))+len(seen)*1049)
+    rules=[]
     for x in ideas:
         try:r=clean(x)
         except (ValueError,TypeError,KeyError):continue
@@ -190,12 +192,14 @@ def main(src,dst):
     ai_ids={uid(r) for r in ai}
     for x in rows:x["origin"]="gemini" if x["id"] in ai_ids else "offline"
     history=(history+rows)[-180:]
-    mem.write_text(json.dumps({"history":history},ensure_ascii=False,indent=2)+"\n")
+    mem.write_text(json.dumps({"history":history,"seen_ids":sorted(seen),
+                               "total_tested":memory.get("total_tested",0)+len(rows)},
+                              ensure_ascii=False,indent=2)+"\n")
     ranked=sorted((x for x in history if x.get("passed") and x.get("score") is not None),
                   key=lambda x:x["score"],reverse=True)
     result={"utc":datetime.now(timezone.utc).isoformat(),"last_data_utc":dt(m1[-1][0]),
             "model_status":status,"ai_proposals":len(ai),"new_tested":len(rows),
-            "historical_total":len(history),"features":list(CATEGORIES),
+            "historical_total":memory.get("total_tested",0)+len(rows),"features":list(CATEGORIES),
             "train_patterns":pos[:15],"train_negative_patterns":neg,
             "split":{"train_end":dt(train),"validation_end":dt(valid),"test_end":dt(end)},
             "cost_usd_per_oz":COST,"approved_for_live":False,
