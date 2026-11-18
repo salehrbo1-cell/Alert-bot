@@ -1,4 +1,4 @@
-name: sonic-paper-monitor
+name: sumo-paper-monitor
 on:
   push:
     paths:
