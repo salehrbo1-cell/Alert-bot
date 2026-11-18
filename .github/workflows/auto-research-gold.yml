@@ -1,0 +1,70 @@
+name: AutoResearch Gold - 432 daily strategy experiments
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "research/auto_research_gold.py"
+      - ".github/workflows/auto-research-gold.yml"
+  schedule:
+    - cron: "30 3 * * *" # 06:30 Saudi; GitHub may delay scheduled starts
+permissions:
+  contents: write
+concurrency:
+  group: auto-research-gold-daily
+  cancel-in-progress: true
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate Python researcher
+        run: |
+          python -m py_compile research/auto_research_gold.py
+      - name: Download 260 days of historical XAUUSD M1 BID
+        run: |
+          START=$(date -u -d '260 days ago' +%F)
+          END=$(date -u -d 'tomorrow' +%F)
+          echo "Dukascopy historical range: $START through $END"
+          npx -y dukascopy-node -i xauusd -from "$START" -to "$END" -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files: raise SystemExit("Dukascopy returned no M1 CSV; no results will be committed")
+          source=max(files,key=lambda x:x.stat().st_size)
+          print("Input:",source,source.stat().st_size)
+          if source.stat().st_size<100_000:raise SystemExit("Downloaded source is unexpectedly small")
+          shutil.copyfile(source,"/tmp/xau_autoresearch_m1.csv")
+          PY
+      - name: Evaluate 432 strategy combinations on M5 and M15
+        run: |
+          python research/auto_research_gold.py /tmp/xau_autoresearch_m1.csv research/auto_research
+          mkdir -p research/auto_research/history
+          cp research/auto_research/latest.json "research/auto_research/history/$(date -u +%F).json"
+      - name: Upload detailed results as Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gold-autoresearch-results
+          path: |
+            research/auto_research/latest.json
+            research/auto_research/all_variants.csv
+            research/auto_research/README.md
+          retention-days: 30
+      - name: Save results to GitHub without modifying production bot
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/auto_research/
+            if git diff --cached --quiet; then echo "No new results"; exit 0; fi
+            git commit -m "AutoResearch gold: save daily backtest results"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          echo "Could not push results after retries"
+          exit 1
