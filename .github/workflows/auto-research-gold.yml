@@ -1,15 +1,6 @@
-name: AutoResearch Gold - hourly discovery + Telegram daily
+name: AutoResearch Gold - PAUSED until further notice
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "research/auto_research_gold.py"
-      - "research/ai_hypothesis_agent.py"
-      - "research/open_discovery_gold.py"
-      - "research/notify_research_telegram.py"
-      - ".github/workflows/auto-research-gold.yml"
-  schedule:
-    - cron: "30 * * * *" # Every hour; daily Telegram digest around 06:30 Saudi
 permissions:
   contents: write
 concurrency:
@@ -17,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   research:
+    if: ${{ false }} # Paused at user request; no research jobs run until re-enabled.
     runs-on: ubuntu-latest
     timeout-minutes: 100
     steps:
