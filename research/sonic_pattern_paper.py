@@ -31,7 +31,8 @@ SESSION.headers.update({"User-Agent": "SonicPaperResearch/1.0"})
 
 TRADE_COLUMNS = [
     "trade_id", "side", "status", "sweep_at_utc", "ifvg_at_utc",
-    "cisd_at_utc", "entry_at_utc", "entry_price", "observation_minutes",
+    "cisd_at_utc", "entry_at_utc", "entry_price",
+    "opposite_signal_at_utc", "opposite_signal_price", "observation_minutes",
     "max_favorable_usd", "max_adverse_usd", "adverse_close_seen",
     "returned_to_entry_after_adverse", "minutes_to_return",
     "adverse_before_return_usd", "adverse_on_return_candle_usd",
@@ -297,6 +298,8 @@ def trade_row(trade):
         "cisd_at_utc": iso(trade["cisd_t"]),
         "entry_at_utc": iso(trade["entry_t"]),
         "entry_price": round(trade["entry_price"], 4),
+        "opposite_signal_at_utc": iso(trade["opposite_signal_t"]) if trade.get("opposite_signal_t") else "",
+        "opposite_signal_price": round(trade["opposite_signal_price"], 4) if trade.get("opposite_signal_price") is not None else "",
         "observation_minutes": OBSERVATION_MINUTES,
         "max_favorable_usd": round(trade["max_favorable"], 4),
         "max_adverse_usd": round(trade["max_adverse"], 4),
@@ -322,6 +325,22 @@ def entry_message(trade):
         f"وقت الدخول: {fmt_saudi(trade['entry_t'])} السعودية\n"
         "التسلسل: Sweep → IFVG → CISD خلال 30 دقيقة\n"
         "هذا تسجيل بحثي؛ لا توجد صفقة حقيقية أو أمر للوسيط."
+    )
+
+
+def opposite_exit_message(trade, signal):
+    original_side = "شراء" if trade["direction"] == "buy" else "بيع"
+    opposite_side = "شراء" if signal["direction"] == "buy" else "بيع"
+    direction = 1 if trade["direction"] == "buy" else -1
+    move = (signal["entry_price"] - trade["entry_price"]) * direction
+    return (
+        "🚨 إنذار خروج افتراضي من صفقة سمو\n"
+        f"الصفقة القائمة: {original_side} · الدخول: {trade['entry_price']:.2f}\n"
+        f"ظهرت إشارة معاكسة: {opposite_side}\n"
+        f"سعر الخروج الافتراضي: {signal['entry_price']:.2f}\n"
+        f"وقت الإشارة المعاكسة: {fmt_saudi(signal['entry_t'])} السعودية\n"
+        f"الحركة عند الإشارة: {move:+.2f}$\n"
+        "هذا إنذار بحثي فقط، ولا ينفذ أمرًا لدى الوسيط. تستمر متابعة الستين دقيقة لأغراض القياس."
     )
 
 
@@ -935,7 +954,8 @@ def main():
 
     previous_last = int(state.get("last_processed_candle_t", 0))
     existing_ids = {t["trade_id"] for t in state.get("trades", [])}
-    for setup in detect_setups(candles):
+    new_setups = sorted(detect_setups(candles), key=lambda item: item["cisd_t"])
+    for setup in new_setups:
         if setup["cisd_t"] <= previous_last:
             continue
         cisd_index = next((i for i, x in enumerate(candles) if x["t"] == setup["cisd_t"]), None)
@@ -945,6 +965,24 @@ def main():
         trade_id = f"{setup['direction']}-{setup['sweep_t']}-{setup['ifvg_t']}-{setup['cisd_t']}"
         if trade_id in existing_ids:
             continue
+        # Treat a newly confirmed opposite setup as an exit alert for any
+        # still-observed paper entry. Keep the original 60-minute path intact.
+        opposite_trades = []
+        for open_trade in state.get("trades", []):
+            if open_trade.get("status") != "open" or open_trade.get("opposite_signal_t") is not None:
+                continue
+            if open_trade.get("direction") == setup["direction"]:
+                continue
+            observation_end = open_trade["entry_t"] + OBSERVATION_MINUTES * 60_000
+            if not (open_trade["entry_t"] <= entry_bar["t"] < observation_end):
+                continue
+            open_trade["opposite_signal_t"] = entry_bar["t"]
+            open_trade["opposite_signal_price"] = entry_bar["o"]
+            open_trade["opposite_signal_direction"] = setup["direction"]
+            open_trade["opposite_signal_trade_id"] = trade_id
+            open_trade["opposite_exit_notified"] = False
+            opposite_trades.append(open_trade)
+
         trade = {
             **setup,
             "trade_id": trade_id,
@@ -966,6 +1004,22 @@ def main():
         }
         state.setdefault("trades", []).append(trade)
         existing_ids.add(trade_id)
+
+        # Persist entry/exit events before sending so a failed Telegram call
+        # can be retried on the next workflow run without duplicating entries.
+        save_state(state)
+        signal_context = {
+            "direction": trade["direction"],
+            "entry_t": trade["entry_t"],
+            "entry_price": trade["entry_price"],
+        }
+        for open_trade in opposite_trades:
+            if send_telegram(opposite_exit_message(open_trade, signal_context)):
+                open_trade["opposite_exit_notified"] = True
+                save_state(state)
+        if send_telegram(entry_message(trade)):
+            trade["entry_notified"] = True
+            save_state(state)
         print("New paper entry:", trade_id, "at", trade["entry_price"])
 
     new_path_rows = []
@@ -987,7 +1041,16 @@ def main():
     evaluate_step_resistance_exit_rule(state, candles, now)
 
     for trade in state.get("trades", []):
-        if not trade["entry_notified"] and send_telegram(entry_message(trade)):
+        if trade.get("opposite_signal_t") is not None and not trade.get("opposite_exit_notified", False):
+            opposite_context = {
+                "direction": trade["opposite_signal_direction"],
+                "entry_t": trade["opposite_signal_t"],
+                "entry_price": trade["opposite_signal_price"],
+            }
+            if send_telegram(opposite_exit_message(trade, opposite_context)):
+                trade["opposite_exit_notified"] = True
+                save_state(state)
+        if not trade.get("entry_notified", False) and send_telegram(entry_message(trade)):
             trade["entry_notified"] = True
             save_state(state)
         if trade["status"] == "complete" and not trade["completion_notified"]:
