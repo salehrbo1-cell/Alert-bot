@@ -6803,16 +6803,968 @@
         "dd_usd": 189.784
       },
       "origin": "offline"
+    },
+    {
+      "id": "494b39de5a78",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "body",
+            "value": "medium"
+          },
+          {
+            "feature": "lower_wick",
+            "value": "dominant"
+          }
+        ]
+      },
+      "passed": true,
+      "score": 0.45483,
+      "train": {
+        "n": 382,
+        "avg_usd": 0.5444,
+        "total_usd": 207.964,
+        "win": 0.534,
+        "pf": 1.072,
+        "dd_usd": 448.885
+      },
+      "validation": {
+        "n": 84,
+        "avg_usd": 2.2816,
+        "total_usd": 191.657,
+        "win": 0.5238,
+        "pf": 1.386,
+        "dd_usd": 89.57
+      },
+      "test": {
+        "n": 75,
+        "avg_usd": 0.3986,
+        "total_usd": 29.895,
+        "win": 0.5733,
+        "pf": 1.07,
+        "dd_usd": 177.326
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "fdd173498865",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "mean_distance",
+            "value": "below"
+          },
+          {
+            "feature": "volatility",
+            "value": "normal"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 295,
+        "avg_usd": 0.8722,
+        "total_usd": 257.287,
+        "win": 0.5085,
+        "pf": 1.12,
+        "dd_usd": 243.17
+      },
+      "validation": {
+        "n": 54,
+        "avg_usd": -3.0523,
+        "total_usd": -164.824,
+        "win": 0.4074,
+        "pf": 0.664,
+        "dd_usd": 244.87
+      },
+      "test": {
+        "n": 65,
+        "avg_usd": 2.2992,
+        "total_usd": 149.446,
+        "win": 0.5385,
+        "pf": 1.429,
+        "dd_usd": 97.236
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "647b0cfb66f5",
+      "rule": {
+        "tf": 15,
+        "side": "buy",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "body",
+            "value": "large"
+          },
+          {
+            "feature": "breakout",
+            "value": "down"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 155,
+        "avg_usd": -1.8951,
+        "total_usd": -293.737,
+        "win": 0.4581,
+        "pf": 0.796,
+        "dd_usd": 495.503
+      },
+      "validation": {
+        "n": 37,
+        "avg_usd": -2.9644,
+        "total_usd": -109.681,
+        "win": 0.3784,
+        "pf": 0.655,
+        "dd_usd": 176.303
+      },
+      "test": {
+        "n": 32,
+        "avg_usd": -4.1596,
+        "total_usd": -133.106,
+        "win": 0.4062,
+        "pf": 0.446,
+        "dd_usd": 170.244
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "72ca73c44f21",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "lower_wick",
+            "value": "dominant"
+          },
+          {
+            "feature": "weekday",
+            "value": "tue"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 133,
+        "avg_usd": 3.733,
+        "total_usd": 496.494,
+        "win": 0.5639,
+        "pf": 1.58,
+        "dd_usd": 179.88
+      },
+      "validation": {
+        "n": 28,
+        "avg_usd": -3.294,
+        "total_usd": -92.233,
+        "win": 0.3929,
+        "pf": 0.607,
+        "dd_usd": 125.95
+      },
+      "test": {
+        "n": 27,
+        "avg_usd": 1.9103,
+        "total_usd": 51.579,
+        "win": 0.4815,
+        "pf": 1.275,
+        "dd_usd": 50.016
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "98160e5a990d",
+      "rule": {
+        "tf": 15,
+        "side": "buy",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "session",
+            "value": "late_us"
+          },
+          {
+            "feature": "trend",
+            "value": "up"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 103,
+        "avg_usd": 1.3532,
+        "total_usd": 139.38,
+        "win": 0.4466,
+        "pf": 1.381,
+        "dd_usd": 120.515
+      },
+      "validation": {
+        "n": 19,
+        "avg_usd": -0.7092,
+        "total_usd": -13.475,
+        "win": 0.5263,
+        "pf": 0.838,
+        "dd_usd": 58.35
+      },
+      "test": {
+        "n": 14,
+        "avg_usd": -5.2839,
+        "total_usd": -73.974,
+        "win": 0.2143,
+        "pf": 0.117,
+        "dd_usd": 73.974
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "de222c64c656",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "close_position",
+            "value": "middle"
+          },
+          {
+            "feature": "weekday",
+            "value": "fri"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 119,
+        "avg_usd": 0.9818,
+        "total_usd": 116.834,
+        "win": 0.521,
+        "pf": 1.13,
+        "dd_usd": 348.77
+      },
+      "validation": {
+        "n": 22,
+        "avg_usd": -5.3986,
+        "total_usd": -118.77,
+        "win": 0.4545,
+        "pf": 0.514,
+        "dd_usd": 134.86
+      },
+      "test": {
+        "n": 22,
+        "avg_usd": 6.0887,
+        "total_usd": 133.951,
+        "win": 0.5909,
+        "pf": 2.932,
+        "dd_usd": 35.828
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "b2b07631e1a3",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "body",
+            "value": "large"
+          },
+          {
+            "feature": "close_position",
+            "value": "low"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 742,
+        "avg_usd": -0.0475,
+        "total_usd": -35.257,
+        "win": 0.531,
+        "pf": 0.991,
+        "dd_usd": 630.026
+      },
+      "validation": {
+        "n": 155,
+        "avg_usd": -0.7493,
+        "total_usd": -116.142,
+        "win": 0.471,
+        "pf": 0.853,
+        "dd_usd": 198.275
+      },
+      "test": {
+        "n": 156,
+        "avg_usd": 0.6824,
+        "total_usd": 106.449,
+        "win": 0.5449,
+        "pf": 1.186,
+        "dd_usd": 97.902
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "01573db8268e",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "breakout",
+            "value": "inside"
+          },
+          {
+            "feature": "upper_wick",
+            "value": "dominant"
+          }
+        ]
+      },
+      "passed": true,
+      "score": 0.21723,
+      "train": {
+        "n": 606,
+        "avg_usd": 0.3327,
+        "total_usd": 201.621,
+        "win": 0.5215,
+        "pf": 1.042,
+        "dd_usd": 709.98
+      },
+      "validation": {
+        "n": 123,
+        "avg_usd": 0.5503,
+        "total_usd": 67.692,
+        "win": 0.5041,
+        "pf": 1.085,
+        "dd_usd": 115.47
+      },
+      "test": {
+        "n": 107,
+        "avg_usd": 3.4257,
+        "total_usd": 366.553,
+        "win": 0.5981,
+        "pf": 1.71,
+        "dd_usd": 162.936
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "a9704a11e9d4",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "streak",
+            "value": "down3"
+          },
+          {
+            "feature": "weekday",
+            "value": "tue"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 97,
+        "avg_usd": 2.9099,
+        "total_usd": 282.261,
+        "win": 0.567,
+        "pf": 1.423,
+        "dd_usd": 114.176
+      },
+      "validation": {
+        "n": 21,
+        "avg_usd": -5.4228,
+        "total_usd": -113.878,
+        "win": 0.381,
+        "pf": 0.374,
+        "dd_usd": 117.524
+      },
+      "test": {
+        "n": 22,
+        "avg_usd": 1.4036,
+        "total_usd": 30.88,
+        "win": 0.5909,
+        "pf": 1.242,
+        "dd_usd": 51.76
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "0419a70f63b3",
+      "rule": {
+        "tf": 15,
+        "side": "buy",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "session",
+            "value": "late_us"
+          },
+          {
+            "feature": "trend",
+            "value": "up"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 73,
+        "avg_usd": 2.3625,
+        "total_usd": 172.462,
+        "win": 0.5205,
+        "pf": 1.397,
+        "dd_usd": 176.622
+      },
+      "validation": {
+        "n": 17,
+        "avg_usd": -1.7335,
+        "total_usd": -29.47,
+        "win": 0.4706,
+        "pf": 0.709,
+        "dd_usd": 58.95
+      },
+      "test": {
+        "n": 12,
+        "avg_usd": -6.2805,
+        "total_usd": -75.366,
+        "win": 0.3333,
+        "pf": 0.321,
+        "dd_usd": 98.224
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "694dcccc278d",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 3,
+        "conditions": [
+          {
+            "feature": "streak",
+            "value": "up3"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 632,
+        "avg_usd": -0.4462,
+        "total_usd": -282.029,
+        "win": 0.4858,
+        "pf": 0.896,
+        "dd_usd": 522.106
+      },
+      "validation": {
+        "n": 123,
+        "avg_usd": -0.4461,
+        "total_usd": -54.872,
+        "win": 0.4553,
+        "pf": 0.871,
+        "dd_usd": 110.7
+      },
+      "test": {
+        "n": 105,
+        "avg_usd": 0.5817,
+        "total_usd": 61.079,
+        "win": 0.5619,
+        "pf": 1.227,
+        "dd_usd": 104.654
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "cd9e688fa34f",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "trend",
+            "value": "flat"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 659,
+        "avg_usd": -0.0139,
+        "total_usd": -9.151,
+        "win": 0.5083,
+        "pf": 0.998,
+        "dd_usd": 609.717
+      },
+      "validation": {
+        "n": 131,
+        "avg_usd": 0.6186,
+        "total_usd": 81.031,
+        "win": 0.4809,
+        "pf": 1.099,
+        "dd_usd": 120.863
+      },
+      "test": {
+        "n": 118,
+        "avg_usd": 1.5601,
+        "total_usd": 184.093,
+        "win": 0.5339,
+        "pf": 1.28,
+        "dd_usd": 244.611
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "faec89f8e2b7",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "lower_wick",
+            "value": "dominant"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 587,
+        "avg_usd": -0.1973,
+        "total_usd": -115.792,
+        "win": 0.5094,
+        "pf": 0.975,
+        "dd_usd": 742.372
+      },
+      "validation": {
+        "n": 117,
+        "avg_usd": 0.0244,
+        "total_usd": 2.857,
+        "win": 0.5128,
+        "pf": 1.004,
+        "dd_usd": 122.283
+      },
+      "test": {
+        "n": 108,
+        "avg_usd": 0.9706,
+        "total_usd": 104.822,
+        "win": 0.5741,
+        "pf": 1.144,
+        "dd_usd": 267.021
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "8c02a60a9744",
+      "rule": {
+        "tf": 5,
+        "side": "buy",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "direction",
+            "value": "up"
+          },
+          {
+            "feature": "streak",
+            "value": "up3"
+          },
+          {
+            "feature": "volatility",
+            "value": "normal"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 880,
+        "avg_usd": -0.7324,
+        "total_usd": -644.537,
+        "win": 0.4273,
+        "pf": 0.783,
+        "dd_usd": 709.436
+      },
+      "validation": {
+        "n": 188,
+        "avg_usd": -1.6719,
+        "total_usd": -314.311,
+        "win": 0.4628,
+        "pf": 0.567,
+        "dd_usd": 316.651
+      },
+      "test": {
+        "n": 149,
+        "avg_usd": -0.9681,
+        "total_usd": -144.242,
+        "win": 0.3893,
+        "pf": 0.681,
+        "dd_usd": 167.359
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "0757b04f2396",
+      "rule": {
+        "tf": 15,
+        "side": "buy",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "breakout",
+            "value": "up"
+          },
+          {
+            "feature": "streak",
+            "value": "other"
+          },
+          {
+            "feature": "weekday",
+            "value": "mon"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 29,
+        "avg_usd": 1.7363,
+        "total_usd": 50.353,
+        "win": 0.4828,
+        "pf": 1.362,
+        "dd_usd": 66.61
+      },
+      "validation": {
+        "n": 4,
+        "avg_usd": 2.3,
+        "total_usd": 9.2,
+        "win": 0.5,
+        "pf": 3.048,
+        "dd_usd": 3.76
+      },
+      "test": {
+        "n": 4,
+        "avg_usd": 18.155,
+        "total_usd": 72.62,
+        "win": 0.5,
+        "pf": 3.359,
+        "dd_usd": 20.17
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "ddcc273233dd",
+      "rule": {
+        "tf": 5,
+        "side": "buy",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "mean_distance",
+            "value": "below"
+          },
+          {
+            "feature": "upper_wick",
+            "value": "dominant"
+          },
+          {
+            "feature": "weekday",
+            "value": "fri"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 170,
+        "avg_usd": -1.3612,
+        "total_usd": -231.4,
+        "win": 0.5,
+        "pf": 0.648,
+        "dd_usd": 281.213
+      },
+      "validation": {
+        "n": 26,
+        "avg_usd": 0.6796,
+        "total_usd": 17.67,
+        "win": 0.6154,
+        "pf": 1.212,
+        "dd_usd": 34.36
+      },
+      "test": {
+        "n": 46,
+        "avg_usd": -2.162,
+        "total_usd": -99.451,
+        "win": 0.3696,
+        "pf": 0.384,
+        "dd_usd": 117.557
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "52745d53f0f8",
+      "rule": {
+        "tf": 5,
+        "side": "buy",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "mean_distance",
+            "value": "above"
+          },
+          {
+            "feature": "upper_wick",
+            "value": "dominant"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 719,
+        "avg_usd": -0.2412,
+        "total_usd": -173.412,
+        "win": 0.4701,
+        "pf": 0.949,
+        "dd_usd": 383.552
+      },
+      "validation": {
+        "n": 148,
+        "avg_usd": -1.7504,
+        "total_usd": -259.054,
+        "win": 0.4459,
+        "pf": 0.66,
+        "dd_usd": 309.996
+      },
+      "test": {
+        "n": 120,
+        "avg_usd": -2.4959,
+        "total_usd": -299.512,
+        "win": 0.35,
+        "pf": 0.543,
+        "dd_usd": 299.512
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "bc92c7cc83a5",
+      "rule": {
+        "tf": 5,
+        "side": "sell",
+        "horizon": 6,
+        "conditions": [
+          {
+            "feature": "breakout",
+            "value": "down"
+          },
+          {
+            "feature": "close_position",
+            "value": "high"
+          },
+          {
+            "feature": "session",
+            "value": "europe"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 6,
+        "avg_usd": -3.1283,
+        "total_usd": -18.77,
+        "win": 0.1667,
+        "pf": 0.069,
+        "dd_usd": 18.77
+      },
+      "validation": {
+        "n": 0,
+        "avg_usd": null,
+        "total_usd": null,
+        "win": null,
+        "pf": null,
+        "dd_usd": null
+      },
+      "test": {
+        "n": 1,
+        "avg_usd": 7.359,
+        "total_usd": 7.359,
+        "win": 1.0,
+        "pf": null,
+        "dd_usd": 0.0
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "7414eed2eb77",
+      "rule": {
+        "tf": 15,
+        "side": "buy",
+        "horizon": 3,
+        "conditions": [
+          {
+            "feature": "direction",
+            "value": "down"
+          },
+          {
+            "feature": "volatility",
+            "value": "low"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 387,
+        "avg_usd": -0.6848,
+        "total_usd": -265.025,
+        "win": 0.4134,
+        "pf": 0.808,
+        "dd_usd": 387.381
+      },
+      "validation": {
+        "n": 73,
+        "avg_usd": -0.0159,
+        "total_usd": -1.163,
+        "win": 0.4795,
+        "pf": 0.994,
+        "dd_usd": 72.495
+      },
+      "test": {
+        "n": 87,
+        "avg_usd": -0.014,
+        "total_usd": -1.222,
+        "win": 0.4713,
+        "pf": 0.994,
+        "dd_usd": 74.306
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "9a4618f851c9",
+      "rule": {
+        "tf": 5,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "session",
+            "value": "us"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 889,
+        "avg_usd": -0.0315,
+        "total_usd": -27.972,
+        "win": 0.5118,
+        "pf": 0.994,
+        "dd_usd": 548.354
+      },
+      "validation": {
+        "n": 176,
+        "avg_usd": 0.6585,
+        "total_usd": 115.889,
+        "win": 0.517,
+        "pf": 1.17,
+        "dd_usd": 62.49
+      },
+      "test": {
+        "n": 184,
+        "avg_usd": 0.9392,
+        "total_usd": 172.819,
+        "win": 0.5652,
+        "pf": 1.269,
+        "dd_usd": 158.009
+      },
+      "origin": "offline"
+    },
+    {
+      "id": "46c7894e2bea",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "horizon": 12,
+        "conditions": [
+          {
+            "feature": "session",
+            "value": "asia"
+          },
+          {
+            "feature": "trend",
+            "value": "up"
+          },
+          {
+            "feature": "weekday",
+            "value": "wed"
+          }
+        ]
+      },
+      "passed": false,
+      "score": null,
+      "train": {
+        "n": 33,
+        "avg_usd": -1.8985,
+        "total_usd": -62.65,
+        "win": 0.5455,
+        "pf": 0.816,
+        "dd_usd": 146.22
+      },
+      "validation": {
+        "n": 6,
+        "avg_usd": 5.7833,
+        "total_usd": 34.7,
+        "win": 0.6667,
+        "pf": 1.801,
+        "dd_usd": 25.16
+      },
+      "test": {
+        "n": 6,
+        "avg_usd": -11.8695,
+        "total_usd": -71.217,
+        "win": 0.3333,
+        "pf": 0.269,
+        "dd_usd": 97.487
+      },
+      "origin": "offline"
     }
   ],
   "seen_ids": [
     "001e94296586",
+    "01573db8268e",
     "01b78151856c",
     "0293fac9528e",
     "03466535fd7d",
     "0398c8e4ae5b",
     "03ff9a308963",
+    "0419a70f63b3",
     "057f5f3ef47c",
+    "0757b04f2396",
     "08ba3468aaa1",
     "0940edda82bb",
     "0aad113efe48",
@@ -6848,13 +7800,16 @@
     "3f8bfa4f0252",
     "42d54bbd42c8",
     "44924c424f56",
+    "46c7894e2bea",
     "46ce59e0050c",
     "48dcc85696ae",
+    "494b39de5a78",
     "4a2ea9f1d081",
     "4aa0bee0dc0e",
     "4e4895949099",
     "4f1caef8ecbe",
     "51416c0653fd",
+    "52745d53f0f8",
     "53aae0242eba",
     "55726db530e2",
     "56e3cf7958f1",
@@ -6869,12 +7824,16 @@
     "5dc44875c661",
     "615ffbcc6e03",
     "61ddebce70f2",
+    "647b0cfb66f5",
     "65320594c291",
     "6775ec374766",
     "6776d5c6acaf",
+    "694dcccc278d",
     "6aa72acbf425",
     "71948dc70116",
     "71b1799a2fb7",
+    "72ca73c44f21",
+    "7414eed2eb77",
     "746fef20000a",
     "7546156e7b42",
     "765e311d2988",
@@ -6892,29 +7851,35 @@
     "87438c930ac8",
     "8b1b27554e09",
     "8ba73d975faf",
+    "8c02a60a9744",
     "9080e403a859",
     "921c0f653887",
     "946d25aebb51",
     "953c45a41877",
     "97b2c6d61c79",
+    "98160e5a990d",
     "995de2a2969a",
+    "9a4618f851c9",
     "9f4ab0ec28a0",
     "a2852a8019fe",
     "a392409bc5b0",
     "a6393f931fd6",
     "a7621e0e6b0e",
     "a76f6ca9cbf2",
+    "a9704a11e9d4",
     "ab21a48d8fd9",
     "ad6873f05c75",
     "ad916b89b918",
     "ad9c29339724",
     "b1d4f30fc21d",
+    "b2b07631e1a3",
     "b2fc262c2060",
     "b4e2ac92e38a",
     "b5f4d4b11038",
     "ba0109bd396f",
     "ba18c90bed32",
     "ba5dc6c73bd1",
+    "bc92c7cc83a5",
     "bd5fabf245a4",
     "be534b8dacba",
     "c20ba994e915",
@@ -6924,6 +7889,7 @@
     "c95547bdcae9",
     "cb441b121c9e",
     "cd0e7ed49cf0",
+    "cd9e688fa34f",
     "cde91313fe56",
     "ce4460311103",
     "cfbd3d833b66",
@@ -6935,6 +7901,8 @@
     "d5455b312111",
     "db1c2650c6af",
     "dce7999fe3d3",
+    "ddcc273233dd",
+    "de222c64c656",
     "de994c36dbd6",
     "deb742b2160e",
     "dfb2d4861b24",
@@ -6953,11 +7921,13 @@
     "f137611344c6",
     "f376811bc273",
     "f3b811d327c5",
+    "faec89f8e2b7",
     "fb1f602115a3",
     "fb7864258762",
     "fc1b7586985e",
     "fc5ab5771277",
+    "fdd173498865",
     "fe4036c810b6"
   ],
-  "total_tested": 122
+  "total_tested": 143
 }
