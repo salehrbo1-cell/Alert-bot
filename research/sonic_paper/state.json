@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795017720000,
+  "last_processed_candle_t": 1795017780000,
   "trades": [
     {
       "direction": "buy",
@@ -399,7 +399,7 @@
       "minutes_to_return": 2,
       "adverse_before_return": 1.3506,
       "adverse_on_return_candle": 0.2075,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 2.5302499999997963,
@@ -419,7 +419,7 @@
         "60": {
           "max_favorable": 4.792899999999918,
           "max_adverse": 6.071210000000065,
-          "close_pnl": -4.388129999999819
+          "close_pnl": -5.414350000000013
         }
       },
       "entry_notified": true,
@@ -445,7 +445,7 @@
       "minutes_to_return": 16,
       "adverse_before_return": 5.8717,
       "adverse_on_return_candle": 1.6863,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 0.0,
@@ -465,7 +465,7 @@
         "60": {
           "max_favorable": 2.8809699999997065,
           "max_adverse": 7.983140000000276,
-          "close_pnl": -6.30006000000003
+          "close_pnl": -7.326280000000224
         }
       },
       "entry_notified": true,
@@ -491,7 +491,7 @@
       "minutes_to_return": 10,
       "adverse_before_return": 5.35,
       "adverse_on_return_candle": 1.1646,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 0.0,
@@ -511,7 +511,7 @@
         "60": {
           "max_favorable": 3.402649999999994,
           "max_adverse": 7.461459999999988,
-          "close_pnl": -5.778379999999743
+          "close_pnl": -6.804599999999937
         }
       },
       "entry_notified": true,
@@ -537,7 +537,7 @@
       "minutes_to_return": null,
       "adverse_before_return": null,
       "adverse_on_return_candle": null,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 2.5800799999997253,
@@ -557,7 +557,7 @@
         "60": {
           "max_favorable": 2.5800799999997253,
           "max_adverse": 8.284030000000257,
-          "close_pnl": -6.600950000000012
+          "close_pnl": -7.627170000000206
         }
       },
       "entry_notified": true,
@@ -583,7 +583,7 @@
       "minutes_to_return": 15,
       "adverse_before_return": 3.0473,
       "adverse_on_return_candle": 1.8376,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 1.8462399999998524,
@@ -598,12 +598,12 @@
         "30": {
           "max_favorable": 1.8462399999998524,
           "max_adverse": 3.04729000000043,
-          "close_pnl": 0.16315999999960695
+          "close_pnl": 1.189379999999801
         },
         "60": {
           "max_favorable": 1.8462399999998524,
           "max_adverse": 3.04729000000043,
-          "close_pnl": 0.16315999999960695
+          "close_pnl": 1.189379999999801
         }
       },
       "entry_notified": true,
@@ -622,14 +622,14 @@
       "entry_price": 3753.21634,
       "status": "open",
       "max_favorable": 2.4742300000002615,
-      "max_adverse": 1.1098699999997734,
+      "max_adverse": 2.1096400000001267,
       "adverse_close_seen": true,
-      "adverse_before_return_running": 1.1098699999997734,
+      "adverse_before_return_running": 2.1096400000001267,
       "returned_after_adverse": null,
       "minutes_to_return": null,
       "adverse_before_return": null,
       "adverse_on_return_candle": null,
-      "last_path_t": 1795017720000,
+      "last_path_t": 1795017780000,
       "horizons": {
         "5": {
           "max_favorable": 1.4732100000001083,
@@ -638,18 +638,18 @@
         },
         "15": {
           "max_favorable": 2.4742300000002615,
-          "max_adverse": 1.1098699999997734,
-          "close_pnl": -0.7362199999997756
+          "max_adverse": 2.1096400000001267,
+          "close_pnl": -1.7624399999999696
         },
         "30": {
           "max_favorable": 2.4742300000002615,
-          "max_adverse": 1.1098699999997734,
-          "close_pnl": -0.7362199999997756
+          "max_adverse": 2.1096400000001267,
+          "close_pnl": -1.7624399999999696
         },
         "60": {
           "max_favorable": 2.4742300000002615,
-          "max_adverse": 1.1098699999997734,
-          "close_pnl": -0.7362199999997756
+          "max_adverse": 2.1096400000001267,
+          "close_pnl": -1.7624399999999696
         }
       },
       "entry_notified": true,
