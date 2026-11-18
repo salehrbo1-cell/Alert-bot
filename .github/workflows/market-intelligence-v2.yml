@@ -5,6 +5,7 @@ on:
     paths:
       - "research/market_intelligence_v2.py"
       - "research/touch_confirm_v2.py"
+      - "research/touch_context_v2.py"
       - ".github/workflows/market-intelligence-v2.yml"
 permissions:
   contents: write
@@ -25,7 +26,8 @@ jobs:
       - name: Verify source and compile
         run: |
           test -s research/results_strong_sr_bounces/touches.csv
-          python -m py_compile research/market_intelligence_v2.py research/touch_confirm_v2.py
+          python -m py_compile research/market_intelligence_v2.py research/touch_confirm_v2.py research/touch_context_v2.py
+          test -s research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv
           test -s research/results_sr_retests_m5_m15/events.json
       - name: Train and evaluate on time-separated data
         run: |
@@ -33,6 +35,9 @@ jobs:
       - name: Study 5,287 M5 zone touch confirmations
         run: |
           python research/touch_confirm_v2.py research/results_sr_retests_m5_m15/events.json research/market_intelligence_v2
+      - name: Add pre-touch momentum and volatility context
+        run: |
+          python research/touch_context_v2.py research/results_sr_retests_m5_m15/events.json research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv research/market_intelligence_v2
       - name: Upload study artifacts
         uses: actions/upload-artifact@v4
         with:
