@@ -118,7 +118,7 @@ def gemini_suggest(history):
         return good,"gemini_free_tier_requested"
     except (urllib.error.HTTPError,urllib.error.URLError,TimeoutError,KeyError,ValueError,IndexError) as exc:
         # 429 = exhausted free quota. No paid fallback and no retries.
-        return [],"gemini_unavailable_"+type(exc).__name__
+        return [],"gemini_http_"+str(exc.code) if isinstance(exc,urllib.error.HTTPError) else "gemini_unavailable_"+type(exc).__name__
 
 def evaluate(m1,starts,events,rule,begin,train_end,valid_end,end):
     grouped=defaultdict(list);occupied=-1;count=0
@@ -147,7 +147,7 @@ def main(src,dest):
     except (ValueError,TypeError):history=[]
     # Never let the AI read held-out test results through memory.
     ai,status=gemini_suggest(history)
-    seed=int(datetime.now(timezone.utc).strftime("%Y%m%d"))
+    seed=int(datetime.now(timezone.utc).strftime("%Y%m%d"))+len(history)*1031
     prior=sorted((x for x in history if x.get("passed") and x.get("score") is not None),
         key=lambda x:x["score"],reverse=True)
     parent=prior[0]["rule"] if prior else DEFAULT
