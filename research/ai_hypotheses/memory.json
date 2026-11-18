@@ -321,6 +321,190 @@
       },
       "passed": false,
       "score": null
+    },
+    {
+      "id": "7c59f925fafa",
+      "rule": {
+        "tf": 5,
+        "side": "buy",
+        "wick_body_min": 1.5,
+        "wick_body_max": 3.5,
+        "body_atr_min": 0.2,
+        "body_atr_max": 0.9,
+        "utc_hour_start": 7,
+        "utc_hour_end": 11,
+        "min_dwm_frames": 2,
+        "monthly_close_near": true,
+        "h1_h4_pivot_near": true,
+        "confirmation": "extreme",
+        "entry": "market",
+        "target": "rr2"
+      },
+      "signals": 2,
+      "train": {
+        "n": 1,
+        "mean_r": -1.0,
+        "total_r": -1.0,
+        "win": 0.0,
+        "dd_r": 1.0,
+        "pf": 0.0
+      },
+      "validation": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "test": {
+        "n": 1,
+        "mean_r": -1.0,
+        "total_r": -1.0,
+        "win": 0.0,
+        "dd_r": 1.0,
+        "pf": 0.0
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "37f554813398",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "wick_body_min": 2.0,
+        "wick_body_max": 5.0,
+        "body_atr_min": 0.5,
+        "body_atr_max": 1.2,
+        "utc_hour_start": 12,
+        "utc_hour_end": 16,
+        "min_dwm_frames": 0,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": true,
+        "confirmation": "body",
+        "entry": "body_limit",
+        "target": "next_level"
+      },
+      "signals": 0,
+      "train": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "validation": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "test": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "460d6e967d02",
+      "rule": {
+        "tf": 5,
+        "side": "buy",
+        "wick_body_min": 0.85,
+        "wick_body_max": 2.0,
+        "body_atr_min": 0.8,
+        "body_atr_max": 1.4,
+        "utc_hour_start": 1,
+        "utc_hour_end": 5,
+        "min_dwm_frames": 1,
+        "monthly_close_near": true,
+        "h1_h4_pivot_near": false,
+        "confirmation": "none",
+        "entry": "market",
+        "target": "rr1.5"
+      },
+      "signals": 1,
+      "train": {
+        "n": 1,
+        "mean_r": -1.0,
+        "total_r": -1.0,
+        "win": 0.0,
+        "dd_r": 1.0,
+        "pf": 0.0
+      },
+      "validation": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "test": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "a4285c9a7469",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "wick_body_min": 0.75,
+        "wick_body_max": 1.25,
+        "body_atr_min": 0.1,
+        "body_atr_max": 1.5,
+        "utc_hour_start": 1,
+        "utc_hour_end": 23,
+        "min_dwm_frames": 1,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": false,
+        "confirmation": "body",
+        "entry": "body_limit",
+        "target": "rr1.5"
+      },
+      "signals": 163,
+      "train": {
+        "n": 50,
+        "mean_r": -0.05,
+        "total_r": -2.5,
+        "win": 0.38,
+        "dd_r": 8.5,
+        "pf": 0.919
+      },
+      "validation": {
+        "n": 14,
+        "mean_r": -0.1071,
+        "total_r": -1.5,
+        "win": 0.3571,
+        "dd_r": 6.5,
+        "pf": 0.833
+      },
+      "test": {
+        "n": 14,
+        "mean_r": -0.1071,
+        "total_r": -1.5,
+        "win": 0.3571,
+        "dd_r": 6.0,
+        "pf": 0.833
+      },
+      "passed": false,
+      "score": null
     }
   ]
 }

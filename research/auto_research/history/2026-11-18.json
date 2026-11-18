@@ -1,17 +1,17 @@
 {
-  "generated_utc": "2026-11-18T04:12:01.059246+00:00",
+  "generated_utc": "2026-11-18T04:13:20.997359+00:00",
   "source": "Dukascopy XAUUSD M1 BID",
   "first_utc": "2026-03-03T00:00:00+00:00",
-  "last_utc": "2026-11-18T04:09:00+00:00",
-  "last_bid": 3783.275,
-  "m1_bars": 312963,
+  "last_utc": "2026-11-18T04:11:00+00:00",
+  "last_bid": 3781.985,
+  "m1_bars": 312965,
   "signals": 17417,
   "variants": 432,
   "qualified": 7,
   "status": "research_candidate_only",
   "split": {
-    "train_end": "2026-09-11T09:18:18+00:00",
-    "validation_end": "2026-10-15T02:43:39+00:00",
+    "train_end": "2026-09-11T09:19:42+00:00",
+    "validation_end": "2026-10-15T02:45:21+00:00",
     "method": "chronological 70/15/15 after 35d warmup; 24h embargo; no test data used for ranking"
   },
   "assumptions": {
