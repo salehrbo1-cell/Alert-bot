@@ -1,17 +1,17 @@
 {
-  "generated_utc": "2026-11-18T03:46:13.682735+00:00",
+  "generated_utc": "2026-11-18T03:55:50.582949+00:00",
   "source": "Dukascopy XAUUSD M1 BID",
   "first_utc": "2026-03-03T00:00:00+00:00",
-  "last_utc": "2026-11-18T03:44:00+00:00",
-  "last_bid": 3793.657,
-  "m1_bars": 312938,
-  "signals": 17413,
+  "last_utc": "2026-11-18T03:53:00+00:00",
+  "last_bid": 3792.936,
+  "m1_bars": 312947,
+  "signals": 17414,
   "variants": 432,
   "qualified": 7,
   "status": "research_candidate_only",
   "split": {
-    "train_end": "2026-09-11T09:00:48+00:00",
-    "validation_end": "2026-10-15T02:22:24+00:00",
+    "train_end": "2026-09-11T09:07:06+00:00",
+    "validation_end": "2026-10-15T02:30:03+00:00",
     "method": "chronological 70/15/15 after 35d warmup; 24h embargo; no test data used for ranking"
   },
   "assumptions": {
@@ -35,8 +35,8 @@
       "level": "dwm2",
       "target": "next_level"
     },
-    "eligible": 253,
-    "unfilled_or_rejected": 149,
+    "eligible": 252,
+    "unfilled_or_rejected": 148,
     "passed": true,
     "score": 0.13034,
     "train": {
@@ -74,8 +74,8 @@
         "level": "dwm2",
         "target": "next_level"
       },
-      "eligible": 253,
-      "unfilled_or_rejected": 149,
+      "eligible": 252,
+      "unfilled_or_rejected": 148,
       "passed": true,
       "score": 0.13034,
       "train": {
@@ -150,8 +150,8 @@
         "level": "dwm2",
         "target": "next_level"
       },
-      "eligible": 644,
-      "unfilled_or_rejected": 277,
+      "eligible": 643,
+      "unfilled_or_rejected": 276,
       "passed": true,
       "score": 0.0249,
       "train": {

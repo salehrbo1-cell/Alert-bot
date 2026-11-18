@@ -1,0 +1,199 @@
+{
+  "utc": "2026-11-18T03:55:52.713260+00:00",
+  "provider_status": "no_api_key_offline_only",
+  "generated_by_ai": 0,
+  "new_hypotheses": 4,
+  "historical_total": 4,
+  "last_data_utc": "2026-11-18T03:53:00+00:00",
+  "training_end_utc": "2026-09-11T09:07:06+00:00",
+  "validation_end_utc": "2026-10-15T02:30:03+00:00",
+  "selection": "training+validation ONLY; held-out test never used for ranking",
+  "approved_for_live": false,
+  "champion": null,
+  "new_results": [
+    {
+      "id": "6e7684a08003",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "wick_body_min": 0.75,
+        "wick_body_max": 1.25,
+        "body_atr_min": 0.1,
+        "body_atr_max": 1.5,
+        "utc_hour_start": 0,
+        "utc_hour_end": 23,
+        "min_dwm_frames": 1,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": false,
+        "confirmation": "body",
+        "entry": "market",
+        "target": "rr1.5"
+      },
+      "signals": 3,
+      "train": {
+        "n": 2,
+        "mean_r": -1.0,
+        "total_r": -2.0,
+        "win": 0.0,
+        "dd_r": 2.0,
+        "pf": 0.0
+      },
+      "validation": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "test": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "d2f1e5df8fce",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "wick_body_min": 0.75,
+        "wick_body_max": 1.25,
+        "body_atr_min": 0.1,
+        "body_atr_max": 1.5,
+        "utc_hour_start": 0,
+        "utc_hour_end": 23,
+        "min_dwm_frames": 1,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": false,
+        "confirmation": "body",
+        "entry": "body_limit",
+        "target": "next_level"
+      },
+      "signals": 167,
+      "train": {
+        "n": 29,
+        "mean_r": -0.3191,
+        "total_r": -9.253,
+        "win": 0.2069,
+        "dd_r": 9.253,
+        "pf": 0.598
+      },
+      "validation": {
+        "n": 7,
+        "mean_r": -0.5049,
+        "total_r": -3.534,
+        "win": 0.1429,
+        "dd_r": 5.0,
+        "pf": 0.411
+      },
+      "test": {
+        "n": 9,
+        "mean_r": -0.1103,
+        "total_r": -0.993,
+        "win": 0.2222,
+        "dd_r": 7.0,
+        "pf": 0.858
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "3bcbb42a62a1",
+      "rule": {
+        "tf": 15,
+        "side": "sell",
+        "wick_body_min": 0.75,
+        "wick_body_max": 1.25,
+        "body_atr_min": 0.1,
+        "body_atr_max": 1.5,
+        "utc_hour_start": 0,
+        "utc_hour_end": 23,
+        "min_dwm_frames": 1,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": false,
+        "confirmation": "body",
+        "entry": "body_limit",
+        "target": "rr1.5"
+      },
+      "signals": 166,
+      "train": {
+        "n": 50,
+        "mean_r": -0.05,
+        "total_r": -2.5,
+        "win": 0.38,
+        "dd_r": 8.5,
+        "pf": 0.919
+      },
+      "validation": {
+        "n": 14,
+        "mean_r": -0.1071,
+        "total_r": -1.5,
+        "win": 0.3571,
+        "dd_r": 6.5,
+        "pf": 0.833
+      },
+      "test": {
+        "n": 14,
+        "mean_r": -0.1071,
+        "total_r": -1.5,
+        "win": 0.3571,
+        "dd_r": 6.0,
+        "pf": 0.833
+      },
+      "passed": false,
+      "score": null
+    },
+    {
+      "id": "fa852b433186",
+      "rule": {
+        "tf": 5,
+        "side": "sell",
+        "wick_body_min": 0.75,
+        "wick_body_max": 1.25,
+        "body_atr_min": 0.1,
+        "body_atr_max": 1.5,
+        "utc_hour_start": 0,
+        "utc_hour_end": 23,
+        "min_dwm_frames": 1,
+        "monthly_close_near": false,
+        "h1_h4_pivot_near": false,
+        "confirmation": "body",
+        "entry": "body_limit",
+        "target": "rr1.5"
+      },
+      "signals": 454,
+      "train": {
+        "n": 181,
+        "mean_r": -0.1298,
+        "total_r": -23.5,
+        "win": 0.3481,
+        "dd_r": 27.5,
+        "pf": 0.801
+      },
+      "validation": {
+        "n": 46,
+        "mean_r": -0.2935,
+        "total_r": -13.5,
+        "win": 0.2826,
+        "dd_r": 15.0,
+        "pf": 0.591
+      },
+      "test": {
+        "n": 44,
+        "mean_r": -0.4886,
+        "total_r": -21.5,
+        "win": 0.2045,
+        "dd_r": 21.5,
+        "pf": 0.386
+      },
+      "passed": false,
+      "score": null
+    }
+  ]
+}
