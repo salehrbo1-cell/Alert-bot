@@ -193,13 +193,13 @@ def main(src,dst):
     for x in rows:x["origin"]="gemini" if x["id"] in ai_ids else "offline"
     history=(history+rows)[-180:]
     mem.write_text(json.dumps({"history":history,"seen_ids":sorted(seen),
-                               "total_tested":memory.get("total_tested",0)+len(rows)},
+                               "total_tested":memory.get("total_tested",len(memory.get("history",[])))+len(rows)},
                               ensure_ascii=False,indent=2)+"\n")
     ranked=sorted((x for x in history if x.get("passed") and x.get("score") is not None),
                   key=lambda x:x["score"],reverse=True)
     result={"utc":datetime.now(timezone.utc).isoformat(),"last_data_utc":dt(m1[-1][0]),
             "model_status":status,"ai_proposals":len(ai),"new_tested":len(rows),
-            "historical_total":memory.get("total_tested",0)+len(rows),"features":list(CATEGORIES),
+            "historical_total":memory.get("total_tested",len(memory.get("history",[])))+len(rows),"features":list(CATEGORIES),
             "train_patterns":pos[:15],"train_negative_patterns":neg,
             "split":{"train_end":dt(train),"validation_end":dt(valid),"test_end":dt(end)},
             "cost_usd_per_oz":COST,"approved_for_live":False,
