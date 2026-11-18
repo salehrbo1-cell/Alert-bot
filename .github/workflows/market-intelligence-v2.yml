@@ -1,0 +1,42 @@
+name: Market Intelligence V2 - zone bounce learning baseline
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "research/market_intelligence_v2.py"
+      - ".github/workflows/market-intelligence-v2.yml"
+permissions:
+  contents: write
+concurrency:
+  group: market-intelligence-v2
+  cancel-in-progress: false
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scientific dependencies
+        run: python -m pip install --disable-pip-version-check numpy scikit-learn
+      - name: Verify source and compile
+        run: |
+          test -s research/results_strong_sr_bounces/touches.csv
+          python -m py_compile research/market_intelligence_v2.py
+      - name: Train and evaluate on time-separated data
+        run: |
+          python research/market_intelligence_v2.py research/results_strong_sr_bounces/touches.csv research/market_intelligence_v2
+      - name: Upload study artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gold-market-intelligence-v2-baseline
+          path: research/market_intelligence_v2/
+          retention-days: 30
+      - name: Save study report without modifying signal bot
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add research/market_intelligence_v2/
+          git diff --cached --quiet || (git commit -m "Save market intelligence V2 training baseline" && git push)
