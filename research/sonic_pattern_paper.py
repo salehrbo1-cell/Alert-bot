@@ -63,6 +63,13 @@ M5_EXIT_COLUMNS = [
     "minutes_from_entry", "exit_close", "exit_move_usd", "reason",
     "pnl_at_60m_usd", "observed_m5_bars",
 ]
+STEP_EXIT_PATH = ROOT / "exit_rule_step_resistance.csv"
+STEP_EXIT_COLUMNS = [
+    "trade_id", "side", "entry_at_utc", "entry_price", "initial_stop",
+    "last_stop", "broken_levels_count", "broken_levels", "status",
+    "exit_at_utc", "minutes_from_entry", "exit_close", "exit_move_usd",
+    "pnl_at_60m_usd", "observed_m5_bars",
+]
 
 
 def parse_time(value):
@@ -633,6 +640,141 @@ def evaluate_m5_structure_exit_rule(state, candles, now):
     write_csv(M5_EXIT_PATH, M5_EXIT_COLUMNS, out)
 
 
+def evaluate_step_resistance_exit_rule(state, candles, now):
+    """Step trailing: a confirmed M5 resistance/support break ratchets the stop."""
+    bars = aggregate_closed_5m(candles, now)
+    by_time = {bar["t"]: i for i, bar in enumerate(candles)}
+    output = []
+    horizon_ms = OBSERVATION_MINUTES * 60_000
+
+    for trade in state.get("trades", []):
+        direction = 1 if trade["direction"] == "buy" else -1
+        entry_t = trade["entry_t"]
+        entry = trade["entry_price"]
+        pre = [b for b in bars if b["end_t"] <= entry_t]
+        initial_stop = None
+
+        # Initial invalidation uses the latest intact M5 pivot on the protective side.
+        for confirm_i in range(4, len(pre)):
+            pivot_i = confirm_i - 2
+            if direction == 1 and is_pivot_low(pre, pivot_i):
+                level = pre[pivot_i]["l"]
+                if level < entry and not any(b["c"] < level for b in pre[confirm_i + 1:]):
+                    initial_stop = level
+            elif direction == -1 and is_pivot_high(pre, pivot_i):
+                level = pre[pivot_i]["h"]
+                if level > entry and not any(b["c"] > level for b in pre[confirm_i + 1:]):
+                    initial_stop = level
+
+        if initial_stop is None:
+            si = by_time.get(trade["sweep_t"])
+            if si is not None:
+                level = candles[si]["l"] if direction == 1 else candles[si]["h"]
+                side_ok = level < entry if direction == 1 else level > entry
+                if side_ok:
+                    initial_stop = level
+
+        if initial_stop is None:
+            output.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry, 4),
+                "initial_stop": "", "last_stop": "", "broken_levels_count": 0,
+                "broken_levels": "", "status": "no_valid_initial_structure",
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "pnl_at_60m_usd": "", "observed_m5_bars": 0,
+            })
+            continue
+
+        stop = initial_stop
+        broken_levels = []
+        exit_bar = None
+        observed = 0
+        last_close_pnl = None
+        end_t = entry_t + horizon_ms
+
+        # Keep only confirmed, unbroken M5 levels beyond the entry as step candidates.
+        resistance_levels = []
+        support_levels = []
+        for confirm_i in range(4, len(pre)):
+            pivot_i = confirm_i - 2
+            if direction == 1 and is_pivot_high(pre, pivot_i):
+                level = pre[pivot_i]["h"]
+                if level > entry and not any(b["c"] > level for b in pre[confirm_i + 1:]):
+                    resistance_levels.append(level)
+            elif direction == -1 and is_pivot_low(pre, pivot_i):
+                level = pre[pivot_i]["l"]
+                if level < entry and not any(b["c"] < level for b in pre[confirm_i + 1:]):
+                    support_levels.append(level)
+
+        first_bar = next((i for i,b in enumerate(bars) if b["end_t"] > entry_t), len(bars))
+        for i in range(first_bar, len(bars)):
+            bar = bars[i]
+            if bar["end_t"] > end_t:
+                break
+            observed += 1
+            last_close_pnl = (bar["c"] - entry) * direction
+
+            crossed_stop = bar["c"] < stop if direction == 1 else bar["c"] > stop
+            if crossed_stop:
+                exit_bar = bar
+                break
+
+            if direction == 1:
+                broken = [level for level in resistance_levels if stop < level < bar["c"]]
+                if broken:
+                    new_stop = max(broken)
+                    if new_stop > stop:
+                        stop = new_stop
+                        broken_levels.append((new_stop, bar["end_t"]))
+                resistance_levels = [level for level in resistance_levels if level > stop]
+            else:
+                broken = [level for level in support_levels if bar["c"] < level < stop]
+                if broken:
+                    new_stop = min(broken)
+                    if new_stop < stop:
+                        stop = new_stop
+                        broken_levels.append((new_stop, bar["end_t"]))
+                support_levels = [level for level in support_levels if level < stop]
+
+            # New pivot levels only become usable after two M5 bars confirm them.
+            pivot_i = i - 2
+            if direction == 1 and is_pivot_high(bars, pivot_i):
+                level = bars[pivot_i]["h"]
+                if level > stop and level not in resistance_levels:
+                    resistance_levels.append(level)
+            elif direction == -1 and is_pivot_low(bars, pivot_i):
+                level = bars[pivot_i]["l"]
+                if level < stop and level not in support_levels:
+                    support_levels.append(level)
+
+        encoded_levels = ";".join(f"{level:.4f}@{iso(ts)}" for level, ts in broken_levels)
+        if exit_bar:
+            output.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry, 4),
+                "initial_stop": round(initial_stop, 4), "last_stop": round(stop, 4),
+                "broken_levels_count": len(broken_levels), "broken_levels": encoded_levels,
+                "status": "exited_on_step_stop", "exit_at_utc": iso(exit_bar["end_t"]),
+                "minutes_from_entry": round((exit_bar["end_t"] - entry_t) / 60_000, 2),
+                "exit_close": round(exit_bar["c"], 4),
+                "exit_move_usd": round((exit_bar["c"] - entry) * direction, 4),
+                "pnl_at_60m_usd": "", "observed_m5_bars": observed,
+            })
+        else:
+            complete = trade["status"] == "complete" and now.timestamp() * 1000 >= end_t
+            output.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry, 4),
+                "initial_stop": round(initial_stop, 4), "last_stop": round(stop, 4),
+                "broken_levels_count": len(broken_levels), "broken_levels": encoded_levels,
+                "status": "no_step_stop_in_60m" if complete else "monitoring",
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "pnl_at_60m_usd": round(last_close_pnl, 4) if complete and last_close_pnl is not None else "",
+                "observed_m5_bars": observed,
+            })
+    write_csv(STEP_EXIT_PATH, STEP_EXIT_COLUMNS, output)
+
+
 def evaluate_structure_exit_rule(state, candles):
     """Paper exit: close beyond last confirmed M1 support/resistance, no fixed TP."""
     path_by_id = {}
@@ -842,6 +984,7 @@ def main():
     evaluate_exit_hypothesis(state)
     evaluate_structure_exit_rule(state, candles)
     evaluate_m5_structure_exit_rule(state, candles, now)
+    evaluate_step_resistance_exit_rule(state, candles, now)
 
     for trade in state.get("trades", []):
         if not trade["entry_notified"] and send_telegram(entry_message(trade)):
