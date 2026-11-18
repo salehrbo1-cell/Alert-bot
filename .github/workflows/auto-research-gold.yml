@@ -46,6 +46,15 @@ jobs:
           python research/auto_research_gold.py /tmp/xau_autoresearch_m1.csv research/auto_research
           mkdir -p research/auto_research/history
           cp research/auto_research/latest.json "research/auto_research/history/$(date -u +%F).json"
+      - name: Check Gemini secret presence without printing its value
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -n "$GEMINI_API_KEY" ]; then
+            echo "Gemini API key is configured for AI hypothesis generation"
+          else
+            echo "Gemini API key is absent; using free offline evolution only"
+          fi
       - name: Invent and test bounded new hypotheses (free offline, optional Gemini)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
