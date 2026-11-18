@@ -1,0 +1,91 @@
+{
+  "utc": "2026-11-18T06:42:20.848167+00:00",
+  "source": "research/results_sr_retests_m5_m15/events.json",
+  "target": "Reclaim confirmation within touch candle or following 3 M5 candles",
+  "n_all": 5287,
+  "n_train": 3434,
+  "n_validation": 739,
+  "n_holdout": 1045,
+  "holdout_start": "2026-09-04T12:25:00+00:00",
+  "features": [
+    "strong",
+    "h4_level",
+    "h1_level",
+    "repeated_m15",
+    "zone_width_usd",
+    "support",
+    "hour_sin",
+    "hour_cos",
+    "weekday_sin",
+    "weekday_cos",
+    "past_14d_same_zone_touches",
+    "past_14d_confirmed_rate",
+    "hours_since_previous_same_zone_touch"
+  ],
+  "validation_models": {
+    "logistic": {
+      "n": 739,
+      "base_rate": 0.6847,
+      "brier": 0.21753,
+      "log_loss": 0.62716,
+      "auc": 0.509,
+      "accuracy_0_5": 0.6847
+    },
+    "boosted": {
+      "n": 739,
+      "base_rate": 0.6847,
+      "brier": 0.2187,
+      "log_loss": 0.62975,
+      "auc": 0.5105,
+      "accuracy_0_5": 0.6847
+    }
+  },
+  "validation_baseline": {
+    "n": 739,
+    "base_rate": 0.6847,
+    "brier": 0.21611,
+    "log_loss": 0.62378,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6847
+  },
+  "selected": "constant_prior",
+  "holdout": {
+    "n": 1045,
+    "base_rate": 0.6718,
+    "brier": 0.2205,
+    "log_loss": 0.63293,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6718
+  },
+  "holdout_baseline": {
+    "n": 1045,
+    "base_rate": 0.6718,
+    "brier": 0.2205,
+    "log_loss": 0.63293,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6718
+  },
+  "holdout_brier_improvement_ci95": [
+    0.0,
+    0.0
+  ],
+  "calibration": [
+    {
+      "p_from": 0.6,
+      "p_to": 0.8,
+      "n": 1045,
+      "predicted": 0.67,
+      "observed": 0.672
+    }
+  ],
+  "approved_for_live": false,
+  "warnings": [
+    "The target is short-term reclaim candle confirmation, NOT a profitable trade or a 5 USD bounce.",
+    "M5-only events avoid comparing incompatible M15 touch detection samples.",
+    "Only pre-known zone and time features are used at first touch.",
+    "Past same-zone labels require >=1 hour maturity; 24h split embargo.",
+    "No price momentum, traded volume, order flow, news or macro releases are present.",
+    "This retrospective dataset was previously studied and is not untouched prospective data.",
+    "Repeated touches can be correlated; model probabilities require forward verification."
+  ]
+}
