@@ -1,0 +1,1492 @@
+{
+  "source": "Dukascopy XAUUSD M1 BID; not executable broker price",
+  "last_utc": "2026-11-18T03:09:00+00:00",
+  "last_bid": 3799.44,
+  "total_m1": 754528,
+  "day_boundary": "UTC 00:00",
+  "week_boundary": "Monday UTC",
+  "month_boundary": "calendar month UTC",
+  "confluence_threshold": "within $4 of a candidate; total span up to $8",
+  "pivots": {
+    "D1": [
+      {
+        "tf": "D1",
+        "price": 3859.65,
+        "label": "previous pivot P",
+        "date": "2026-11-17"
+      },
+      {
+        "tf": "D1",
+        "price": 3882.645,
+        "label": "previous pivot R1",
+        "date": "2026-11-17"
+      },
+      {
+        "tf": "D1",
+        "price": 3828.61,
+        "label": "previous pivot S1",
+        "date": "2026-11-17"
+      },
+      {
+        "tf": "D1",
+        "price": 3913.685,
+        "label": "previous pivot R2",
+        "date": "2026-11-17"
+      },
+      {
+        "tf": "D1",
+        "price": 3805.615,
+        "label": "previous pivot S2",
+        "date": "2026-11-17"
+      }
+    ],
+    "W1": [
+      {
+        "tf": "W1",
+        "price": 3966.868,
+        "label": "previous pivot P",
+        "date": "(2026, 46)"
+      },
+      {
+        "tf": "W1",
+        "price": 4081.388,
+        "label": "previous pivot R1",
+        "date": "(2026, 46)"
+      },
+      {
+        "tf": "W1",
+        "price": 3785.158,
+        "label": "previous pivot S1",
+        "date": "(2026, 46)"
+      },
+      {
+        "tf": "W1",
+        "price": 4263.098,
+        "label": "previous pivot R2",
+        "date": "(2026, 46)"
+      },
+      {
+        "tf": "W1",
+        "price": 3670.638,
+        "label": "previous pivot S2",
+        "date": "(2026, 46)"
+      }
+    ],
+    "MN1": [
+      {
+        "tf": "MN1",
+        "price": 3990.152,
+        "label": "previous pivot P",
+        "date": "2026-10"
+      },
+      {
+        "tf": "MN1",
+        "price": 4110.319,
+        "label": "previous pivot R1",
+        "date": "2026-10"
+      },
+      {
+        "tf": "MN1",
+        "price": 3754.417,
+        "label": "previous pivot S1",
+        "date": "2026-10"
+      },
+      {
+        "tf": "MN1",
+        "price": 4346.054,
+        "label": "previous pivot R2",
+        "date": "2026-10"
+      },
+      {
+        "tf": "MN1",
+        "price": 3634.25,
+        "label": "previous pivot S2",
+        "date": "2026-10"
+      }
+    ]
+  },
+  "recent": {
+    "D1": [
+      {
+        "date": "2026-11-12",
+        "open": 3978.53,
+        "high": 4000.33,
+        "low": 3852.348,
+        "close": 3881.765
+      },
+      {
+        "date": "2026-11-13",
+        "open": 3880.55,
+        "high": 3922.995,
+        "low": 3867.637,
+        "close": 3883.245
+      },
+      {
+        "date": "2026-11-15",
+        "open": 3878.948,
+        "high": 3901.06,
+        "low": 3863.935,
+        "close": 3899.678
+      },
+      {
+        "date": "2026-11-16",
+        "open": 3899.992,
+        "high": 3900.252,
+        "low": 3832.138,
+        "close": 3863.008
+      },
+      {
+        "date": "2026-11-17",
+        "open": 3862.6,
+        "high": 3890.69,
+        "low": 3836.655,
+        "close": 3851.605
+      }
+    ],
+    "W1": [
+      {
+        "date": "(2026, 43)",
+        "open": 4184.579,
+        "high": 4190.315,
+        "low": 3975.328,
+        "close": 3997.331
+      },
+      {
+        "date": "(2026, 44)",
+        "open": 3997.191,
+        "high": 4081.964,
+        "low": 3869.055,
+        "close": 3898.064
+      },
+      {
+        "date": "(2026, 45)",
+        "open": 3898.064,
+        "high": 4146.785,
+        "low": 3890.905,
+        "close": 4055.417
+      },
+      {
+        "date": "(2026, 46)",
+        "open": 4055.375,
+        "high": 4148.578,
+        "low": 3852.348,
+        "close": 3899.678
+      }
+    ],
+    "MN1": [
+      {
+        "date": "2026-06",
+        "open": 4539.295,
+        "high": 4545.695,
+        "low": 3941.528,
+        "close": 4005.485
+      },
+      {
+        "date": "2026-07",
+        "open": 4005.755,
+        "high": 4202.905,
+        "low": 3959.485,
+        "close": 4043.235
+      },
+      {
+        "date": "2026-08",
+        "open": 4073.295,
+        "high": 4696.635,
+        "low": 4018.915,
+        "close": 4451.865
+      },
+      {
+        "date": "2026-09",
+        "open": 4452.165,
+        "high": 4510.635,
+        "low": 4110.585,
+        "close": 4155.675
+      },
+      {
+        "date": "2026-10",
+        "open": 4155.755,
+        "high": 4225.886,
+        "low": 3869.984,
+        "close": 3874.585
+      }
+    ]
+  },
+  "current": {
+    "D1": [
+      {
+        "date": "2026-11-18",
+        "open": 3848.62,
+        "high": 3849.107,
+        "low": 3791.825,
+        "close": 3799.44
+      }
+    ],
+    "W1": [
+      {
+        "date": "(2026, 47)",
+        "open": 3899.992,
+        "high": 3900.252,
+        "low": 3791.825,
+        "close": 3799.44
+      }
+    ],
+    "MN1": [
+      {
+        "date": "2026-11",
+        "open": 3883.255,
+        "high": 4148.578,
+        "low": 3791.825,
+        "close": 3799.44
+      }
+    ]
+  },
+  "confluences": [
+    {
+      "center": 3819.09,
+      "range": [
+        3817.425,
+        3822.632
+      ],
+      "frames": [
+        "D1",
+        "MN1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3822.632,
+          "label": "lookback_5 pivot S1",
+          "date": "2026-11-12"
+        },
+        {
+          "tf": "W1",
+          "price": 3817.425,
+          "label": "lookback_3 pivot S1",
+          "date": "(2026, 44)"
+        },
+        {
+          "tf": "MN1",
+          "price": 3819.095,
+          "label": "lookback_13 low",
+          "date": "2025-10"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 19.65
+    },
+    {
+      "center": 3864.53,
+      "range": [
+        3862.765,
+        3869.055
+      ],
+      "frames": [
+        "D1",
+        "MN1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3865.133,
+          "label": "lookback_2 pivot P",
+          "date": "2026-11-16"
+        },
+        {
+          "tf": "D1",
+          "price": 3863.935,
+          "label": "lookback_3 low",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "D1",
+          "price": 3863.008,
+          "label": "lookback_2 close",
+          "date": "2026-11-16"
+        },
+        {
+          "tf": "W1",
+          "price": 3869.055,
+          "label": "lookback_3 low",
+          "date": "(2026, 44)"
+        },
+        {
+          "tf": "W1",
+          "price": 3869.055,
+          "label": "confirmed swing low",
+          "date": "(2026, 44)",
+          "confirmed_on": "(2026, 45)"
+        },
+        {
+          "tf": "MN1",
+          "price": 3862.765,
+          "label": "lookback_14 close",
+          "date": "2025-09"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 65.09
+    },
+    {
+      "center": 3869.05,
+      "range": [
+        3867.637,
+        3871.505
+      ],
+      "frames": [
+        "D1",
+        "MN1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3867.637,
+          "label": "lookback_4 low",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "D1",
+          "price": 3869.055,
+          "label": "lookback_15 low",
+          "date": "2026-11-01"
+        },
+        {
+          "tf": "D1",
+          "price": 3869.055,
+          "label": "confirmed swing low",
+          "date": "2026-11-01",
+          "confirmed_on": "2026-11-03"
+        },
+        {
+          "tf": "W1",
+          "price": 3869.055,
+          "label": "lookback_3 low",
+          "date": "(2026, 44)"
+        },
+        {
+          "tf": "W1",
+          "price": 3869.055,
+          "label": "confirmed swing low",
+          "date": "(2026, 44)",
+          "confirmed_on": "(2026, 45)"
+        },
+        {
+          "tf": "MN1",
+          "price": 3869.984,
+          "label": "prior low",
+          "date": "2026-10"
+        },
+        {
+          "tf": "MN1",
+          "price": 3871.505,
+          "label": "lookback_14 high",
+          "date": "2025-09"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 69.61
+    },
+    {
+      "center": 3941.53,
+      "range": [
+        3938.105,
+        3941.528
+      ],
+      "frames": [
+        "D1",
+        "MN1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3938.105,
+          "label": "lookback_13 close",
+          "date": "2026-11-03"
+        },
+        {
+          "tf": "W1",
+          "price": 3941.528,
+          "label": "confirmed swing low",
+          "date": "(2026, 27)",
+          "confirmed_on": "(2026, 28)"
+        },
+        {
+          "tf": "MN1",
+          "price": 3941.528,
+          "label": "lookback_5 low",
+          "date": "2026-06"
+        },
+        {
+          "tf": "MN1",
+          "price": 3941.528,
+          "label": "confirmed swing low",
+          "date": "2026-06",
+          "confirmed_on": "2026-07"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 142.09
+    },
+    {
+      "center": 3836.29,
+      "range": [
+        3832.138,
+        3839.338
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3835.934,
+          "label": "lookback_4 pivot S2",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "D1",
+          "price": 3836.655,
+          "label": "prior low",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "D1",
+          "price": 3832.138,
+          "label": "lookback_2 low",
+          "date": "2026-11-16"
+        },
+        {
+          "tf": "W1",
+          "price": 3839.338,
+          "label": "lookback_4 pivot S2",
+          "date": "(2026, 43)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 36.85
+    },
+    {
+      "center": 3851.98,
+      "range": [
+        3851.099,
+        3852.348
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3851.605,
+          "label": "prior close",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "D1",
+          "price": 3851.099,
+          "label": "lookback_3 pivot S2",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "D1",
+          "price": 3852.348,
+          "label": "lookback_5 low",
+          "date": "2026-11-12"
+        },
+        {
+          "tf": "W1",
+          "price": 3852.348,
+          "label": "prior low",
+          "date": "(2026, 46)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 52.54
+    },
+    {
+      "center": 3859.65,
+      "range": [
+        3858.915,
+        3862.765
+      ],
+      "frames": [
+        "D1",
+        "MN1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3859.65,
+          "label": "latest pivot P",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "D1",
+          "price": 3859.59,
+          "label": "lookback_4 pivot S1",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "D1",
+          "price": 3862.6,
+          "label": "prior open",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "MN1",
+          "price": 3858.915,
+          "label": "lookback_2 pivot S2",
+          "date": "2026-09"
+        },
+        {
+          "tf": "MN1",
+          "price": 3862.765,
+          "label": "lookback_14 close",
+          "date": "2025-09"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 60.21
+    },
+    {
+      "center": 3874.59,
+      "range": [
+        3871.505,
+        3875.389
+      ],
+      "frames": [
+        "D1",
+        "MN1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3874.585,
+          "label": "lookback_16 close",
+          "date": "2026-10-30"
+        },
+        {
+          "tf": "D1",
+          "price": 3875.389,
+          "label": "lookback_3 pivot S1",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "MN1",
+          "price": 3874.585,
+          "label": "prior close",
+          "date": "2026-10"
+        },
+        {
+          "tf": "MN1",
+          "price": 3871.505,
+          "label": "lookback_14 high",
+          "date": "2025-09"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 75.15
+    },
+    {
+      "center": 3890.8,
+      "range": [
+        3888.224,
+        3890.905
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3888.224,
+          "label": "lookback_3 pivot P",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "D1",
+          "price": 3890.69,
+          "label": "prior high",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "D1",
+          "price": 3890.905,
+          "label": "lookback_14 low",
+          "date": "2026-11-02"
+        },
+        {
+          "tf": "W1",
+          "price": 3890.905,
+          "label": "lookback_2 low",
+          "date": "(2026, 45)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 91.36
+    },
+    {
+      "center": 3898.06,
+      "range": [
+        3895.285,
+        3898.127
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3895.285,
+          "label": "lookback_13 low",
+          "date": "2026-11-03"
+        },
+        {
+          "tf": "D1",
+          "price": 3898.064,
+          "label": "lookback_15 close",
+          "date": "2026-11-01"
+        },
+        {
+          "tf": "D1",
+          "price": 3898.127,
+          "label": "lookback_2 pivot R1",
+          "date": "2026-11-16"
+        },
+        {
+          "tf": "W1",
+          "price": 3898.064,
+          "label": "lookback_2 open",
+          "date": "(2026, 45)"
+        },
+        {
+          "tf": "W1",
+          "price": 3898.064,
+          "label": "lookback_3 close",
+          "date": "(2026, 44)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 98.62
+    },
+    {
+      "center": 3913.1,
+      "range": [
+        3911.481,
+        3915.286
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3912.514,
+          "label": "lookback_3 pivot R1",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "D1",
+          "price": 3911.481,
+          "label": "lookback_5 pivot P",
+          "date": "2026-11-12"
+        },
+        {
+          "tf": "D1",
+          "price": 3913.685,
+          "label": "latest pivot R2",
+          "date": "2026-11-17"
+        },
+        {
+          "tf": "W1",
+          "price": 3915.286,
+          "label": "lookback_2 pivot S1",
+          "date": "(2026, 45)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 113.66
+    },
+    {
+      "center": 3919.63,
+      "range": [
+        3918.334,
+        3922.995
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3919.63,
+          "label": "lookback_12 low",
+          "date": "2026-11-04"
+        },
+        {
+          "tf": "D1",
+          "price": 3922.995,
+          "label": "lookback_4 high",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "W1",
+          "price": 3918.334,
+          "label": "lookback_4 pivot S1",
+          "date": "(2026, 43)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 120.19
+    },
+    {
+      "center": 3925.35,
+      "range": [
+        3922.995,
+        3928.475
+      ],
+      "frames": [
+        "D1",
+        "MN1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3925.349,
+          "label": "lookback_3 pivot R2",
+          "date": "2026-11-15"
+        },
+        {
+          "tf": "D1",
+          "price": 3922.995,
+          "label": "lookback_4 high",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "MN1",
+          "price": 3928.475,
+          "label": "lookback_12 low",
+          "date": "2025-11"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 125.91
+    },
+    {
+      "center": 3947.78,
+      "range": [
+        3946.65,
+        3949.694
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3947.776,
+          "label": "lookback_14 close",
+          "date": "2026-11-02"
+        },
+        {
+          "tf": "D1",
+          "price": 3946.65,
+          "label": "lookback_4 pivot R2",
+          "date": "2026-11-13"
+        },
+        {
+          "tf": "W1",
+          "price": 3949.694,
+          "label": "lookback_3 pivot P",
+          "date": "(2026, 44)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 148.34
+    },
+    {
+      "center": 3959.49,
+      "range": [
+        3959.485,
+        3959.485
+      ],
+      "frames": [
+        "MN1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "W1",
+          "price": 3959.485,
+          "label": "confirmed swing low",
+          "date": "(2026, 29)",
+          "confirmed_on": "(2026, 30)"
+        },
+        {
+          "tf": "MN1",
+          "price": 3959.485,
+          "label": "lookback_4 low",
+          "date": "2026-07"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 160.05
+    },
+    {
+      "center": 3970.07,
+      "range": [
+        3966.868,
+        3970.614
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3970.065,
+          "label": "lookback_14 high",
+          "date": "2026-11-02"
+        },
+        {
+          "tf": "D1",
+          "price": 3970.614,
+          "label": "lookback_5 pivot R1",
+          "date": "2026-11-12"
+        },
+        {
+          "tf": "W1",
+          "price": 3966.868,
+          "label": "latest pivot P",
+          "date": "(2026, 46)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 170.63
+    },
+    {
+      "center": 3976.56,
+      "range": [
+        3975.328,
+        3977.995
+      ],
+      "frames": [
+        "D1",
+        "W1"
+      ],
+      "sources": [
+        {
+          "tf": "D1",
+          "price": 3975.328,
+          "label": "confirmed swing low",
+          "date": "2026-10-23",
+          "confirmed_on": "2026-10-26"
+        },
+        {
+          "tf": "D1",
+          "price": 3977.801,
+          "label": "lookback_20 low",
+          "date": "2026-10-26"
+        },
+        {
+          "tf": "D1",
+          "price": 3977.995,
+          "label": "lookback_6 low",
+          "date": "2026-11-11"
+        },
+        {
+          "tf": "W1",
+          "price": 3975.328,
+          "label": "lookback_4 low",
+          "date": "(2026, 43)"
+        }
+      ],
+      "side": "above_price_resistance_candidate",
+      "distance": 177.12
+    }
+  ],
+  "levels_near_price": [
+    {
+      "tf": "MN1",
+      "price": 3634.25,
+      "label": "latest pivot S2",
+      "date": "2026-10"
+    },
+    {
+      "tf": "W1",
+      "price": 3670.638,
+      "label": "latest pivot S2",
+      "date": "(2026, 46)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3711.418,
+      "label": "lookback_3 pivot S2",
+      "date": "2026-08"
+    },
+    {
+      "tf": "W1",
+      "price": 3736.785,
+      "label": "lookback_3 pivot S2",
+      "date": "(2026, 44)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3754.417,
+      "label": "latest pivot S1",
+      "date": "2026-10"
+    },
+    {
+      "tf": "D1",
+      "price": 3763.499,
+      "label": "lookback_5 pivot S2",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "W1",
+      "price": 3775.156,
+      "label": "lookback_2 pivot S2",
+      "date": "(2026, 45)"
+    },
+    {
+      "tf": "W1",
+      "price": 3785.158,
+      "label": "latest pivot S1",
+      "date": "(2026, 46)"
+    },
+    {
+      "tf": "D1",
+      "price": 3797.019,
+      "label": "lookback_2 pivot S2",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3805.615,
+      "label": "latest pivot S2",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "W1",
+      "price": 3817.425,
+      "label": "lookback_3 pivot S1",
+      "date": "(2026, 44)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3819.095,
+      "label": "lookback_13 low",
+      "date": "2025-10"
+    },
+    {
+      "tf": "D1",
+      "price": 3822.632,
+      "label": "lookback_5 pivot S1",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "D1",
+      "price": 3828.61,
+      "label": "latest pivot S1",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3830.013,
+      "label": "lookback_2 pivot S1",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3832.138,
+      "label": "lookback_2 low",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3835.934,
+      "label": "lookback_4 pivot S2",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3836.655,
+      "label": "prior low",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "W1",
+      "price": 3839.338,
+      "label": "lookback_4 pivot S2",
+      "date": "(2026, 43)"
+    },
+    {
+      "tf": "D1",
+      "price": 3851.099,
+      "label": "lookback_3 pivot S2",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3851.605,
+      "label": "prior close",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3852.348,
+      "label": "lookback_5 low",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "D1",
+      "price": 3852.348,
+      "label": "confirmed swing low",
+      "date": "2026-11-12",
+      "confirmed_on": "2026-11-15"
+    },
+    {
+      "tf": "W1",
+      "price": 3852.348,
+      "label": "prior low",
+      "date": "(2026, 46)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3858.915,
+      "label": "lookback_2 pivot S2",
+      "date": "2026-09"
+    },
+    {
+      "tf": "D1",
+      "price": 3859.59,
+      "label": "lookback_4 pivot S1",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3859.65,
+      "label": "latest pivot P",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3862.6,
+      "label": "prior open",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "MN1",
+      "price": 3862.765,
+      "label": "lookback_14 close",
+      "date": "2025-09"
+    },
+    {
+      "tf": "D1",
+      "price": 3863.008,
+      "label": "lookback_2 close",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3863.935,
+      "label": "lookback_3 low",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3865.133,
+      "label": "lookback_2 pivot P",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3867.637,
+      "label": "lookback_4 low",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3869.055,
+      "label": "lookback_15 low",
+      "date": "2026-11-01"
+    },
+    {
+      "tf": "D1",
+      "price": 3869.055,
+      "label": "confirmed swing low",
+      "date": "2026-11-01",
+      "confirmed_on": "2026-11-03"
+    },
+    {
+      "tf": "W1",
+      "price": 3869.055,
+      "label": "lookback_3 low",
+      "date": "(2026, 44)"
+    },
+    {
+      "tf": "W1",
+      "price": 3869.055,
+      "label": "confirmed swing low",
+      "date": "(2026, 44)",
+      "confirmed_on": "(2026, 45)"
+    },
+    {
+      "tf": "D1",
+      "price": 3869.984,
+      "label": "lookback_16 low",
+      "date": "2026-10-30"
+    },
+    {
+      "tf": "MN1",
+      "price": 3869.984,
+      "label": "prior low",
+      "date": "2026-10"
+    },
+    {
+      "tf": "MN1",
+      "price": 3871.505,
+      "label": "lookback_14 high",
+      "date": "2025-09"
+    },
+    {
+      "tf": "D1",
+      "price": 3874.585,
+      "label": "lookback_16 close",
+      "date": "2026-10-30"
+    },
+    {
+      "tf": "MN1",
+      "price": 3874.585,
+      "label": "prior close",
+      "date": "2026-10"
+    },
+    {
+      "tf": "D1",
+      "price": 3875.389,
+      "label": "lookback_3 pivot S1",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3878.948,
+      "label": "lookback_3 open",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3880.55,
+      "label": "lookback_4 open",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3881.765,
+      "label": "lookback_5 close",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "D1",
+      "price": 3882.645,
+      "label": "latest pivot R1",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3883.245,
+      "label": "lookback_4 close",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3888.224,
+      "label": "lookback_3 pivot P",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3890.69,
+      "label": "prior high",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3890.905,
+      "label": "lookback_14 low",
+      "date": "2026-11-02"
+    },
+    {
+      "tf": "W1",
+      "price": 3890.905,
+      "label": "lookback_2 low",
+      "date": "(2026, 45)"
+    },
+    {
+      "tf": "D1",
+      "price": 3891.292,
+      "label": "lookback_4 pivot P",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3895.285,
+      "label": "lookback_13 low",
+      "date": "2026-11-03"
+    },
+    {
+      "tf": "D1",
+      "price": 3898.064,
+      "label": "lookback_15 close",
+      "date": "2026-11-01"
+    },
+    {
+      "tf": "W1",
+      "price": 3898.064,
+      "label": "lookback_2 open",
+      "date": "(2026, 45)"
+    },
+    {
+      "tf": "W1",
+      "price": 3898.064,
+      "label": "lookback_3 close",
+      "date": "(2026, 44)"
+    },
+    {
+      "tf": "D1",
+      "price": 3898.127,
+      "label": "lookback_2 pivot R1",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3899.678,
+      "label": "lookback_3 close",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "W1",
+      "price": 3899.678,
+      "label": "prior close",
+      "date": "(2026, 46)"
+    },
+    {
+      "tf": "D1",
+      "price": 3899.992,
+      "label": "lookback_2 open",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3900.252,
+      "label": "lookback_2 high",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3901.06,
+      "label": "lookback_3 high",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3902.054,
+      "label": "lookback_15 high",
+      "date": "2026-11-01"
+    },
+    {
+      "tf": "D1",
+      "price": 3911.481,
+      "label": "lookback_5 pivot P",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "D1",
+      "price": 3912.514,
+      "label": "lookback_3 pivot R1",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "D1",
+      "price": 3913.685,
+      "label": "latest pivot R2",
+      "date": "2026-11-17"
+    },
+    {
+      "tf": "D1",
+      "price": 3914.948,
+      "label": "lookback_4 pivot R1",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "W1",
+      "price": 3915.286,
+      "label": "lookback_2 pivot S1",
+      "date": "(2026, 45)"
+    },
+    {
+      "tf": "W1",
+      "price": 3918.334,
+      "label": "lookback_4 pivot S1",
+      "date": "(2026, 43)"
+    },
+    {
+      "tf": "D1",
+      "price": 3919.63,
+      "label": "lookback_12 low",
+      "date": "2026-11-04"
+    },
+    {
+      "tf": "D1",
+      "price": 3922.995,
+      "label": "lookback_4 high",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3925.349,
+      "label": "lookback_3 pivot R2",
+      "date": "2026-11-15"
+    },
+    {
+      "tf": "MN1",
+      "price": 3928.475,
+      "label": "lookback_12 low",
+      "date": "2025-11"
+    },
+    {
+      "tf": "D1",
+      "price": 3933.247,
+      "label": "lookback_2 pivot R2",
+      "date": "2026-11-16"
+    },
+    {
+      "tf": "D1",
+      "price": 3938.105,
+      "label": "lookback_13 close",
+      "date": "2026-11-03"
+    },
+    {
+      "tf": "W1",
+      "price": 3941.528,
+      "label": "confirmed swing low",
+      "date": "(2026, 27)",
+      "confirmed_on": "(2026, 28)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3941.528,
+      "label": "lookback_5 low",
+      "date": "2026-06"
+    },
+    {
+      "tf": "MN1",
+      "price": 3941.528,
+      "label": "confirmed swing low",
+      "date": "2026-06",
+      "confirmed_on": "2026-07"
+    },
+    {
+      "tf": "D1",
+      "price": 3946.65,
+      "label": "lookback_4 pivot R2",
+      "date": "2026-11-13"
+    },
+    {
+      "tf": "D1",
+      "price": 3947.776,
+      "label": "lookback_14 close",
+      "date": "2026-11-02"
+    },
+    {
+      "tf": "W1",
+      "price": 3949.694,
+      "label": "lookback_3 pivot P",
+      "date": "(2026, 44)"
+    },
+    {
+      "tf": "W1",
+      "price": 3959.485,
+      "label": "confirmed swing low",
+      "date": "(2026, 29)",
+      "confirmed_on": "(2026, 30)"
+    },
+    {
+      "tf": "MN1",
+      "price": 3959.485,
+      "label": "lookback_4 low",
+      "date": "2026-07"
+    },
+    {
+      "tf": "W1",
+      "price": 3966.868,
+      "label": "latest pivot P",
+      "date": "(2026, 46)"
+    },
+    {
+      "tf": "D1",
+      "price": 3970.065,
+      "label": "lookback_14 high",
+      "date": "2026-11-02"
+    },
+    {
+      "tf": "D1",
+      "price": 3970.614,
+      "label": "lookback_5 pivot R1",
+      "date": "2026-11-12"
+    },
+    {
+      "tf": "D1",
+      "price": 3970.884,
+      "label": "lookback_13 high",
+      "date": "2026-11-03"
+    },
+    {
+      "tf": "D1",
+      "price": 3975.328,
+      "label": "confirmed swing low",
+      "date": "2026-10-23",
+      "confirmed_on": "2026-10-26"
+    },
+    {
+      "tf": "W1",
+      "price": 3975.328,
+      "label": "lookback_4 low",
+      "date": "(2026, 43)"
+    },
+    {
+      "tf": "D1",
+      "price": 3977.801,
+      "label": "lookback_20 low",
+      "date": "2026-10-26"
+    },
+    {
+      "tf": "D1",
+      "price": 3977.995,
+      "label": "lookback_6 low",
+      "date": "2026-11-11"
+    },
+    {
+      "tf": "D1",
+      "price": 3978.511,
+      "label": "lookback_6 close",
+      "date": "2026-11-11"
+    },
+    {
+      "tf": "D1",
+      "price": 3978.53,
+      "label": "lookback_5 open",
+      "date": "2026-11-12"
+    }
+  ]
+}
