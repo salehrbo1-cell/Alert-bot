@@ -1,11 +1,5 @@
 name: sumo-paper-monitor
 on:
-  push:
-    paths:
-      - ".github/workflows/sonic.yml"
-      - "research/sonic_pattern_paper.py"
-  schedule:
-    - cron: "2-59/5 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -14,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   run:
+    if: ${{ false }} # Disabled duplicate; samo-paper.yml is the sole active monitor.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
