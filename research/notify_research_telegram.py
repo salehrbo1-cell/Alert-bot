@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Daily Telegram research digest, no trading, never log credentials."""
+"""Hourly Telegram research digest, no trading, never log credentials."""
 import json,os,sys,urllib.parse,urllib.request
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 from pathlib import Path
 
 BASE=Path("research/open_discovery")
@@ -32,10 +32,8 @@ def explain(rule):
 def main():
     now=datetime.now(timezone.utc)
     event=os.environ.get("GITHUB_EVENT_NAME","")
-    # Scheduled hourly; only report at 03:30 UTC = 06:30 Saudi.
-    if event=="schedule" and now.hour!=3:
-        print("Hourly research only; daily digest is at 03 UTC.")
-        return
+    # The workflow runs hourly; send at most one report per UTC hour.
+    report_slot=now.strftime("%Y-%m-%dT%H:00Z")
     if event not in ("schedule","push","workflow_dispatch"):
         print("Not a notification event.");return
     if event=="workflow_dispatch" and os.environ.get("SEND_TEST","false")!="true":
@@ -48,13 +46,14 @@ def main():
     today=now.strftime("%Y-%m-%d")
     try:previous=json.loads(SENT.read_text()) if SENT.exists() else {}
     except (ValueError,TypeError):previous={}
-    if previous.get("last_date")==today and os.environ.get("SEND_TEST","false")!="true":
-        print("Daily digest already delivered for",today);return
+    if previous.get("last_report_slot")==report_slot and os.environ.get("SEND_TEST","false")!="true":
+        print("Hourly research digest already delivered for",report_slot);return
     candidates=[x for x in report.get("new_results",[]) if x.get("passed")]
     # Avoid claiming strong evidence solely from train/validation.
     candidates.sort(key=lambda x:(x.get("score") if x.get("score") is not None else -999),reverse=True)
+    saudi_now=now.astimezone(timezone(timedelta(hours=3)))
     lines=["📊 تقرير الباحث المستقل للذهب XAUUSD",
-           "📅 "+today+" (UTC)",
+           "🕒 "+saudi_now.strftime("%Y-%m-%d %H:%M")+" بتوقيت السعودية",
            "🤖 حالة Gemini: "+report.get("model_status","غير معروف"),
            "💡 أفكار Gemini: "+str(report.get("ai_proposals",0)),
            "🧪 فرضيات جديدة مختبرة: "+str(report.get("new_tested",0)),
@@ -81,8 +80,9 @@ def main():
         result=json.loads(response.read(5000))
     if not result.get("ok"):raise RuntimeError("Telegram did not confirm delivery")
     SENT.parent.mkdir(parents=True,exist_ok=True)
-    SENT.write_text(json.dumps({"last_date":today,"last_report_utc":report.get("utc"),
+    SENT.write_text(json.dumps({"last_date":today,"last_report_slot":report_slot,
+                                "last_report_utc":report.get("utc"),
                                 "telegram_message_id":result["result"]["message_id"]},indent=2)+"\n")
-    print("Telegram research digest sent for",today)
+    print("Telegram research digest sent for",report_slot)
 
 if __name__=="__main__":main()
