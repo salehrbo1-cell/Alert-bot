@@ -1,0 +1,335 @@
+{
+  "generated_utc": "2026-11-18T03:46:13.682735+00:00",
+  "source": "Dukascopy XAUUSD M1 BID",
+  "first_utc": "2026-03-03T00:00:00+00:00",
+  "last_utc": "2026-11-18T03:44:00+00:00",
+  "last_bid": 3793.657,
+  "m1_bars": 312938,
+  "signals": 17413,
+  "variants": 432,
+  "qualified": 7,
+  "status": "research_candidate_only",
+  "split": {
+    "train_end": "2026-09-11T09:00:48+00:00",
+    "validation_end": "2026-10-15T02:22:24+00:00",
+    "method": "chronological 70/15/15 after 35d warmup; 24h embargo; no test data used for ranking"
+  },
+  "assumptions": {
+    "spread": 0.3,
+    "slippage_each_side": 0.1,
+    "max_hold_hours": 8,
+    "pending_limit_minutes": 60,
+    "one_trade_per_variant": true,
+    "target": "1.5R, 2R, or nearest opposing pre-known historical high/low with RR>=1",
+    "stop": "beyond signal wick by max($0.25,0.12 ATR)",
+    "ambiguous": "M1 stop wins if stop and target both touched",
+    "level": "previous completed D/W/M OHLC + pivots, confirmed H1/H4 swings",
+    "warning": "Repeated retrospective test reviews are not prospective validation; costs are fixed estimates"
+  },
+  "champion": {
+    "config": {
+      "tf": "M5",
+      "wick": "equal",
+      "confirmation": "body",
+      "entry": "body_limit",
+      "level": "dwm2",
+      "target": "next_level"
+    },
+    "eligible": 253,
+    "unfilled_or_rejected": 149,
+    "passed": true,
+    "score": 0.13034,
+    "train": {
+      "n": 73,
+      "mean_r": 0.2592,
+      "total_r": 18.922,
+      "win": 0.3151,
+      "dd_r": 10.0,
+      "pf": 1.378
+    },
+    "validation": {
+      "n": 17,
+      "mean_r": 0.2152,
+      "total_r": 3.659,
+      "win": 0.1765,
+      "dd_r": 8.0,
+      "pf": 1.261
+    },
+    "test": {
+      "n": 14,
+      "mean_r": -0.4981,
+      "total_r": -6.973,
+      "win": 0.1429,
+      "dd_r": 8.0,
+      "pf": 0.419
+    }
+  },
+  "top10": [
+    {
+      "config": {
+        "tf": "M5",
+        "wick": "equal",
+        "confirmation": "body",
+        "entry": "body_limit",
+        "level": "dwm2",
+        "target": "next_level"
+      },
+      "eligible": 253,
+      "unfilled_or_rejected": 149,
+      "passed": true,
+      "score": 0.13034,
+      "train": {
+        "n": 73,
+        "mean_r": 0.2592,
+        "total_r": 18.922,
+        "win": 0.3151,
+        "dd_r": 10.0,
+        "pf": 1.378
+      },
+      "validation": {
+        "n": 17,
+        "mean_r": 0.2152,
+        "total_r": 3.659,
+        "win": 0.1765,
+        "dd_r": 8.0,
+        "pf": 1.261
+      },
+      "test": {
+        "n": 14,
+        "mean_r": -0.4981,
+        "total_r": -6.973,
+        "win": 0.1429,
+        "dd_r": 8.0,
+        "pf": 0.419
+      }
+    },
+    {
+      "config": {
+        "tf": "M15",
+        "wick": "long",
+        "confirmation": "none",
+        "entry": "market",
+        "level": "monthly",
+        "target": "rr2"
+      },
+      "eligible": 110,
+      "unfilled_or_rejected": 0,
+      "passed": true,
+      "score": 0.0641,
+      "train": {
+        "n": 81,
+        "mean_r": 0.0741,
+        "total_r": 5.998,
+        "win": 0.358,
+        "dd_r": 8.221,
+        "pf": 1.118
+      },
+      "validation": {
+        "n": 28,
+        "mean_r": 0.1347,
+        "total_r": 3.773,
+        "win": 0.3929,
+        "dd_r": 5.0,
+        "pf": 1.222
+      },
+      "test": {
+        "n": 0,
+        "mean_r": null,
+        "total_r": null,
+        "win": null,
+        "dd_r": null,
+        "pf": null
+      }
+    },
+    {
+      "config": {
+        "tf": "M5",
+        "wick": "equal",
+        "confirmation": "none",
+        "entry": "body_limit",
+        "level": "dwm2",
+        "target": "next_level"
+      },
+      "eligible": 644,
+      "unfilled_or_rejected": 277,
+      "passed": true,
+      "score": 0.0249,
+      "train": {
+        "n": 255,
+        "mean_r": 0.0484,
+        "total_r": 12.338,
+        "win": 0.2549,
+        "dd_r": 30.765,
+        "pf": 1.065
+      },
+      "validation": {
+        "n": 64,
+        "mean_r": 0.1465,
+        "total_r": 9.377,
+        "win": 0.3125,
+        "dd_r": 11.751,
+        "pf": 1.213
+      },
+      "test": {
+        "n": 48,
+        "mean_r": 0.0326,
+        "total_r": 1.564,
+        "win": 0.2083,
+        "dd_r": 9.659,
+        "pf": 1.041
+      }
+    },
+    {
+      "config": {
+        "tf": "M15",
+        "wick": "long",
+        "confirmation": "none",
+        "entry": "body_limit",
+        "level": "monthly",
+        "target": "rr1.5"
+      },
+      "eligible": 149,
+      "unfilled_or_rejected": 15,
+      "passed": true,
+      "score": 0.02106,
+      "train": {
+        "n": 78,
+        "mean_r": 0.0256,
+        "total_r": 2.0,
+        "win": 0.4103,
+        "dd_r": 10.5,
+        "pf": 1.043
+      },
+      "validation": {
+        "n": 27,
+        "mean_r": 0.2464,
+        "total_r": 6.654,
+        "win": 0.5185,
+        "dd_r": 2.272,
+        "pf": 1.512
+      },
+      "test": {
+        "n": 29,
+        "mean_r": -0.0162,
+        "total_r": -0.469,
+        "win": 0.4138,
+        "dd_r": 7.5,
+        "pf": 0.972
+      }
+    },
+    {
+      "config": {
+        "tf": "M15",
+        "wick": "long",
+        "confirmation": "none",
+        "entry": "market",
+        "level": "monthly",
+        "target": "rr1.5"
+      },
+      "eligible": 125,
+      "unfilled_or_rejected": 0,
+      "passed": true,
+      "score": 0.01221,
+      "train": {
+        "n": 84,
+        "mean_r": 0.0234,
+        "total_r": 1.962,
+        "win": 0.4048,
+        "dd_r": 10.0,
+        "pf": 1.04
+      },
+      "validation": {
+        "n": 33,
+        "mean_r": 0.1293,
+        "total_r": 4.266,
+        "win": 0.4848,
+        "dd_r": 5.597,
+        "pf": 1.251
+      },
+      "test": {
+        "n": 7,
+        "mean_r": -0.2857,
+        "total_r": -2.0,
+        "win": 0.2857,
+        "dd_r": 3.5,
+        "pf": 0.6
+      }
+    },
+    {
+      "config": {
+        "tf": "M5",
+        "wick": "long",
+        "confirmation": "extreme",
+        "entry": "market",
+        "level": "dwm2",
+        "target": "next_level"
+      },
+      "eligible": 448,
+      "unfilled_or_rejected": 301,
+      "passed": true,
+      "score": -0.00077,
+      "train": {
+        "n": 107,
+        "mean_r": 0.0109,
+        "total_r": 1.161,
+        "win": 0.3178,
+        "dd_r": 19.849,
+        "pf": 1.016
+      },
+      "validation": {
+        "n": 12,
+        "mean_r": 0.8787,
+        "total_r": 10.545,
+        "win": 0.5,
+        "dd_r": 3.0,
+        "pf": 2.757
+      },
+      "test": {
+        "n": 27,
+        "mean_r": 0.1082,
+        "total_r": 2.923,
+        "win": 0.2963,
+        "dd_r": 9.069,
+        "pf": 1.154
+      }
+    },
+    {
+      "config": {
+        "tf": "M15",
+        "wick": "long",
+        "confirmation": "none",
+        "entry": "body_limit",
+        "level": "dwm2",
+        "target": "rr1.5"
+      },
+      "eligible": 367,
+      "unfilled_or_rejected": 35,
+      "passed": true,
+      "score": -0.00189,
+      "train": {
+        "n": 228,
+        "mean_r": 0.0088,
+        "total_r": 2.0,
+        "win": 0.4035,
+        "dd_r": 21.0,
+        "pf": 1.015
+      },
+      "validation": {
+        "n": 57,
+        "mean_r": 0.029,
+        "total_r": 1.654,
+        "win": 0.4211,
+        "dd_r": 5.346,
+        "pf": 1.05
+      },
+      "test": {
+        "n": 47,
+        "mean_r": 0.139,
+        "total_r": 6.531,
+        "win": 0.4681,
+        "dd_r": 5.0,
+        "pf": 1.261
+      }
+    }
+  ]
+}
