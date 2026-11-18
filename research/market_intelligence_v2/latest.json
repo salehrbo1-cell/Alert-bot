@@ -1,0 +1,108 @@
+{
+  "generated_utc": "2026-11-18T06:40:27.176431+00:00",
+  "source": "research/results_strong_sr_bounces/touches.csv",
+  "target": "5 USD bounce within 6h before zone invalidation",
+  "data": {
+    "raw_eligible_events": 749,
+    "train": 482,
+    "validation": 108,
+    "holdout": 145,
+    "train_start": "2025-11-17T03:01:00+00:00",
+    "validation_start": "2026-07-20T08:17:00+00:00",
+    "holdout_start": "2026-09-14T04:46:00+00:00",
+    "train_validation_boundary": "2026-07-17T13:00:00+00:00",
+    "validation_holdout_boundary": "2026-09-10T12:34:00+00:00",
+    "embargo_hours": 24
+  },
+  "features": [
+    "pivot_confluence",
+    "has_h4",
+    "zone_width_usd",
+    "support",
+    "session_london",
+    "session_new_york",
+    "session_overlap",
+    "hour_sin",
+    "hour_cos",
+    "weekday_sin",
+    "weekday_cos",
+    "prior_45d_touches",
+    "prior_45d_bounce_rate",
+    "hours_since_prior_touch"
+  ],
+  "validation_models": {
+    "logistic": {
+      "n": 108,
+      "base_rate": 0.4352,
+      "brier": 0.25273,
+      "log_loss": 0.69908,
+      "auc": 0.4956,
+      "accuracy_0_5": 0.5556
+    },
+    "boosted": {
+      "n": 108,
+      "base_rate": 0.4352,
+      "brier": 0.24909,
+      "log_loss": 0.6921,
+      "auc": 0.5415,
+      "accuracy_0_5": 0.5833
+    }
+  },
+  "validation_constant_baseline": {
+    "n": 108,
+    "base_rate": 0.4352,
+    "brier": 0.24644,
+    "log_loss": 0.68602,
+    "auc": 0.5,
+    "accuracy_0_5": 0.5648
+  },
+  "selected_model": "constant_prior",
+  "holdout_model": {
+    "n": 145,
+    "base_rate": 0.4621,
+    "brier": 0.24856,
+    "log_loss": 0.69027,
+    "auc": 0.5,
+    "accuracy_0_5": 0.5379
+  },
+  "holdout_constant_baseline": {
+    "n": 145,
+    "base_rate": 0.4621,
+    "brier": 0.24856,
+    "log_loss": 0.69027,
+    "auc": 0.5,
+    "accuracy_0_5": 0.5379
+  },
+  "holdout_brier_improvement_ci95": [
+    0.0,
+    0.0
+  ],
+  "holdout_calibration": [
+    {
+      "p_from": 0.4,
+      "p_to": 0.6,
+      "n": 145,
+      "predicted": 0.461,
+      "observed": 0.462
+    }
+  ],
+  "holdout_predicted_bounce_ge_65pct": {
+    "n": 0,
+    "observed_bounce_rate": null
+  },
+  "validation_permutation_importance": [],
+  "model_beats_holdout_baseline": false,
+  "approved_for_live": false,
+  "limitations": [
+    "This is a baseline on 749 historical H1/H4 zone touches, not a finished intelligence bot.",
+    "No actual order flow, traded volume, bid-ask depth, geopolitical news or timestamped macro events.",
+    "Level strength measures historical confirmed pivots, not actual liquidity.",
+    "Inputs at first touch only; post-touch confirmation fields are deliberately excluded.",
+    "Prior outcomes are allowed only after 24 hours, with 45-day lookback.",
+    "One year of already explored data is not a pristine untouched forward test.",
+    "Same price area can be retested; time splits and 24h purge reduce but do not eliminate dependence.",
+    "The label is a price-path event, not a profitable trade after spreads, slippage and stop execution.",
+    "Feature importance is predictive association, not proof of why price moved.",
+    "News-driven causal claims require timestamped independent event data and a counterfactual."
+  ]
+}
