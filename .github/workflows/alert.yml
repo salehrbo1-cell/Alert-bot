@@ -3,7 +3,6 @@ on:
   push:
     paths:
       - ".github/workflows/alert.yml"
-      - "research/sonic_pattern_paper.py"
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
@@ -21,13 +20,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests
-      - run: python -m py_compile alert.py research/sonic_pattern_paper.py
-      - name: Monitor Sonic entry sequence with paper trades
-        run: python research/sonic_pattern_paper.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+      - run: python -m py_compile alert.py
       - run: python alert.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -37,5 +30,9 @@ jobs:
       - run: |
           git config user.name "alert-bot"
           git config user.email "alert-bot@users.noreply.github.com"
-          git add state.json research/sonic_paper/state.json research/sonic_paper/trades.csv research/sonic_paper/minute_path.csv
-          git diff --cached --quiet || (git commit -m "Update gold bot state" && git push)
+          git add state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Update gold bot state"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
