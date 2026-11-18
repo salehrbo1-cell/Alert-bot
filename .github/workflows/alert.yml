@@ -1,5 +1,9 @@
 name: gold-signal-alert
 on:
+  push:
+    paths:
+      - ".github/workflows/alert.yml"
+      - "research/sonic_pattern_paper.py"
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
