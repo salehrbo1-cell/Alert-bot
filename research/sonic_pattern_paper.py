@@ -305,7 +305,7 @@ def completion_message(trade):
     before = trade.get("adverse_before_return")
     before_text = "غير منطبق" if before is None else f"{before:.2f}$"
     return (
-        "📋 انتهت متابعة صفقة سونيك الوهمية (60 دقيقة)\n"
+        "📋 انتهت متابعة صفقة سمو الوهمية (60 دقيقة)\n"
         f"الاتجاه: {side} · الدخول: {trade['entry_price']:.2f}\n"
         f"أقصى ابتعاد لصالحها: {trade['max_favorable']:.2f}$\n"
         f"أقصى ابتعاد ضدها: {trade['max_adverse']:.2f}$\n"
