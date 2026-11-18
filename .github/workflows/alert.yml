@@ -22,18 +22,18 @@ jobs:
           python-version: "3.12"
       - run: pip install requests
       - run: python -m py_compile alert.py research/sonic_pattern_paper.py
-      - run: python alert.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
-          FORCE: ${{ github.event_name == 'workflow_dispatch' }}
       - name: Monitor Sonic entry sequence with paper trades
         run: python research/sonic_pattern_paper.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+      - run: python alert.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' }}
       - run: |
           git config user.name "alert-bot"
           git config user.email "alert-bot@users.noreply.github.com"
