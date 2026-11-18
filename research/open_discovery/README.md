@@ -17,10 +17,10 @@ Gemini: gemini_gemini-flash-lite-latest؛ فرضيات AI: 3؛ فرضيات مخ
 - M15 session=late_us، buy، 12 شموع، 111 مشاهدات، متوسط 1.8795 دولار/أونصة.
 
 ## أفضل مرشح حسب التدريب والتحقق
-الشروط: {"tf": 15, "side": "sell", "horizon": 12, "conditions": [{"feature": "upper_wick", "value": "dominant"}, {"feature": "weekday", "value": "mon"}]}
-التدريب: {'n': 130, 'avg_usd': 1.7396, 'total_usd': 226.142, 'win': 0.5538, 'pf': 1.315, 'dd_usd': 121.24}
-التحقق: {'n': 28, 'avg_usd': 5.5206, 'total_usd': 154.577, 'win': 0.7143, 'pf': 2.974, 'dd_usd': 43.693}
-الاختبار المنفصل للتقرير فقط: {'n': 26, 'avg_usd': -0.0999, 'total_usd': -2.597, 'win': 0.5769, 'pf': 0.985, 'dd_usd': 96.057}
+الشروط: {"tf": 15, "side": "sell", "horizon": 12, "conditions": [{"feature": "breakout", "value": "up"}, {"feature": "close_position", "value": "middle"}]}
+التدريب: {'n': 109, 'avg_usd': 1.9788, 'total_usd': 215.688, 'win': 0.5413, 'pf': 1.262, 'dd_usd': 204.45}
+التحقق: {'n': 23, 'avg_usd': 5.0943, 'total_usd': 117.17, 'win': 0.6957, 'pf': 2.064, 'dd_usd': 45.77}
+الاختبار المنفصل للتقرير فقط: {'n': 14, 'avg_usd': 2.4439, 'total_usd': 34.214, 'win': 0.5714, 'pf': 1.455, 'dd_usd': 36.73}
 
 ## القيود
 - هذه أنماط إحصائية، ليست صفقات جاهزة: لا يوجد وقف خسارة أو تنفيذ حي.
