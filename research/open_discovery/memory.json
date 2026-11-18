@@ -1295,51 +1295,6 @@
       "origin": "offline"
     },
     {
-      "id": "f137611344c6",
-      "rule": {
-        "tf": 15,
-        "side": "buy",
-        "horizon": 6,
-        "conditions": [
-          {
-            "feature": "session",
-            "value": "late_us"
-          },
-          {
-            "feature": "trend",
-            "value": "down"
-          }
-        ]
-      },
-      "passed": false,
-      "score": null,
-      "train": {
-        "n": 98,
-        "avg_usd": 0.7127,
-        "total_usd": 69.847,
-        "win": 0.4694,
-        "pf": 1.206,
-        "dd_usd": 90.665
-      },
-      "validation": {
-        "n": 19,
-        "avg_usd": 2.6354,
-        "total_usd": 50.073,
-        "win": 0.6316,
-        "pf": 2.253,
-        "dd_usd": 9.504
-      },
-      "test": {
-        "n": 19,
-        "avg_usd": 2.2812,
-        "total_usd": 43.342,
-        "win": 0.6842,
-        "pf": 2.752,
-        "dd_usd": 12.798
-      },
-      "origin": "gemini"
-    },
-    {
       "id": "7546156e7b42",
       "rule": {
         "tf": 15,
@@ -2397,9 +2352,8 @@
     "ec755edbddb7",
     "ed7817f0b3bb",
     "f066af85f10c",
-    "f137611344c6",
     "fb1f602115a3",
     "fc1b7586985e"
   ],
-  "total_tested": 23
+  "total_tested": 22
 }
