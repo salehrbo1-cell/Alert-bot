@@ -43,6 +43,12 @@ PATH_COLUMNS = [
     "entry_price", "open", "high", "low", "close", "close_pnl_usd",
     "favorable_excursion_usd", "adverse_excursion_usd",
 ]
+EXIT_RULE_PATH = ROOT / "exit_rule_tp20_sl5.csv"
+EXIT_RULE_COLUMNS = [
+    "trade_id", "side", "entry_at_utc", "entry_price", "rule",
+    "status", "exit_at_utc", "minutes_from_entry", "exit_move_usd",
+    "reason", "path_complete",
+]
 
 
 def parse_time(value):
@@ -379,6 +385,78 @@ def process_trade(trade, candles):
     return new_path
 
 
+def evaluate_exit_hypothesis(state):
+    """Track a paper-only fixed target/stop hypothesis against each recorded path."""
+    grouped = {}
+    if PATH_PATH.exists():
+        with PATH_PATH.open(newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                grouped.setdefault(row["trade_id"], []).append(row)
+
+    output = []
+    for trade in state.get("trades", []):
+        bars = sorted(grouped.get(trade["trade_id"], []), key=lambda x: int(x["minutes_from_entry"]))
+        outcome = None
+        for bar in bars:
+            favorable = float(bar["favorable_excursion_usd"])
+            adverse = float(bar["adverse_excursion_usd"])
+            if adverse >= 5.0 and favorable >= 20.0:
+                outcome = (bar, -5.0, "أُصيبا في الدقيقة نفسها؛ افتراض محافظ: الوقف أولاً")
+                break
+            if adverse >= 5.0:
+                outcome = (bar, -5.0, "وقف خسارة سعري −5$")
+                break
+            if favorable >= 20.0:
+                outcome = (bar, 20.0, "هدف سعري +20$")
+                break
+
+        if outcome:
+            bar, move, reason = outcome
+            output.append({
+                "trade_id": trade["trade_id"],
+                "side": trade["direction"],
+                "entry_at_utc": iso(trade["entry_t"]),
+                "entry_price": round(trade["entry_price"], 4),
+                "rule": "TP +20$ / SL −5$ / max 60m",
+                "status": "exited",
+                "exit_at_utc": bar["timestamp_utc"],
+                "minutes_from_entry": int(bar["minutes_from_entry"]) + 1,
+                "exit_move_usd": move,
+                "reason": reason,
+                "path_complete": trade["status"] == "complete",
+            })
+        elif trade["status"] == "complete" and bars:
+            last = bars[-1]
+            output.append({
+                "trade_id": trade["trade_id"],
+                "side": trade["direction"],
+                "entry_at_utc": iso(trade["entry_t"]),
+                "entry_price": round(trade["entry_price"], 4),
+                "rule": "TP +20$ / SL −5$ / max 60m",
+                "status": "timed_out",
+                "exit_at_utc": last["timestamp_utc"],
+                "minutes_from_entry": int(last["minutes_from_entry"]) + 1,
+                "exit_move_usd": round(float(last["close_pnl_usd"]), 4),
+                "reason": "إغلاق عند نهاية أفق الرصد 60 دقيقة",
+                "path_complete": True,
+            })
+        else:
+            output.append({
+                "trade_id": trade["trade_id"],
+                "side": trade["direction"],
+                "entry_at_utc": iso(trade["entry_t"]),
+                "entry_price": round(trade["entry_price"], 4),
+                "rule": "TP +20$ / SL −5$ / max 60m",
+                "status": "monitoring",
+                "exit_at_utc": "",
+                "minutes_from_entry": "",
+                "exit_move_usd": "",
+                "reason": "لم يُضرب الهدف أو الوقف بعد",
+                "path_complete": False,
+            })
+    write_csv(EXIT_RULE_PATH, EXIT_RULE_COLUMNS, output)
+
+
 def main():
     now = datetime.now(timezone.utc)
     candles = load_candles(now)
@@ -447,6 +525,8 @@ def main():
         with PATH_PATH.open("a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=PATH_COLUMNS, extrasaction="ignore")
             writer.writerows(new_path_rows)
+
+    evaluate_exit_hypothesis(state)
 
     for trade in state.get("trades", []):
         if not trade["entry_notified"] and send_telegram(entry_message(trade)):
