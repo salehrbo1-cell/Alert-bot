@@ -1,0 +1,1 @@
+trade_id,side,timestamp_utc,minutes_from_entry,entry_price,open,high,low,close,close_pnl_usd,favorable_excursion_usd,adverse_excursion_usd
