@@ -49,6 +49,13 @@ EXIT_RULE_COLUMNS = [
     "status", "exit_at_utc", "minutes_from_entry", "exit_move_usd",
     "reason", "path_complete",
 ]
+STRUCTURE_EXIT_PATH = ROOT / "exit_rule_structure_break.csv"
+STRUCTURE_EXIT_COLUMNS = [
+    "trade_id", "side", "entry_at_utc", "entry_price", "initial_level_type",
+    "initial_level", "last_trailing_level", "status", "exit_at_utc",
+    "minutes_from_entry", "exit_close", "exit_move_usd", "reason",
+    "pnl_at_60m_usd", "observed_minutes",
+]
 
 
 def parse_time(value):
@@ -122,6 +129,7 @@ def detect_sweeps(candles):
                 "t": bar["t"],
                 "direction": "buy" if swept_low else "sell",
                 "level": prior_low if swept_low else prior_high,
+                "extreme": bar["l"] if swept_low else bar["h"],
             })
     return events
 
@@ -212,6 +220,7 @@ def detect_setups(candles):
             "direction": cisd["direction"],
             "sweep_t": sweep["t"],
             "sweep_level": sweep["level"],
+            "sweep_extreme": sweep["extreme"],
             "ifvg_t": ifvg["t"],
             "ifvg_lower": ifvg["lower"],
             "ifvg_upper": ifvg["upper"],
@@ -457,6 +466,159 @@ def evaluate_exit_hypothesis(state):
     write_csv(EXIT_RULE_PATH, EXIT_RULE_COLUMNS, output)
 
 
+def is_pivot_low(bars, i):
+    if i < 2 or i + 2 >= len(bars):
+        return False
+    level = bars[i]["l"]
+    neighbors = [x["l"] for x in bars[i - 2:i]] + [x["l"] for x in bars[i + 1:i + 3]]
+    return level < min(neighbors)
+
+
+def is_pivot_high(bars, i):
+    if i < 2 or i + 2 >= len(bars):
+        return False
+    level = bars[i]["h"]
+    neighbors = [x["h"] for x in bars[i - 2:i]] + [x["h"] for x in bars[i + 1:i + 3]]
+    return level > max(neighbors)
+
+
+def evaluate_structure_exit_rule(state, candles):
+    """Paper exit: close beyond last confirmed M1 support/resistance, no fixed TP."""
+    path_by_id = {}
+    if PATH_PATH.exists():
+        with PATH_PATH.open(newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                path_by_id.setdefault(row["trade_id"], []).append(row)
+
+    by_time = {bar["t"]: i for i, bar in enumerate(candles)}
+    out = []
+    horizon_ms = OBSERVATION_MINUTES * 60_000
+    for trade in state.get("trades", []):
+        direction = 1 if trade["direction"] == "buy" else -1
+        entry_t = trade["entry_t"]
+        entry_price = trade["entry_price"]
+        entry_index = by_time.get(entry_t)
+        if entry_index is None:
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": "", "initial_level": "",
+                "last_trailing_level": "", "status": "context_unavailable",
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "reason": "شموع ما قبل الدخول غير متاحة",
+                "pnl_at_60m_usd": "", "observed_minutes": "",
+            })
+            continue
+
+        sweep_index = by_time.get(trade["sweep_t"])
+        initial_type = "sweep_extreme"
+        if sweep_index is not None:
+            initial_level = candles[sweep_index]["l"] if direction == 1 else candles[sweep_index]["h"]
+        elif trade.get("sweep_extreme") is not None:
+            initial_level = float(trade["sweep_extreme"])
+        else:
+            initial_level = float(trade["sweep_level"])
+
+        # Use the most recent confirmed two-left/two-right pivot before entry.
+        last_pivot_level = None
+        last_pivot_confirm_index = None
+        for confirm_i in range(max(4, entry_index - 120), entry_index):
+            pivot_i = confirm_i - 2
+            if direction == 1 and is_pivot_low(candles, pivot_i):
+                last_pivot_level = candles[pivot_i]["l"]
+                last_pivot_confirm_index = confirm_i
+                initial_type = "last_confirmed_support"
+            elif direction == -1 and is_pivot_high(candles, pivot_i):
+                last_pivot_level = candles[pivot_i]["h"]
+                last_pivot_confirm_index = confirm_i
+                initial_type = "last_confirmed_resistance"
+        if last_pivot_level is not None:
+            initial_level = last_pivot_level
+
+        # If the selected support/resistance had already been closed through
+        # before the paper entry, this structure rule would have skipped entry.
+        invalid_before = None
+        for i in range((last_pivot_confirm_index or entry_index - 1) + 1, entry_index):
+            crossed = candles[i]["c"] < initial_level if direction == 1 else candles[i]["c"] > initial_level
+            if crossed:
+                invalid_before = i
+                break
+        rows = sorted(path_by_id.get(trade["trade_id"], []), key=lambda x: int(x["minutes_from_entry"]))
+        if invalid_before is not None:
+            bar = candles[invalid_before]
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(initial_level, 4),
+                "status": "invalidated_before_entry",
+                "exit_at_utc": iso(bar["t"]), "minutes_from_entry": "",
+                "exit_close": round(bar["c"], 4), "exit_move_usd": "",
+                "reason": "إغلاق تجاوز الدعم/المقاومة قبل تحقق الدخول؛ يُلغى الإعداد",
+                "pnl_at_60m_usd": "", "observed_minutes": 0,
+            })
+            continue
+
+        stop_level = initial_level
+        exit_bar = None
+        exit_reason = ""
+        start_i = entry_index
+        end_t = entry_t + horizon_ms
+        last_close = None
+        observed = 0
+        for i in range(start_i, len(candles)):
+            bar = candles[i]
+            if bar["t"] >= end_t:
+                break
+            if bar["t"] < entry_t:
+                continue
+            observed += 1
+            last_close = (bar["c"] - entry_price) * direction
+            crossed = bar["c"] < stop_level if direction == 1 else bar["c"] > stop_level
+            if crossed:
+                exit_bar = bar
+                exit_reason = "إغلاق دقيقة تحت الدعم" if direction == 1 else "إغلاق دقيقة فوق المقاومة"
+                break
+
+            # A pivot is only known after two full bars to its right have closed.
+            pivot_i = i - 2
+            if direction == 1 and is_pivot_low(candles, pivot_i):
+                new_level = candles[pivot_i]["l"]
+                if new_level > stop_level and new_level < bar["c"]:
+                    stop_level = new_level
+            elif direction == -1 and is_pivot_high(candles, pivot_i):
+                new_level = candles[pivot_i]["h"]
+                if new_level < stop_level and new_level > bar["c"]:
+                    stop_level = new_level
+
+        if exit_bar is not None:
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(stop_level, 4), "status": "exited_on_structure",
+                "exit_at_utc": iso(exit_bar["t"]),
+                "minutes_from_entry": int((exit_bar["t"] - entry_t) / 60_000) + 1,
+                "exit_close": round(exit_bar["c"], 4),
+                "exit_move_usd": round((exit_bar["c"] - entry_price) * direction, 4),
+                "reason": exit_reason, "pnl_at_60m_usd": "",
+                "observed_minutes": observed,
+            })
+        else:
+            status = "no_break_in_60m" if trade["status"] == "complete" else "monitoring"
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(stop_level, 4), "status": status,
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "reason": "لم يُكسر المستوى البنيوي خلال الرصد",
+                "pnl_at_60m_usd": round(last_close, 4) if trade["status"] == "complete" and last_close is not None else "",
+                "observed_minutes": observed,
+            })
+    write_csv(STRUCTURE_EXIT_PATH, STRUCTURE_EXIT_COLUMNS, out)
+
+
 def main():
     now = datetime.now(timezone.utc)
     candles = load_candles(now)
@@ -527,6 +689,7 @@ def main():
             writer.writerows(new_path_rows)
 
     evaluate_exit_hypothesis(state)
+    evaluate_structure_exit_rule(state, candles)
 
     for trade in state.get("trades", []):
         if not trade["entry_notified"] and send_telegram(entry_message(trade)):
