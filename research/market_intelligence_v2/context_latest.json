@@ -1,0 +1,159 @@
+{
+  "generated_utc": "2026-11-18T06:43:40.691277+00:00",
+  "source_events": "research/results_sr_retests_m5_m15/events.json",
+  "source_m15": "research/XAUUSD_M15_BID_2026-05-01_to_2026-11-17.csv",
+  "target": "M5 reclaim confirmation in touch or next three M5 candles",
+  "raw_m5_touches": 5287,
+  "usable_m15_context_touches": 2887,
+  "train": 1862,
+  "validation": 391,
+  "holdout": 564,
+  "holdout_start": "2026-10-08T10:30:00+00:00",
+  "zone_features": [
+    "strong",
+    "h4_level",
+    "h1_level",
+    "repeated_m15",
+    "zone_width_usd",
+    "support",
+    "hour_sin",
+    "hour_cos",
+    "weekday_sin",
+    "weekday_cos",
+    "past_14d_same_zone_touches",
+    "past_14d_confirmed_rate",
+    "hours_since_previous_same_zone_touch"
+  ],
+  "additional_context_features": [
+    "m15_momentum_3_atr",
+    "m15_momentum_12_atr",
+    "m15_momentum_48_atr",
+    "m15_acceleration_atr",
+    "m15_atr_ratio_48",
+    "m15_body_atr",
+    "m15_upper_wick_ratio",
+    "m15_lower_wick_ratio",
+    "m15_close_location",
+    "m15_price_vs_sma20_atr",
+    "m15_range_4bars_atr",
+    "m15_position_48bar_range",
+    "m15_distance_from_zone_atr",
+    "m15_directional_close_location_proxy"
+  ],
+  "validation_baseline": {
+    "n": 391,
+    "base_rate": 0.6343,
+    "brier": 0.23468,
+    "log_loss": 0.66278,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6343
+  },
+  "validation_models": {
+    "zone_only_logistic": {
+      "n": 391,
+      "base_rate": 0.6343,
+      "brier": 0.23919,
+      "log_loss": 0.67346,
+      "auc": 0.457,
+      "accuracy_0_5": 0.6343
+    },
+    "zone_only_boosted": {
+      "n": 391,
+      "base_rate": 0.6343,
+      "brier": 0.2358,
+      "log_loss": 0.66593,
+      "auc": 0.5223,
+      "accuracy_0_5": 0.6292
+    },
+    "zone_plus_m15_logistic": {
+      "n": 391,
+      "base_rate": 0.6343,
+      "brier": 0.23932,
+      "log_loss": 0.67404,
+      "auc": 0.4705,
+      "accuracy_0_5": 0.6317
+    },
+    "zone_plus_m15_boosted": {
+      "n": 391,
+      "base_rate": 0.6343,
+      "brier": 0.24188,
+      "log_loss": 0.68015,
+      "auc": 0.4497,
+      "accuracy_0_5": 0.6317
+    }
+  },
+  "selected": "constant_prior",
+  "holdout_selected": {
+    "n": 564,
+    "base_rate": 0.6844,
+    "brier": 0.216,
+    "log_loss": 0.62352,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6844
+  },
+  "holdout_baseline": {
+    "n": 564,
+    "base_rate": 0.6844,
+    "brier": 0.216,
+    "log_loss": 0.62352,
+    "auc": 0.5,
+    "accuracy_0_5": 0.6844
+  },
+  "holdout_diagnostic_models": {
+    "zone_only_logistic": {
+      "n": 564,
+      "base_rate": 0.6844,
+      "brier": 0.2145,
+      "log_loss": 0.61991,
+      "auc": 0.5602,
+      "accuracy_0_5": 0.6844
+    },
+    "zone_only_boosted": {
+      "n": 564,
+      "base_rate": 0.6844,
+      "brier": 0.2141,
+      "log_loss": 0.61931,
+      "auc": 0.5525,
+      "accuracy_0_5": 0.6862
+    },
+    "zone_plus_m15_logistic": {
+      "n": 564,
+      "base_rate": 0.6844,
+      "brier": 0.21524,
+      "log_loss": 0.62136,
+      "auc": 0.5596,
+      "accuracy_0_5": 0.6809
+    },
+    "zone_plus_m15_boosted": {
+      "n": 564,
+      "base_rate": 0.6844,
+      "brier": 0.21607,
+      "log_loss": 0.62288,
+      "auc": 0.5362,
+      "accuracy_0_5": 0.6844
+    }
+  },
+  "holdout_brier_improvement_ci95": [
+    0.0,
+    0.0
+  ],
+  "calibration": [
+    {
+      "p_from": 0.6,
+      "p_to": 0.8,
+      "n": 564,
+      "predicted": 0.686,
+      "observed": 0.684
+    }
+  ],
+  "approved_for_live": false,
+  "limitations": [
+    "M15 context uses only fully closed candles at first M5 zone touch.",
+    "All features derived from BID OHLC; close-location is NOT real buyer/seller order flow.",
+    "No volume, market depth, timestamped news, economic surprises or geopolitics.",
+    "This is a short-term reclaim target, NOT price direction over hours or trade profitability.",
+    "The historical sample has been repeatedly studied; prospective paper test is required.",
+    "Temporal embargo 24h; correlated repeated zone touches may still inflate effective sample.",
+    "The selected model is based on validation only, never on holdout."
+  ]
+}
