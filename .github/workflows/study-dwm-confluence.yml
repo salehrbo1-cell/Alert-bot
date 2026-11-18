@@ -1,0 +1,50 @@
+name: Gold D1 W1 MN1 support resistance confluence today
+on:
+  push:
+    paths:
+      - ".github/workflows/study-dwm-confluence.yml"
+      - "research/study_daily_weekly_monthly_levels.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: gold-dwm-confluence
+  cancel-in-progress: true
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Download 20 months gold M1 history
+        run: |
+          npx -y dukascopy-node -i xauusd -from 2025-03-01 -to 2026-11-19 -t m1 -f csv -p bid
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files=list(Path("download").rglob("*.csv"))
+          if not files: raise SystemExit("Missing M1 data")
+          f=max(files,key=lambda p:p.stat().st_size)
+          print(f,f.stat().st_size)
+          shutil.copyfile(f,"/tmp/xau_dwm_m1.csv")
+          PY
+      - name: Calculate D1 W1 MN1 confluences
+        run: |
+          python -m py_compile research/study_daily_weekly_monthly_levels.py
+          python research/study_daily_weekly_monthly_levels.py /tmp/xau_dwm_m1.csv research/results_dwm_confluence
+      - name: Save study
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --mixed origin/main
+            git add research/results_dwm_confluence/
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Update XAUUSD daily weekly monthly confluence levels"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
