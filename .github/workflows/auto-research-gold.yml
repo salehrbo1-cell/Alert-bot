@@ -1,4 +1,4 @@
-name: AutoResearch Gold - open discovery + legacy benchmark
+name: AutoResearch Gold - hourly discovery + Telegram daily
 on:
   workflow_dispatch:
   push:
@@ -6,14 +6,15 @@ on:
       - "research/auto_research_gold.py"
       - "research/ai_hypothesis_agent.py"
       - "research/open_discovery_gold.py"
+      - "research/notify_research_telegram.py"
       - ".github/workflows/auto-research-gold.yml"
   schedule:
-    - cron: "30 3 * * *" # 06:30 Saudi; GitHub may delay scheduled starts
+    - cron: "30 * * * *" # Every hour; daily Telegram digest around 06:30 Saudi
 permissions:
   contents: write
 concurrency:
   group: auto-research-gold-daily
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   research:
     runs-on: ubuntu-latest
@@ -25,8 +26,18 @@ jobs:
           node-version: "22"
       - name: Validate Python researcher
         run: |
-          python -m py_compile research/auto_research_gold.py research/ai_hypothesis_agent.py research/open_discovery_gold.py
+          python -m py_compile research/auto_research_gold.py research/ai_hypothesis_agent.py research/open_discovery_gold.py research/notify_research_telegram.py
+      - name: Set daily market-data cache key
+        id: cache-date
+        run: echo "today=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+      - name: Restore or save daily market-data cache
+        id: market-cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/xau_autoresearch_m1.csv
+          key: xauusd-m1-bid-260d-${{ runner.os }}-${{ steps.cache-date.outputs.today }}-v1
       - name: Download 260 days of historical XAUUSD M1 BID
+        if: steps.market-cache.outputs.cache-hit != 'true'
         run: |
           START=$(date -u -d '260 days ago' +%F)
           END=$(date -u -d 'tomorrow' +%F)
@@ -72,6 +83,14 @@ jobs:
             research/open_discovery/latest.json
             research/open_discovery/README.md
           retention-days: 30
+      - name: Send daily research digest to Telegram
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          SEND_TEST: "false"
+        run: |
+          python research/notify_research_telegram.py
       - name: Save results to GitHub without modifying production bot
         run: |
           git config user.name "research-data-bot"
