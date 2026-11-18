@@ -56,6 +56,13 @@ STRUCTURE_EXIT_COLUMNS = [
     "minutes_from_entry", "exit_close", "exit_move_usd", "reason",
     "pnl_at_60m_usd", "observed_minutes",
 ]
+M5_EXIT_PATH = ROOT / "exit_rule_m5_structure.csv"
+M5_EXIT_COLUMNS = [
+    "trade_id", "side", "entry_at_utc", "entry_price", "initial_level_type",
+    "initial_level", "last_trailing_level", "status", "exit_at_utc",
+    "minutes_from_entry", "exit_close", "exit_move_usd", "reason",
+    "pnl_at_60m_usd", "observed_m5_bars",
+]
 
 
 def parse_time(value):
@@ -482,6 +489,130 @@ def is_pivot_high(bars, i):
     return level > max(neighbors)
 
 
+def aggregate_closed_5m(candles, now):
+    buckets = {}
+    for bar in candles:
+        start = (bar["t"] // 300_000) * 300_000
+        buckets.setdefault(start, []).append(bar)
+    now_ms = int(now.timestamp() * 1000)
+    result = []
+    for start, rows in sorted(buckets.items()):
+        rows = sorted(rows, key=lambda x: x["t"])
+        expected = [start + i * 60_000 for i in range(5)]
+        if [x["t"] for x in rows] != expected or start + 300_000 > now_ms:
+            continue
+        result.append({
+            "t": start, "end_t": start + 300_000,
+            "o": rows[0]["o"], "h": max(x["h"] for x in rows),
+            "l": min(x["l"] for x in rows), "c": rows[-1]["c"],
+        })
+    return result
+
+
+def evaluate_m5_structure_exit_rule(state, candles, now):
+    """Paper exit: close beyond confirmed M5 support/resistance; no fixed target."""
+    bars = aggregate_closed_5m(candles, now)
+    out = []
+    horizon_ms = OBSERVATION_MINUTES * 60_000
+    for trade in state.get("trades", []):
+        direction = 1 if trade["direction"] == "buy" else -1
+        entry_t = trade["entry_t"]
+        entry_price = trade["entry_price"]
+        pre = [b for b in bars if b["end_t"] <= entry_t]
+        initial_type = "sweep_extreme"
+        if direction == 1:
+            initial_level = float(trade.get("sweep_extreme", trade["sweep_level"]))
+        else:
+            initial_level = float(trade.get("sweep_extreme", trade["sweep_level"]))
+        last_confirm = None
+        for confirm_i in range(4, len(pre)):
+            pivot_i = confirm_i - 2
+            if direction == 1 and is_pivot_low(pre, pivot_i):
+                initial_level = pre[pivot_i]["l"]
+                initial_type = "last_confirmed_m5_support"
+                last_confirm = pre[confirm_i]["end_t"]
+            elif direction == -1 and is_pivot_high(pre, pivot_i):
+                initial_level = pre[pivot_i]["h"]
+                initial_type = "last_confirmed_m5_resistance"
+                last_confirm = pre[confirm_i]["end_t"]
+
+        invalid_at = None
+        if last_confirm is not None:
+            for b in pre:
+                if b["end_t"] <= last_confirm:
+                    continue
+                if (direction == 1 and b["c"] < initial_level) or (direction == -1 and b["c"] > initial_level):
+                    invalid_at = b
+                    break
+        if invalid_at:
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(initial_level, 4),
+                "status": "invalidated_before_entry", "exit_at_utc": iso(invalid_at["end_t"]),
+                "minutes_from_entry": "", "exit_close": round(invalid_at["c"], 4),
+                "exit_move_usd": "", "reason": "إغلاق M5 تجاوز المستوى قبل الدخول؛ يُلغى الإعداد",
+                "pnl_at_60m_usd": "", "observed_m5_bars": 0,
+            })
+            continue
+
+        stop_level = initial_level
+        exit_bar = None
+        observed = 0
+        end_t = entry_t + horizon_ms
+        last_close_pnl = None
+        first_bar = next((i for i,b in enumerate(bars) if b["end_t"] > entry_t), len(bars))
+        for i in range(first_bar, len(bars)):
+            bar = bars[i]
+            if bar["end_t"] > end_t:
+                break
+            observed += 1
+            last_close_pnl = (bar["c"] - entry_price) * direction
+            crossed = bar["c"] < stop_level if direction == 1 else bar["c"] > stop_level
+            if crossed:
+                exit_bar = bar
+                break
+
+            pivot_i = i - 2
+            if direction == 1 and is_pivot_low(bars, pivot_i):
+                new_level = bars[pivot_i]["l"]
+                if new_level > stop_level and new_level < bar["c"]:
+                    stop_level = new_level
+            elif direction == -1 and is_pivot_high(bars, pivot_i):
+                new_level = bars[pivot_i]["h"]
+                if new_level < stop_level and new_level > bar["c"]:
+                    stop_level = new_level
+
+        if exit_bar:
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(stop_level, 4), "status": "exited_on_m5_structure",
+                "exit_at_utc": iso(exit_bar["end_t"]),
+                "minutes_from_entry": round((exit_bar["end_t"] - entry_t) / 60_000, 2),
+                "exit_close": round(exit_bar["c"], 4),
+                "exit_move_usd": round((exit_bar["c"] - entry_price) * direction, 4),
+                "reason": "إغلاق M5 أسفل الدعم" if direction == 1 else "إغلاق M5 أعلى المقاومة",
+                "pnl_at_60m_usd": "", "observed_m5_bars": observed,
+            })
+        else:
+            completed = trade["status"] == "complete" and now.timestamp() * 1000 >= end_t
+            out.append({
+                "trade_id": trade["trade_id"], "side": trade["direction"],
+                "entry_at_utc": iso(entry_t), "entry_price": round(entry_price, 4),
+                "initial_level_type": initial_type, "initial_level": round(initial_level, 4),
+                "last_trailing_level": round(stop_level, 4),
+                "status": "no_break_in_60m" if completed else "monitoring",
+                "exit_at_utc": "", "minutes_from_entry": "", "exit_close": "",
+                "exit_move_usd": "", "reason": "لم يُكسر مستوى M5 خلال الرصد",
+                "pnl_at_60m_usd": round(last_close_pnl, 4) if completed and last_close_pnl is not None else "",
+                "observed_m5_bars": observed,
+            })
+    write_csv(M5_EXIT_PATH, M5_EXIT_COLUMNS, out)
+
+
 def evaluate_structure_exit_rule(state, candles):
     """Paper exit: close beyond last confirmed M1 support/resistance, no fixed TP."""
     path_by_id = {}
@@ -690,6 +821,7 @@ def main():
 
     evaluate_exit_hypothesis(state)
     evaluate_structure_exit_rule(state, candles)
+    evaluate_m5_structure_exit_rule(state, candles, now)
 
     for trade in state.get("trades", []):
         if not trade["entry_notified"] and send_telegram(entry_message(trade)):
