@@ -87,7 +87,25 @@ def eligible(e,r):
 def gemini_suggest(history):
     key=os.environ.get("GEMINI_API_KEY","").strip()
     if not key:return [],"no_api_key_offline_only"
+    # Discover models enabled for THIS key instead of assuming a model name.
+    # Model listing does not invoke generation or incur token charges.
     model="gemini-2.5-flash-lite"
+    try:
+        req_models=urllib.request.Request("https://generativelanguage.googleapis.com/v1beta/models?pageSize=100",
+            headers={"x-goog-api-key":key},method="GET")
+        with urllib.request.urlopen(req_models,timeout=25) as response:
+            available=json.loads(response.read(400000)).get("models",[])
+        names=[m["name"].split("/")[-1] for m in available
+            if "generateContent" in m.get("supportedGenerationMethods",[])]
+        priority=[m for m in names if "flash-lite" in m and "preview" not in m]
+        priority += [m for m in names if "flash" in m and "preview" not in m and m not in priority]
+        if priority:model=priority[0]
+        elif names:return [],"gemini_no_flash_model_available"
+        else:return [],"gemini_no_generation_model_available"
+    except urllib.error.HTTPError as exc:
+        return [],"gemini_model_list_http_"+str(exc.code)
+    except (urllib.error.URLError,TimeoutError,ValueError,KeyError):
+        return [],"gemini_model_list_unavailable"
     # The model sees only abstract rules and TRAIN/VALIDATION metrics, never test.
     past=[dict(rule=x["rule"],train=x["train"],validation=x["validation"])
         for x in history[-12:] if isinstance(x,dict) and all(z in x for z in ("rule","train","validation"))]
@@ -115,7 +133,7 @@ def gemini_suggest(history):
         for x in ideas[:MAX_NEW]:
             try:good.append(normalize(x))
             except ValueError:pass
-        return good,"gemini_free_tier_requested"
+        return good,"gemini_free_tier_requested_"+model
     except (urllib.error.HTTPError,urllib.error.URLError,TimeoutError,KeyError,ValueError,IndexError) as exc:
         # 429 = exhausted free quota. No paid fallback and no retries.
         return [],"gemini_http_"+str(exc.code) if isinstance(exc,urllib.error.HTTPError) else "gemini_unavailable_"+type(exc).__name__
