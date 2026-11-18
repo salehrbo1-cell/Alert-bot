@@ -199,7 +199,7 @@ def run(path,dest):
             tolerance="max($1,0.12 x H1 ATR) from upper wick tip, with signal close below level",
             entry="sell limit at upper edge of rejection candle body, placed after next confirmation candle closes",
             wait="90 min to fill",reset="after fill, require $0.50 downward departure before first revisit",
-            return="first M1 high >= entry after documented departure; 0 excursion if immediate revisit",
+            revisit="first M1 high >= entry after documented departure; 0 excursion if immediate revisit",
             excursion="entry - lowest M1 low BEFORE revisit minute; conservative when M1 candle ordering unknown",
             censor="maximum 24h after fill; unreturned reported separately, not assumed returned",
             no_trade_costs="price excursion in USD/oz; no spread or slippage deducted",
