@@ -293,7 +293,7 @@ def trade_row(trade):
 def entry_message(trade):
     side = "شراء" if trade["direction"] == "buy" else "بيع"
     return (
-        "🧪 دخول وهمي جديد على الذهب XAU/USD\n"
+        "🧪 دخول سمو الوهمي الجديد على الذهب XAU/USD\n"
         f"الاتجاه: {side}\n"
         f"سعر الدخول الافتراضي: {trade['entry_price']:.2f}\n"
         f"وقت الدخول: {fmt_saudi(trade['entry_t'])} السعودية\n"
