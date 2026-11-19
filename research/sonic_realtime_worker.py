@@ -54,7 +54,7 @@ def on_open(ws):
 
 
 def on_message(ws, message):
-    global current_bar, live_signal_since
+    global bars, current_bar, live_signal_since
     try:
         payload = json.loads(message)
     except (TypeError, json.JSONDecodeError):
@@ -63,10 +63,12 @@ def on_message(ws, message):
 
     event = payload.get("event")
     if event == "subscribe-status":
+        successes = payload.get("success") or []
+        failures = payload.get("fails") or []
         print("Twelve Data subscription status:", payload.get("status"),
-              "symbols accepted:", len(payload.get("success", [])),
-              "symbols rejected:", len(payload.get("fails", [])))
-        for failure in payload.get("fails", []):
+              "symbols accepted:", len(successes),
+              "symbols rejected:", len(failures))
+        for failure in failures:
             print("Twelve Data rejected symbol:", failure.get("symbol"),
                   failure.get("message", failure.get("code", "unknown reason")))
         return
@@ -87,7 +89,10 @@ def on_message(ws, message):
         if current_bar is None:
             live_signal_since = tick_minute
             current_bar = {"t": tick_minute, "o": price, "h": price, "l": price, "c": price}
-            run_analysis()
+            try:
+                run_analysis()
+            except Exception as exc:
+                print("Live analysis error:", type(exc).__name__, safe_error_text(exc))
             return
 
         if tick_minute < current_bar["t"]:
@@ -105,11 +110,22 @@ def on_message(ws, message):
             live_signal_since = tick_minute
             print("Market-data gap detected; resetting live setup warmup")
         current_bar = {"t": tick_minute, "o": price, "h": price, "l": price, "c": price}
-        run_analysis()
+        try:
+            run_analysis()
+        except Exception as exc:
+            print("Live analysis error:", type(exc).__name__, safe_error_text(exc))
+
+
+def safe_error_text(error):
+    detail = str(error)
+    for secret in (API_KEY, os.environ.get("BOT_TOKEN", "").strip()):
+        if secret:
+            detail = detail.replace(secret, "[redacted]")
+    return detail[:240]
 
 
 def on_error(ws, error):
-    print("Twelve Data WebSocket error:", type(error).__name__)
+    print("Twelve Data WebSocket error:", type(error).__name__, safe_error_text(error))
 
 
 def on_close(ws, status_code, message):
@@ -123,6 +139,16 @@ def main():
     if len(bars) < 50:
         raise RuntimeError("Not enough historical M1 candles to seed Sumo")
     print("Loaded", len(bars), "historical M1 candles; live analysis starts on the next price ticks")
+    if monitor.STATE_PATH.exists():
+        state = json.loads(monitor.STATE_PATH.read_text(encoding="utf-8"))
+        for trade in state.get("trades", []):
+            trade["entry_notified"] = True
+            if trade.get("status") == "complete":
+                trade["completion_notified"] = True
+            if trade.get("opposite_signal_t") is not None:
+                trade["opposite_exit_notified"] = True
+        monitor.save_state(state)
+        print("Suppressed Telegram replay for existing paper-trade history")
 
     retry_seconds = 2
     while True:

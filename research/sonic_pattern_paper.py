@@ -269,7 +269,15 @@ def send_telegram(message):
             raise RuntimeError("Telegram did not confirm delivery")
         return True
     except Exception as exc:
-        print("Telegram paper-monitor notification error:", exc)
+        status = getattr(getattr(exc, "response", None), "status_code", None)
+        description = "Telegram request failed"
+        response = getattr(exc, "response", None)
+        if response is not None:
+            try:
+                description = str(response.json().get("description", description))
+            except Exception:
+                pass
+        print("Telegram paper-monitor notification error:", status or type(exc).__name__, description[:180])
         return False
 
 
