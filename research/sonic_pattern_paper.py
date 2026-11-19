@@ -237,6 +237,7 @@ def detect_setups(candles):
             "sweep_level": sweep["level"],
             "sweep_extreme": sweep["extreme"],
             "ifvg_t": ifvg["t"],
+            "ifvg_origin_t": ifvg["fvg_at"],
             "ifvg_lower": ifvg["lower"],
             "ifvg_upper": ifvg["upper"],
             "cisd_t": cisd["t"],
@@ -931,9 +932,12 @@ def evaluate_structure_exit_rule(state, candles):
     write_csv(STRUCTURE_EXIT_PATH, STRUCTURE_EXIT_COLUMNS, out)
 
 
-def main():
+def main(candles_override=None, partial_current=False, live_signal_since=None):
     now = datetime.now(timezone.utc)
-    candles = load_candles(now)
+    candles = candles_override if candles_override is not None else load_candles(now)
+    analysis_candles = candles[:-1] if partial_current else candles
+    if not analysis_candles:
+        raise RuntimeError("No completed candles available for analysis")
     ROOT.mkdir(parents=True, exist_ok=True)
     if STATE_PATH.exists():
         state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
@@ -942,23 +946,27 @@ def main():
         state = {
             "schema_version": 1,
             "started_at": now.isoformat(),
-            "last_processed_candle_t": candles[-1]["t"],
+            "last_processed_candle_t": analysis_candles[-1]["t"],
             "trades": [],
             "initialized": True,
         }
         save_state(state)
         write_csv(TRADES_PATH, TRADE_COLUMNS, [])
         write_csv(PATH_PATH, PATH_COLUMNS, [])
-        print("Paper monitor initialized prospectively at", iso(candles[-1]["t"]))
+        print("Paper monitor initialized prospectively at", iso(analysis_candles[-1]["t"]))
         return
 
     previous_last = int(state.get("last_processed_candle_t", 0))
     existing_ids = {t["trade_id"] for t in state.get("trades", [])}
-    new_setups = sorted(detect_setups(candles), key=lambda item: item["cisd_t"])
+    new_setups = sorted(detect_setups(analysis_candles), key=lambda item: item["cisd_t"])
     for setup in new_setups:
         if setup["cisd_t"] <= previous_last:
             continue
-        cisd_index = next((i for i, x in enumerate(candles) if x["t"] == setup["cisd_t"]), None)
+        if live_signal_since is not None and min(
+            setup["sweep_t"], setup["ifvg_origin_t"], setup["ifvg_t"], setup["cisd_t"]
+        ) < live_signal_since:
+            continue
+        cisd_index = next((i for i, x in enumerate(analysis_candles) if x["t"] == setup["cisd_t"]), None)
         if cisd_index is None or cisd_index + 1 >= len(candles):
             continue
         entry_bar = candles[cisd_index + 1]
@@ -1024,8 +1032,8 @@ def main():
 
     new_path_rows = []
     for trade in state.get("trades", []):
-        new_path_rows.extend(process_trade(trade, candles))
-    state["last_processed_candle_t"] = max(previous_last, candles[-1]["t"])
+        new_path_rows.extend(process_trade(trade, analysis_candles))
+    state["last_processed_candle_t"] = max(previous_last, analysis_candles[-1]["t"])
     save_state(state)
     write_csv(TRADES_PATH, TRADE_COLUMNS, [trade_row(t) for t in state.get("trades", [])])
     if not PATH_PATH.exists():
@@ -1036,9 +1044,9 @@ def main():
             writer.writerows(new_path_rows)
 
     evaluate_exit_hypothesis(state)
-    evaluate_structure_exit_rule(state, candles)
-    evaluate_m5_structure_exit_rule(state, candles, now)
-    evaluate_step_resistance_exit_rule(state, candles, now)
+    evaluate_structure_exit_rule(state, analysis_candles)
+    evaluate_m5_structure_exit_rule(state, analysis_candles, now)
+    evaluate_step_resistance_exit_rule(state, analysis_candles, now)
 
     for trade in state.get("trades", []):
         if trade.get("opposite_signal_t") is not None and not trade.get("opposite_exit_notified", False):
