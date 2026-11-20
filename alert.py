@@ -713,10 +713,10 @@ def main():
                     "max_adverse": previous.get("max_adverse", 0),
                 })
                 send(
-                    f"🔄 إغلاق افتراضي {'بيع' if prev_sell else 'شراء'} بسبب إشارة معاكسة\\n"
-                    f"الدخول: {previous['entry']:,.2f} · الخروج: {price:,.2f}\\n"
-                    f"الصافي بعد الانزلاق: {pnl_usd:+.2f}$ (0.01 لوت)\\n"
-                    f"أقصى حركة لصالح الصفقة: {previous.get('max_favorable', 0):.2f}$\\n"
+                    f"🔄 إغلاق افتراضي {'بيع' if prev_sell else 'شراء'} بسبب إشارة معاكسة\n"
+                    f"الدخول: {previous['entry']:,.2f} · الخروج: {price:,.2f}\n"
+                    f"الصافي بعد الانزلاق: {pnl_usd:+.2f}$ (0.01 لوت)\n"
+                    f"أقصى حركة لصالح الصفقة: {previous.get('max_favorable', 0):.2f}$\n"
                     f"أقصى حركة ضد الصفقة: {previous.get('max_adverse', 0):.2f}$"
                 )
             state["sent"][sid] = now
@@ -816,12 +816,12 @@ def main():
         open_info = ("لا توجد" if not open_position else
                      ("شراء" if open_position["side"] == "buy" else "بيع"))
         send(
-            f"📊 تقرير الذهب اليومي | {yesterday} (السعودية)\\n"
-            f"صفقات شراء مغلقة: {buys}\\nصفقات بيع مغلقة: {sells}\\n"
-            f"إجمالي الصفقات المغلقة: {len(day_results)}\\n"
-            f"الأرباح: {profit:+.2f}$\\nالخسائر: {loss:+.2f}$\\n"
-            f"الصافي بعد الانزلاق: {net:+.2f}$\\n"
-            f"الصفقة المستمرة: {open_info}\\n"
+            f"📊 تقرير الذهب اليومي | {yesterday} (السعودية)\n"
+            f"صفقات شراء مغلقة: {buys}\nصفقات بيع مغلقة: {sells}\n"
+            f"إجمالي الصفقات المغلقة: {len(day_results)}\n"
+            f"الأرباح: {profit:+.2f}$\nالخسائر: {loss:+.2f}$\n"
+            f"الصافي بعد الانزلاق: {net:+.2f}$\n"
+            f"الصفقة المستمرة: {open_info}\n"
             f"الحساب افتراضي: 0.01 لوت، 100 أونصة/لوت، انزلاق 0.37$ لكل تنفيذ."
         )
         state["daily_report_date"] = yesterday
