@@ -45,7 +45,11 @@ COOLDOWN = 2 * 3600
 DIGEST_EVERY = 6 * 3600
 SCORE_EVERY = 24 * 3600
 STOP_ATR_BUFFER = 0.25
-MAX_ACTIVE_PER_SIDE = 2
+MAX_ACTIVE_PER_SIDE = 1
+SLIPPAGE_USD_PER_SIDE = 0.37
+LOT_SIZE = 0.01
+OUNCES_PER_LOT = 100  # Verify against broker contract specification
+SAUDI_TZ = timezone(timedelta(hours=3))
 
 LEVEL_TFS = [
     ("1h", 500, 1, 4, "1س"),
@@ -613,6 +617,10 @@ def main():
     state.setdefault("active", [])
     state.setdefault("near", {})
     state.setdefault("results", [])
+    if "last_direction" not in state:
+        previous_signals = [x for x in state["active"] if x.get("asset") == ASSET]
+        if previous_signals:
+            state["last_direction"] = previous_signals[-1]["side"]
 
     now = time.time()
     report = []
@@ -640,55 +648,26 @@ def main():
     rows.append("الاتجاه والمؤشرات: " + describe(mom))
     report.append("\n".join(rows))
 
-    still_active = []
-    for signal in state["active"]:
-        if signal["asset"] != ASSET:
-            still_active.append(signal)
-            continue
+    # Legacy active signals are consolidated to one directional paper position.
+    gold_active = [x for x in state["active"] if x.get("asset") == ASSET]
+    other_active = [x for x in state["active"] if x.get("asset") != ASSET]
+    if gold_active and not state.get("position"):
+        last = gold_active[-1]
+        state["position"] = dict(last, opened_at=last.get("t", int(now * 1000)),
+                                 max_favorable=0.0, max_adverse=0.0)
+    state["active"] = other_active
 
-        side = signal["side"]
-        is_sell = side == "sell"
-        end_text = outcome = exit_price = None
-        newer = [c for c in candles if c["t"] > signal["t"]]
-
-        for c in newer:
-            hit_stop = c["h"] >= signal["sl"] if is_sell else c["l"] <= signal["sl"]
-            hit_target = c["l"] <= signal["target"] if is_sell else c["h"] >= signal["target"]
-            if hit_stop:
-                end_text, outcome, exit_price = "⛔ ضرب وقف الإشارة", "وقف", signal["sl"]
-            elif hit_target:
-                end_text, outcome, exit_price = "🎯 وصل الهدف", "هدف", signal["target"]
-            else:
-                continue
-            break
-
-        if not outcome and len(newer) <= SIGNAL_LIFE:
-            still_active.append(signal)
-            continue
-        if not outcome:
-            outcome, exit_price = "انتهت المدة", candles[-1]["c"]
-
-        risk = abs(signal["entry"] - signal["sl"])
-        pnl_r = (
-            (signal["entry"] - exit_price) / risk
-            if is_sell else (exit_price - signal["entry"]) / risk
-        )
-        state["results"].append({
-            "asset": ASSET,
-            "kind": signal.get("kind", "غير معروف"),
-            "side": side,
-            "conf": signal.get("conf", 0),
-            "outcome": outcome,
-            "r": round(pnl_r, 3),
-            "t": signal["t"],
-        })
-        if end_text:
-            send(
-                f"{end_text}\n{NAME} {'بيع' if is_sell else 'شراء'}\n"
-                f"الدخول: {signal['entry']:,.2f} · الخروج: {exit_price:,.2f}\n"
-                f"النتيجة: {pnl_r:+.2f}R"
-            )
-    state["active"] = still_active
+    position = state.get("position")
+    if position:
+        is_sell = position["side"] == "sell"
+        # Observe price extremes since entry, including completed candles.
+        observed = [c for c in candles if c["t"] >= position.get("t", 0)]
+        observed.append({"h": price, "l": price})
+        for c in observed:
+            favorable = (position["entry"] - c["l"]) if is_sell else (c["h"] - position["entry"])
+            adverse = (c["h"] - position["entry"]) if is_sell else (position["entry"] - c["l"])
+            position["max_favorable"] = max(position.get("max_favorable", 0), favorable)
+            position["max_adverse"] = max(position.get("max_adverse", 0), adverse)
 
     latest = candles[-1]
     age_min = (time.time() * 1000 - (latest["t"] + INTERVAL_MS)) / 60000
@@ -702,11 +681,8 @@ def main():
             if sid in state["sent"]:
                 continue
 
-            active_same_side = [
-                x for x in state["active"]
-                if x["asset"] == ASSET and x["side"] == side
-            ]
-            if len(active_same_side) >= MAX_ACTIVE_PER_SIDE:
+            # Only an opposite valid signal can replace the current direction.
+            if side == state.get("last_direction"):
                 continue
 
             conf, trend_aligned = confluence(mom, side, kind)
@@ -717,17 +693,41 @@ def main():
             if not plan:
                 continue
 
+            # Close the previous paper position at the opposite signal price.
+            previous = state.get("position")
+            if previous:
+                prev_sell = previous["side"] == "sell"
+                entry_fill = previous["entry"] - SLIPPAGE_USD_PER_SIDE if prev_sell else previous["entry"] + SLIPPAGE_USD_PER_SIDE
+                exit_fill = price + SLIPPAGE_USD_PER_SIDE if prev_sell else price - SLIPPAGE_USD_PER_SIDE
+                move = entry_fill - exit_fill if prev_sell else exit_fill - entry_fill
+                pnl_usd = move * LOT_SIZE * OUNCES_PER_LOT
+                closed_at = datetime.now(SAUDI_TZ)
+                state["results"].append({
+                    "asset": ASSET, "kind": previous.get("kind", "غير معروف"),
+                    "side": previous["side"], "outcome": "إشارة معاكسة",
+                    "entry": previous["entry"], "exit": price,
+                    "pnl_usd": round(pnl_usd, 2),
+                    "closed_at_saudi": closed_at.isoformat(),
+                    "t": previous.get("t", 0),
+                    "max_favorable": previous.get("max_favorable", 0),
+                    "max_adverse": previous.get("max_adverse", 0),
+                })
+                send(
+                    f"🔄 إغلاق افتراضي {'بيع' if prev_sell else 'شراء'} بسبب إشارة معاكسة\n"
+                    f"الدخول: {previous['entry']:,.2f} · الخروج: {price:,.2f}\n"
+                    f"الصافي بعد الانزلاق: {pnl_usd:+.2f}$ (0.01 لوت)\n"
+                    f"أقصى حركة لصالح الصفقة: {previous.get('max_favorable', 0):.2f}$\n"
+                    f"أقصى حركة ضد الصفقة: {previous.get('max_adverse', 0):.2f}$"
+                )
             state["sent"][sid] = now
-            state["active"].append({
-                "asset": ASSET,
-                "side": side,
-                "entry": plan["entry"],
-                "sl": plan["sl"],
-                "target": plan["target"],
-                "t": candle["t"],
-                "kind": kind,
-                "conf": conf,
-            })
+            state["last_direction"] = side
+            state["position"] = {
+                "asset": ASSET, "side": side, "entry": plan["entry"],
+                "sl": plan["sl"], "target": plan["target"],
+                "t": candle["t"], "opened_at": int(now * 1000),
+                "kind": kind, "conf": conf,
+                "max_favorable": 0.0, "max_adverse": 0.0,
+            }
 
             is_sell = side == "sell"
             icon = "🔴" if is_sell else "🟢"
@@ -797,11 +797,41 @@ def main():
         state["score_t"] = now
         send(scoreboard(gold_results))
 
+    # Send the report for the most recently completed Saudi calendar day.
+    saudi_now = datetime.now(SAUDI_TZ)
+    yesterday = (saudi_now - timedelta(days=1)).date().isoformat()
+    if state.get("daily_report_date") != yesterday:
+        day_results = [
+            x for x in state["results"]
+            if x.get("asset") == ASSET
+            and str(x.get("closed_at_saudi", ""))[:10] == yesterday
+            and isinstance(x.get("pnl_usd"), (int, float))
+        ]
+        buys = sum(x["side"] == "buy" for x in day_results)
+        sells = sum(x["side"] == "sell" for x in day_results)
+        profit = sum(max(0, x["pnl_usd"]) for x in day_results)
+        loss = sum(min(0, x["pnl_usd"]) for x in day_results)
+        net = profit + loss
+        open_position = state.get("position")
+        open_info = ("لا توجد" if not open_position else
+                     ("شراء" if open_position["side"] == "buy" else "بيع"))
+        send(
+            f"📊 تقرير الذهب اليومي | {yesterday} (السعودية)\n"
+            f"صفقات شراء مغلقة: {buys}\nصفقات بيع مغلقة: {sells}\n"
+            f"إجمالي الصفقات المغلقة: {len(day_results)}\n"
+            f"الأرباح: {profit:+.2f}$\nالخسائر: {loss:+.2f}$\n"
+            f"الصافي بعد الانزلاق: {net:+.2f}$\n"
+            f"الصفقة المستمرة: {open_info}\n"
+            f"الحساب افتراضي: 0.01 لوت، 100 أونصة/لوت، انزلاق 0.37$ لكل تنفيذ."
+        )
+        state["daily_report_date"] = yesterday
+
     state["patterns"] = {
         k: v for k, v in state.get("patterns", {}).items()
         if now - v < 7 * 86400
     }
-    state["results"] = state["results"][-500:]
+    # Keep enough closed positions for daily reporting across interruptions.
+    state["results"] = state["results"][-5000:]
     state["sent"] = {k: v for k, v in state["sent"].items() if now - v < 7 * 86400}
     state["near"] = {k: v for k, v in state["near"].items() if now - v < 7 * 86400}
     save_state(state)
