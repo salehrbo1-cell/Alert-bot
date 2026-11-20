@@ -24,7 +24,10 @@ STATE_PATH = ROOT / "state.json"
 TRADES_PATH = ROOT / "trades.csv"
 PATH_PATH = ROOT / "minute_path.csv"
 MAX_SEQUENCE_MINUTES = 30
-OBSERVATION_MINUTES = 60
+OBSERVATION_MINUTES = 60  # Legacy research horizons; positions close only on reversal.
+SLIPPAGE_PER_FILL_USD = 0.37
+PAPER_LOT = 0.01
+CONTRACT_OUNCES_PER_LOT = 100
 SAUDI = timezone(timedelta(hours=3))
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent": "SonicPaperResearch/1.0"})
@@ -349,7 +352,8 @@ def opposite_exit_message(trade, signal):
         f"سعر الخروج الافتراضي: {signal['entry_price']:.2f}\n"
         f"وقت الإشارة المعاكسة: {fmt_saudi(signal['entry_t'])} السعودية\n"
         f"الحركة عند الإشارة: {move:+.2f}$\n"
-        "هذا إنذار بحثي فقط، ولا ينفذ أمرًا لدى الوسيط. تستمر متابعة الستين دقيقة لأغراض القياس."
+        f"صافي الربح/الخسارة بعد الانزلاق: {trade.get('net_pnl_usd', 0):+.2f}$ (0.01 لوت)\n"
+        "هذا إنذار بحثي فقط، ولا ينفذ أمرًا لدى الوسيط."
     )
 
 
@@ -362,13 +366,13 @@ def completion_message(trade):
     before = trade.get("adverse_before_return")
     before_text = "غير منطبق" if before is None else f"{before:.2f}$"
     return (
-        "📋 انتهت متابعة صفقة سمو الوهمية (60 دقيقة)\n"
+        "📋 انتهت متابعة صفقة سمو الوهمية بإشارة معاكسة\n"
         f"الاتجاه: {side} · الدخول: {trade['entry_price']:.2f}\n"
         f"أقصى ابتعاد لصالحها: {trade['max_favorable']:.2f}$\n"
         f"أقصى ابتعاد ضدها: {trade['max_adverse']:.2f}$\n"
         f"أقصى انعكاس قبل العودة للإغلاق عند/فوق الدخول: {before_text}\n"
         f"الخلاصة: {recover}\n"
-        "القيم من شموع الدقيقة، بلا احتساب سبريد أو عمولة."
+        "القيم من شموع الدقيقة، دون سبريد أو عمولة إضافية."
     )
 
 
@@ -376,7 +380,7 @@ def process_trade(trade, candles):
     if trade["status"] != "open":
         return []
     entry_t = trade["entry_t"]
-    end_t = entry_t + OBSERVATION_MINUTES * 60_000
+    end_t = trade.get("opposite_signal_t") or float("inf")
     last_path_t = trade.get("last_path_t", entry_t - 60_000)
     new_path = []
     direction = 1 if trade["direction"] == "buy" else -1
@@ -422,7 +426,7 @@ def process_trade(trade, candles):
         })
         trade["last_path_t"] = bar["t"]
     latest_close_ms = candles[-1]["t"] + 60_000
-    if latest_close_ms >= end_t:
+    if trade.get("opposite_signal_t") is not None and latest_close_ms >= end_t:
         trade["status"] = "complete"
         trade["completed_t"] = end_t
         if trade.get("returned_after_adverse") is None:
@@ -964,6 +968,10 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
         print("Paper monitor initialized prospectively at", iso(analysis_candles[-1]["t"]))
         return
 
+    # Start the new directional regime prospectively; keep prior research records unchanged.
+    if "last_direction" not in state:
+        state["last_direction"] = None
+        state["active_trade_id"] = None
     previous_last = int(state.get("last_processed_candle_t", 0))
     existing_ids = {t["trade_id"] for t in state.get("trades", [])}
     new_setups = sorted(detect_setups(analysis_candles), key=lambda item: item["cisd_t"])
@@ -981,22 +989,29 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
         trade_id = f"{setup['direction']}-{setup['sweep_t']}-{setup['ifvg_t']}-{setup['cisd_t']}"
         if trade_id in existing_ids:
             continue
-        # Treat a newly confirmed opposite setup as an exit alert for any
-        # still-observed paper entry. Keep the original 60-minute path intact.
+        # Exactly one directional paper position. Ignore all repeated same-side setups.
+        if state.get("last_direction") == setup["direction"]:
+            continue
         opposite_trades = []
         for open_trade in state.get("trades", []):
+            if open_trade.get("trade_id") != state.get("active_trade_id"):
+                continue
             if open_trade.get("status") != "open" or open_trade.get("opposite_signal_t") is not None:
                 continue
-            if open_trade.get("direction") == setup["direction"]:
-                continue
-            observation_end = open_trade["entry_t"] + OBSERVATION_MINUTES * 60_000
-            if not (open_trade["entry_t"] <= entry_bar["t"] < observation_end):
+            if open_trade["direction"] == setup["direction"]:
                 continue
             open_trade["opposite_signal_t"] = entry_bar["t"]
             open_trade["opposite_signal_price"] = entry_bar["o"]
             open_trade["opposite_signal_direction"] = setup["direction"]
             open_trade["opposite_signal_trade_id"] = trade_id
             open_trade["opposite_exit_notified"] = False
+            direction = 1 if open_trade["direction"] == "buy" else -1
+            price_move = (entry_bar["o"] - open_trade["entry_price"]) * direction
+            open_trade["net_pnl_usd"] = round(
+                (price_move - 2 * SLIPPAGE_PER_FILL_USD) * PAPER_LOT * CONTRACT_OUNCES_PER_LOT, 2
+            )
+            open_trade["exit_t"] = entry_bar["t"]
+            open_trade["exit_price"] = entry_bar["o"]
             opposite_trades.append(open_trade)
 
         trade = {
@@ -1019,6 +1034,8 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             "completion_notified": False,
         }
         state.setdefault("trades", []).append(trade)
+        state["active_trade_id"] = trade_id
+        state["last_direction"] = setup["direction"]
         existing_ids.add(trade_id)
 
         # Persist entry/exit events before sending so a failed Telegram call
@@ -1073,6 +1090,33 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             if send_telegram(completion_message(trade)):
                 trade["completion_notified"] = True
                 save_state(state)
+
+    # Report the last completed Saudi calendar day, only once after a successful send.
+    report_date = (now.astimezone(SAUDI) - timedelta(days=1)).date().isoformat()
+    if state.get("last_daily_report_date") != report_date:
+        closed = [
+            t for t in state.get("trades", [])
+            if t.get("exit_t") is not None
+            and datetime.fromtimestamp(t["exit_t"] / 1000, SAUDI).date().isoformat() == report_date
+            and isinstance(t.get("net_pnl_usd"), (float, int))
+        ]
+        buys = sum(t["direction"] == "buy" for t in closed)
+        sells = sum(t["direction"] == "sell" for t in closed)
+        profits = sum(max(0, t["net_pnl_usd"]) for t in closed)
+        losses = sum(min(0, t["net_pnl_usd"]) for t in closed)
+        net = profits + losses
+        report = (
+            f"📊 تقرير سمو اليومي | {report_date} السعودية\n"
+            f"شراء مغلق: {buys} | بيع مغلق: {sells}\n"
+            f"عدد الصفقات المغلقة: {len(closed)}\n"
+            f"الأرباح: {profits:+.2f}$ | الخسائر: {losses:+.2f}$\n"
+            f"الصافي بعد الانزلاق: {net:+.2f}$\n"
+            "حساب افتراضي: 0.01 لوت، 100 أونصة/لوت، انزلاق 0.37$ لكل تنفيذ.\n"
+            "الصفقة المفتوحة غير محسوبة ضمن الربح المحقق."
+        )
+        if send_telegram(report):
+            state["last_daily_report_date"] = report_date
+            save_state(state)
 
     print(
         "Paper monitor complete:",
