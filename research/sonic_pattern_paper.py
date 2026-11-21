@@ -134,8 +134,8 @@ def load_candles(now):
 
 
 
-# SUMO_M15_GATE_V1: secondary entry conditions for the three-trading-day paper trial.
-# The core Sweep -> IFVG -> CISD setup, Telegram text, and exit rules are unchanged.
+# SUMO_M15_GATE_V1: PRIMARY MANDATORY entry conditions for the three-trading-day paper trial.
+# Entry requires the core Sweep -> IFVG -> CISD sequence AND aligned EMA20/50, EMA200, and Ichimoku M15 gates.
 # Calculations use only completed M15 candles, to avoid future data leakage.
 GATE_VERSION = "ema20_50__ema200__ichimoku_m15_v1"
 GATE_INTERVAL_MS = 15 * 60 * 1000
@@ -1116,7 +1116,7 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             continue
 
         # Record every original SMC candidate, whether it passes or fails
-        # the selected SECONDARY indicators. This preserves an A/B audit
+        # the three PRIMARY MANDATORY indicators. This preserves an A/B audit
         # without altering the instantaneous Telegram notification format.
         checked_ids = {r["trade_id"] for r in state.get("indicator_filter_checks", [])}
         if trade_id in checked_ids:
@@ -1134,6 +1134,7 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             "ifvg_t": setup["ifvg_t"],
             "cisd_t": setup["cisd_t"],
             "indicators": indicator_check,
+            "entry_requirements_class": "primary_mandatory_all_three_plus_smc",
             "blocked_same_direction": same_direction,
             "entered": bool(indicator_check["allowed"] and not same_direction),
         }
@@ -1144,7 +1145,7 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             del checks[:-3000]
         save_state(state)
         print("SUMO_INDICATOR_GATE", json.dumps(candidate, ensure_ascii=False))
-        # Secondary filters control ENTRY only. Original opposite SMC signals
+        # Primary mandatory indicators control ENTRY only. Original opposite SMC signals
         # must still close the current position, even if a new entry is rejected.
         if same_direction:
             continue
