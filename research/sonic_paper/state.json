@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795255140000,
+  "last_processed_candle_t": 1795255200000,
   "trades": [
     {
       "direction": "buy",
@@ -2370,7 +2370,7 @@
       "minutes_to_return": null,
       "adverse_before_return": null,
       "adverse_on_return_candle": null,
-      "last_path_t": 1795255140000,
+      "last_path_t": 1795255200000,
       "horizons": {
         "5": {
           "max_favorable": 6.315599999999904,
@@ -3045,7 +3045,7 @@
       "minutes_to_return": 3,
       "adverse_before_return": 0.9019,
       "adverse_on_return_candle": 0.2321,
-      "last_path_t": 1795255140000,
+      "last_path_t": 1795255200000,
       "horizons": {
         "5": {
           "max_favorable": 4.401809999999841,
