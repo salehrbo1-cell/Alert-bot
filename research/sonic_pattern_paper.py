@@ -9,6 +9,7 @@ import csv
 import json
 import os
 import statistics
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -130,6 +131,130 @@ def load_candles(now):
     if len(candles) < 50:
         raise RuntimeError(f"Only {len(candles)} completed one-minute candles returned")
     return candles
+
+
+
+# SUMO_M15_GATE_V1: secondary entry conditions for the three-trading-day paper trial.
+# The core Sweep -> IFVG -> CISD setup, Telegram text, and exit rules are unchanged.
+# Calculations use only completed M15 candles, to avoid future data leakage.
+GATE_VERSION = "ema20_50__ema200__ichimoku_m15_v1"
+GATE_INTERVAL_MS = 15 * 60 * 1000
+_Gate_Cache = {"target": None, "at": 0.0, "bars": None}
+
+
+def _gate_m15_history(entry_t_ms):
+    """Fetch 500 completed M15 candles only when a new filter period needs them."""
+    target = (entry_t_ms // GATE_INTERVAL_MS - 1) * GATE_INTERVAL_MS
+    now = time.monotonic()
+    if _Gate_Cache["target"] == target and _Gate_Cache["bars"] is not None:
+        return _Gate_Cache["bars"], None
+    if _Gate_Cache["target"] == target and now - _Gate_Cache["at"] < 60:
+        return None, "history_retry_wait"
+    _Gate_Cache.update({"target": target, "at": now, "bars": None})
+    try:
+        response = SESSION.get(
+            f"{BASE_URL}/time_series",
+            params={
+                "symbol": SYMBOL, "interval": "15min",
+                "outputsize": 500, "timezone": "UTC",
+                "order": "ASC", "format": "JSON", "apikey": API_KEY,
+            },
+            timeout=12,
+        )
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") == "error":
+            raise RuntimeError("Twelve_Data_technical_history_error")
+        values = data.get("values")
+        if not isinstance(values, list):
+            raise RuntimeError("Twelve_Data_missing_values")
+        history = []
+        for row in values:
+            start_ms = int(parse_time(row["datetime"]).timestamp() * 1000)
+            if start_ms + GATE_INTERVAL_MS > entry_t_ms:
+                continue
+            history.append({
+                "t": start_ms,
+                "h": float(row["high"]),
+                "l": float(row["low"]),
+                "c": float(row["close"]),
+            })
+        history.sort(key=lambda bar: bar["t"])
+        if len(history) < 350:
+            raise RuntimeError("Not_enough_M15_candles_for_EMA200")
+        if history[-1]["t"] != target:
+            raise RuntimeError("Latest_completed_M15_candle_is_missing")
+        _Gate_Cache["bars"] = history
+        return history, None
+    except Exception as exc:
+        # Do not print exception messages: HTTP exceptions can include API keys.
+        print("SUMO_M15_HISTORY_ERROR:", type(exc).__name__)
+        return None, type(exc).__name__
+
+
+def _gate_ema(values, length):
+    value = sum(values[:length]) / length
+    weight = 2.0 / (length + 1.0)
+    for price in values[length:]:
+        value += (price - value) * weight
+    return value
+
+
+def _gate_midpoint(bars, end_index, lookback):
+    subset = bars[end_index - lookback + 1:end_index + 1]
+    return (max(bar["h"] for bar in subset) +
+            min(bar["l"] for bar in subset)) / 2.0
+
+
+def indicator_entry_gate(entry_t_ms, entry_price, side):
+    """All three selected indicators are mandatory entry gates (M15)."""
+    bars, error = _gate_m15_history(entry_t_ms)
+    if bars is None:
+        return {
+            "allowed": False, "version": GATE_VERSION,
+            "reason": "indicator_data_unavailable", "error_type": error,
+            "conditions": {"ema20_50": False, "ema200": False, "ichimoku": False},
+        }
+    closes = [bar["c"] for bar in bars]
+    ema20 = _gate_ema(closes, 20)
+    ema50 = _gate_ema(closes, 50)
+    ema200 = _gate_ema(closes, 200)
+
+    # Ichimoku projected cloud at current bar: spans were calculated 26 M15
+    # bars earlier. Using current-bar spans would introduce look-ahead bias.
+    origin = len(bars) - 1 - 26
+    tenkan_then = _gate_midpoint(bars, origin, 9)
+    kijun_then = _gate_midpoint(bars, origin, 26)
+    senkou_a = (tenkan_then + kijun_then) / 2.0
+    senkou_b = _gate_midpoint(bars, origin, 52)
+    cloud_top = max(senkou_a, senkou_b)
+    cloud_bottom = min(senkou_a, senkou_b)
+
+    if side == "buy":
+        conditions = {
+            "ema20_50": ema20 > ema50,
+            "ema200": entry_price > ema200,
+            "ichimoku": entry_price > cloud_top,
+        }
+    else:
+        conditions = {
+            "ema20_50": ema20 < ema50,
+            "ema200": entry_price < ema200,
+            "ichimoku": entry_price < cloud_bottom,
+        }
+    return {
+        "allowed": all(conditions.values()), "version": GATE_VERSION,
+        "reason": "passed" if all(conditions.values()) else "indicator_conditions_failed",
+        "conditions": conditions,
+        "m15_last_closed_t": bars[-1]["t"],
+        "m15_last_closed_price": round(closes[-1], 4),
+        "ema20": round(ema20, 4), "ema50": round(ema50, 4),
+        "ema200": round(ema200, 4),
+        "ichimoku_span_a": round(senkou_a, 4),
+        "ichimoku_span_b": round(senkou_b, 4),
+        "cloud_top": round(cloud_top, 4),
+        "cloud_bottom": round(cloud_bottom, 4),
+    }
 
 
 def detect_sweeps(candles):
@@ -989,9 +1114,39 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
         trade_id = f"{setup['direction']}-{setup['sweep_t']}-{setup['ifvg_t']}-{setup['cisd_t']}"
         if trade_id in existing_ids:
             continue
-        # Exactly one directional paper position. Ignore all repeated same-side setups.
-        if state.get("last_direction") == setup["direction"]:
+
+        # Record every original SMC candidate, whether it passes or fails
+        # the selected SECONDARY indicators. This preserves an A/B audit
+        # without altering the instantaneous Telegram notification format.
+        checked_ids = {r["trade_id"] for r in state.get("indicator_filter_checks", [])}
+        if trade_id in checked_ids:
             continue
+        indicator_check = indicator_entry_gate(
+            entry_bar["t"], entry_bar["o"], setup["direction"]
+        )
+        same_direction = state.get("last_direction") == setup["direction"]
+        candidate = {
+            "trade_id": trade_id,
+            "entry_t": entry_bar["t"],
+            "entry_price": round(entry_bar["o"], 5),
+            "direction": setup["direction"],
+            "sweep_t": setup["sweep_t"],
+            "ifvg_t": setup["ifvg_t"],
+            "cisd_t": setup["cisd_t"],
+            "indicators": indicator_check,
+            "blocked_same_direction": same_direction,
+            "entered": bool(indicator_check["allowed"] and not same_direction),
+        }
+        checks = state.setdefault("indicator_filter_checks", [])
+        checks.append(candidate)
+        # Bound state growth; persist enough history for the short trial.
+        if len(checks) > 3000:
+            del checks[:-3000]
+        save_state(state)
+        print("SUMO_INDICATOR_GATE", json.dumps(candidate, ensure_ascii=False))
+        if same_direction or not indicator_check["allowed"]:
+            continue
+
         opposite_trades = []
         for open_trade in state.get("trades", []):
             if open_trade.get("trade_id") != state.get("active_trade_id"):
