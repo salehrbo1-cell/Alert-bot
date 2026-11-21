@@ -1144,7 +1144,9 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             del checks[:-3000]
         save_state(state)
         print("SUMO_INDICATOR_GATE", json.dumps(candidate, ensure_ascii=False))
-        if same_direction or not indicator_check["allowed"]:
+        # Secondary filters control ENTRY only. Original opposite SMC signals
+        # must still close the current position, even if a new entry is rejected.
+        if same_direction:
             continue
 
         opposite_trades = []
@@ -1168,6 +1170,24 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             open_trade["exit_t"] = entry_bar["t"]
             open_trade["exit_price"] = entry_bar["o"]
             opposite_trades.append(open_trade)
+
+        if not indicator_check["allowed"]:
+            # Exit on an unfiltered opposite SMC event, but do not open a new
+            # position unless all 3 mandatory M15 indicators pass.
+            state["last_direction"] = setup["direction"]
+            state["active_trade_id"] = None
+            save_state(state)
+            exit_context = {
+                "direction": setup["direction"],
+                "entry_t": entry_bar["t"],
+                "entry_price": entry_bar["o"],
+            }
+            for old_trade in opposite_trades:
+                if send_telegram(opposite_exit_message(old_trade, exit_context)):
+                    old_trade["opposite_exit_notified"] = True
+                    save_state(state)
+            print("SUMO_GATE_EXIT_ONLY", trade_id, "closed_positions", len(opposite_trades))
+            continue
 
         trade = {
             **setup,
