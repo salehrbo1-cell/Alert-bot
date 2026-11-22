@@ -88,19 +88,42 @@ def send(message):
         if not result.get("ok"):
             print("Telegram error:", result)
     except Exception as exc:
-        print("Telegram send error:", exc)
+        # Do not print request URLs, which may contain the Telegram bot token.
+        print("Telegram send error:", type(exc).__name__)
 
 
 def td_get(endpoint, params):
     query = dict(params)
     query["apikey"] = API_KEY
-    r = SESSION.get(f"{BASE_URL}/{endpoint}", params=query, timeout=25)
-    r.raise_for_status()
+    for attempt in range(3):
+        try:
+            r = SESSION.get(f"{BASE_URL}/{endpoint}", params=query, timeout=25)
+        except requests.RequestException as exc:
+            safe_message = str(exc).replace(API_KEY, "[REDACTED]")
+            raise RuntimeError(
+                f"Twelve Data request failed ({type(exc).__name__}): {safe_message[:300]}"
+            ) from None
+        if r.status_code == 429 and attempt < 2:
+            retry_after = r.headers.get("Retry-After")
+            try:
+                wait_seconds = min(max(int(retry_after), 1), 60) if retry_after else 30 * (attempt + 1)
+            except (TypeError, ValueError):
+                wait_seconds = 30 * (attempt + 1)
+            print(f"Twelve Data rate limit on {endpoint}; retrying in {wait_seconds}s.")
+            time.sleep(wait_seconds)
+            continue
+        if not r.ok:
+            safe_params = {key: value for key, value in query.items() if key.lower() != "apikey"}
+            raise RuntimeError(
+                f"Twelve Data HTTP {r.status_code} at {endpoint}; params={safe_params}"
+            )
+        break
     data = r.json()
     if isinstance(data, dict) and data.get("status") == "error":
-        raise RuntimeError(
-            f"Twelve Data error {data.get('code')}: {data.get('message')}"
+        message = str(data.get("message") or "Unknown provider error").replace(
+            API_KEY, "[REDACTED]"
         )
+        raise RuntimeError(f"Twelve Data error {data.get('code')}: {message}")
     return data
 
 
@@ -843,6 +866,7 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as exc:
-        print("BOT FATAL ERROR:", repr(exc))
-        send(f"⚠️ تعذر تحديث بوت البتكوين:\n{str(exc)[:900]}")
+        safe_message = str(exc).replace(API_KEY, "[REDACTED]")
+        print("BOT FATAL ERROR:", type(exc).__name__, safe_message[:400])
+        send(f"⚠️ تعذر تحديث بوت البتكوين:\n{safe_message[:500]}")
         raise
