@@ -1,9 +1,5 @@
 name: bitcoin-signal-alert
 on:
-  push:
-    paths:
-      - "btc_alert.py"
-      - ".github/workflows/bitcoin-alert.yml"
   schedule:
     # Scan shortly after each closed M15 candle (UTC).
     - cron: "2,17,32,47 * * * *"
