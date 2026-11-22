@@ -86,10 +86,20 @@ def send(message):
         r.raise_for_status()
         result = r.json()
         if not result.get("ok"):
-            print("Telegram error:", result)
+            print(
+                "Telegram rejected message:",
+                result.get("error_code"),
+                str(result.get("description", ""))[:180],
+            )
+            return False
+        message_id = result.get("result", {}).get("message_id")
+        print(f"Telegram delivered message_id={message_id}")
+        return True
     except Exception as exc:
         # Do not print request URLs, which may contain the Telegram bot token.
-        print("Telegram send error:", type(exc).__name__)
+        status = getattr(getattr(exc, "response", None), "status_code", None)
+        print("Telegram send error:", type(exc).__name__, "HTTP", status)
+        return False
 
 
 def td_get(endpoint, params):
@@ -581,8 +591,7 @@ def send_level_patterns(candles, levels, state, now, age_min):
         key = f"{ASSET}|{kind}|{level_bucket(level)}"
         if now - state["patterns"].get(key, 0) < PATTERN_COOLDOWN:
             continue
-        state["patterns"][key] = now
-        send(
+        delivered = send(
             f"{title} (M15 مغلقة)\n"
             f"المستوى: {fmt(level_data)}\n"
             f"إغلاق الشمعة: {latest['c']:,.2f}\n"
@@ -593,6 +602,8 @@ def send_level_patterns(candles, levels, state, now, age_min):
             f"وقت إغلاق الشمعة (السعودية): {closed_at:%Y-%m-%d %H:%M}\n"
             f"مراقبة تحليلية، وليست توصية دخول مؤكدة."
         )
+        if delivered:
+            state["patterns"][key] = now
 
 
 def summarize(results):
@@ -739,15 +750,8 @@ def main():
                     f"أقصى حركة لصالح الصفقة: {previous.get('max_favorable', 0):.2f}$\n"
                     f"أقصى حركة ضد الصفقة: {previous.get('max_adverse', 0):.2f}$"
                 )
-            state["sent"][sid] = now
-            state["last_direction"] = side
-            state["position"] = {
-                "asset": ASSET, "side": side, "entry": plan["entry"],
-                "sl": plan["sl"], "target": plan["target"],
-                "t": candle["t"], "opened_at": int(now * 1000),
-                "kind": kind, "conf": conf,
-                "max_favorable": 0.0, "max_adverse": 0.0,
-            }
+            if previous:
+                state["position"] = None
 
             is_sell = side == "sell"
             icon = "🔴" if is_sell else "🟢"
@@ -767,6 +771,16 @@ def main():
                 f"عمر الشمعة المغلقة: {max(0, age_min):.1f} دقيقة\n"
                 f"المتابعة الافتراضية تستمر حتى ظهور إشارة معاكسة؛ مستويات الوقف والهدف مرجعية فقط. لا يوجد تنفيذ تداول."
             )
+            if delivered:
+                state["sent"][sid] = now
+                state["last_direction"] = side
+                state["position"] = {
+                    "asset": ASSET, "side": side, "entry": plan["entry"],
+                    "sl": plan["sl"], "target": plan["target"],
+                    "t": candle["t"], "opened_at": int(now * 1000),
+                    "kind": kind, "conf": conf,
+                    "max_favorable": 0.0, "max_adverse": 0.0,
+                }
             break
     else:
         print(f"Signal scan skipped: last candle is {age_min:.1f} minutes old.")
@@ -793,7 +807,6 @@ def main():
             continue
 
         if now - state["near"].get(key, 0) > COOLDOWN:
-            state["near"][key] = now
             message = (
                 f"{title}\n"
                 f"القوة: {level_data['score']} ({level_data['tfs']})\n"
@@ -802,11 +815,12 @@ def main():
             )
             if reason:
                 message += f"\nالشمعة: {reason}"
-            send(message)
+            if send(message):
+                state["near"][key] = now
 
     if report and (FORCE or now - state.get("digest", 0) > DIGEST_EVERY):
-        state["digest"] = now
-        send("🗺️ تحديث مستويات البتكوين\n\n" + "\n\n".join(report))
+        if send("🗺️ تحديث مستويات البتكوين\n\n" + "\n\n".join(report)):
+            state["digest"] = now
 
     # Track only BTC results created by this independent paper monitor.
     # Only score valid GOLD results produced by the current R-based strategy.
@@ -815,8 +829,8 @@ def main():
         if x.get("asset") == ASSET and isinstance(x.get("r"), (int, float))
     ]
     if btc_results and (FORCE or now - state.get("score_t", 0) > SCORE_EVERY):
-        state["score_t"] = now
-        send(scoreboard(btc_results))
+        if send(scoreboard(btc_results)):
+            state["score_t"] = now
 
     # Send the report for the most recently completed Saudi calendar day.
     saudi_now = datetime.now(SAUDI_TZ)
@@ -836,7 +850,7 @@ def main():
         open_position = state.get("position")
         open_info = ("لا توجد" if not open_position else
                      ("شراء" if open_position["side"] == "buy" else "بيع"))
-        send(
+        if send(
             f"📊 تقرير البتكوين اليومي | {yesterday} (السعودية)\n"
             f"صفقات شراء مغلقة: {buys}\nصفقات بيع مغلقة: {sells}\n"
             f"إجمالي الصفقات المغلقة: {len(day_results)}\n"
@@ -844,8 +858,8 @@ def main():
             f"الصافي لكل 1 BTC: {net:+.2f}$\n"
             f"الصفقة المستمرة: {open_info}\n"
             f"الحساب لكل 1 BTC؛ انزلاق مفترض {SLIPPAGE_USD_PER_SIDE:.2f}$ لكل تنفيذ. لا يمثل ربح اللوت في MT5."
-        )
-        state["daily_report_date"] = yesterday
+        ):
+            state["daily_report_date"] = yesterday
 
     state["patterns"] = {
         k: v for k, v in state.get("patterns", {}).items()
