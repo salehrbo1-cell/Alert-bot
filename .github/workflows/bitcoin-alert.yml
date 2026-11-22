@@ -1,5 +1,9 @@
 name: bitcoin-signal-alert
 on:
+  push:
+    paths:
+      - "btc_alert.py"
+      - ".github/workflows/bitcoin-alert.yml"
   schedule:
     # Check every five minutes, two minutes after the gold workflow (UTC).
     - cron: "2-59/5 * * * *"
