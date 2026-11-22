@@ -1,90 +1,70 @@
 import json
 import math
 import os
+import statistics
 import time
 from datetime import datetime, timedelta, timezone
 
 import requests
 
-# ============================================================
-# BITCOIN SIGNAL BOT - BTC/USD via Twelve Data
-# Signals only: NO order execution.
-# GitHub Secrets required:
-# BOT_TOKEN, CHAT_ID, TWELVE_DATA_API_KEY
-# ============================================================
-
+# Bitcoin paper-signal monitor. It never places orders.
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT = os.environ["CHAT_ID"]
 API_KEY = os.environ["TWELVE_DATA_API_KEY"]
-FORCE = os.environ.get("FORCE", "").lower() == "true"
+SLIPPAGE_USD_PER_SIDE = float(os.environ.get("BTC_SLIPPAGE_USD_PER_SIDE", "0"))
 
 SYMBOL = "BTC/USD"
 ASSET = "BTC"
 NAME = "البتكوين"
 BASE_URL = "https://api.twelvedata.com"
-
-SIGNAL_INTERVAL = "15min"
+INTERVAL = "15min"
 INTERVAL_MS = 15 * 60 * 1000
-
-# Conservative filters: fewer signals, stricter confirmation.
-ZONE_PCT = 0.00035
-WICK_RATIO = 2.2
-MIN_RR = 1.8
-MAX_SIGNAL_AGE_MIN = 18
-MAX_ENTRY_DRIFT_ATR = 0.35
-SIGNAL_LIFE = 12
-BODY_AVG_N = 10
-RETEST_LOOKBACK = 30
-MIN_CONFLUENCE = 4
-LEVEL_RANGE = 0.25
-CLUSTER_PCT = 0.0012
-MIN_LEVEL_SCORE = 3
-STRONG_SCORE = 5
-NEAR_PCT = 0.0015
-COOLDOWN = 2 * 3600
-DIGEST_EVERY = 6 * 3600
-SCORE_EVERY = 24 * 3600
-STOP_ATR_BUFFER = 0.25
-MAX_ACTIVE_PER_SIDE = 1
-SLIPPAGE_USD_PER_SIDE = float(os.environ.get("BTC_SLIPPAGE_USD_PER_SIDE", "0"))
 SAUDI_TZ = timezone(timedelta(hours=3))
 
-LEVEL_TFS = [
-    ("1h", 500, 1, 4, "1س"),
-    ("4h", 500, 2, 4, "4س"),
-    ("1day", 365, 3, 3, "يومي"),
-]
-TF_ORDER = {"يومي": 0, "4س": 1, "1س": 2, "يدوي": 3}
+# Strategy requirements
+SWEEP_PIVOT_K = 2
+SWEEP_LOOKBACK_M30 = 96       # 48 hours of 30-minute liquidity swings
+SWEEP_BUFFER_ATR = 0.05
+FVG_MIN_ATR = 0.5
+SEQUENCE_MAX_BARS = 2         # Sweep to CISD within 30 minutes on M15
+CISD_BODY_MEDIAN_MULTIPLE = 2.0
+CISD_MIN_RANGE_FRACTION = 0.60
+CISD_BREAK_LOOKBACK = 3
+MAX_SIGNAL_AGE_MIN = 18
+STATE_FILE = "btc_smc_state.json"
+
 SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": "BitcoinSignalBot/1.0"})
+SESSION.headers.update({"User-Agent": "BTC-SMC-PaperBot/1.0"})
 
 
-def load(path, default):
+def load_state():
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return default
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
 def save_state(state):
-    with open("btc_state.json", "w", encoding="utf-8") as f:
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 
 
 def send(message):
+    saudi_now = datetime.now(SAUDI_TZ)
+    message = (
+        f"{message}\n\n"
+        f"🕒 وقت الإرسال (السعودية): {saudi_now:%Y-%m-%d %H:%M:%S}"
+    )
     try:
-        # Show when the alert was observed/sent in Saudi Arabia (UTC+3).
-        saudi_now = datetime.now(timezone(timedelta(hours=3)))
-        timestamp = saudi_now.strftime("%Y-%m-%d %H:%M:%S")
-        message = f"{message}\n\n🕒 وقت إرسال التنبيه (السعودية): {timestamp}"
-        r = SESSION.post(
+        response = SESSION.post(
             f"https://api.telegram.org/bot{TOKEN}/sendMessage",
             data={"chat_id": CHAT, "text": message},
             timeout=20,
         )
-        r.raise_for_status()
-        result = r.json()
+        response.raise_for_status()
+        result = response.json()
         if not result.get("ok"):
             print(
                 "Telegram rejected message:",
@@ -92,83 +72,71 @@ def send(message):
                 str(result.get("description", ""))[:180],
             )
             return False
-        message_id = result.get("result", {}).get("message_id")
-        print(f"Telegram delivered message_id={message_id}")
+        print(f"Telegram delivered message_id={result.get('result', {}).get('message_id')}")
         return True
     except Exception as exc:
-        # Do not print request URLs, which may contain the Telegram bot token.
+        # Never print an exception URL, which could contain the Telegram token.
         status = getattr(getattr(exc, "response", None), "status_code", None)
-        print("Telegram send error:", type(exc).__name__, "HTTP", status)
+        print("Telegram send failed:", type(exc).__name__, "HTTP", status)
         return False
 
 
-def td_get(endpoint, params):
-    query = dict(params)
-    query["apikey"] = API_KEY
-    for attempt in range(3):
-        try:
-            r = SESSION.get(f"{BASE_URL}/{endpoint}", params=query, timeout=25)
-        except requests.RequestException as exc:
-            safe_message = str(exc).replace(API_KEY, "[REDACTED]")
-            raise RuntimeError(
-                f"Twelve Data request failed ({type(exc).__name__}): {safe_message[:300]}"
-            ) from None
-        if r.status_code == 429 and attempt < 2:
-            retry_after = r.headers.get("Retry-After")
-            try:
-                wait_seconds = min(max(int(retry_after), 1), 60) if retry_after else 30 * (attempt + 1)
-            except (TypeError, ValueError):
-                wait_seconds = 30 * (attempt + 1)
-            print(f"Twelve Data rate limit on {endpoint}; retrying in {wait_seconds}s.")
-            time.sleep(wait_seconds)
-            continue
-        if not r.ok:
-            safe_params = {key: value for key, value in query.items() if key.lower() != "apikey"}
-            raise RuntimeError(
-                f"Twelve Data HTTP {r.status_code} at {endpoint}; params={safe_params}"
-            )
-        break
-    data = r.json()
-    if isinstance(data, dict) and data.get("status") == "error":
-        message = str(data.get("message") or "Unknown provider error").replace(
-            API_KEY, "[REDACTED]"
-        )
-        raise RuntimeError(f"Twelve Data error {data.get('code')}: {message}")
-    return data
-
-
-def parse_utc_datetime(value):
-    dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
-
-
-def get_candles(interval, outputsize):
-    data = td_get("time_series", {
+def td_get_candles():
+    params = {
         "symbol": SYMBOL,
-        "interval": interval,
-        "outputsize": outputsize,
+        "interval": INTERVAL,
+        "outputsize": 500,
         "timezone": "UTC",
         "order": "ASC",
         "format": "JSON",
-    })
-    values = data.get("values")
-    if not isinstance(values, list) or not values:
-        raise RuntimeError(f"No candles returned for {interval}: {data}")
+        "apikey": API_KEY,
+    }
+    for attempt in range(3):
+        try:
+            response = SESSION.get(
+                f"{BASE_URL}/time_series", params=params, timeout=25
+            )
+        except requests.RequestException as exc:
+            safe = str(exc).replace(API_KEY, "[REDACTED]")
+            raise RuntimeError(
+                f"Twelve Data request failed ({type(exc).__name__}): {safe[:250]}"
+            ) from None
+        if response.status_code == 429 and attempt < 2:
+            header = response.headers.get("Retry-After")
+            try:
+                wait = min(max(int(header), 1), 60) if header else 30 * (attempt + 1)
+            except (TypeError, ValueError):
+                wait = 30 * (attempt + 1)
+            print(f"Twelve Data rate limit; retrying in {wait}s.")
+            time.sleep(wait)
+            continue
+        if not response.ok:
+            raise RuntimeError(
+                f"Twelve Data HTTP {response.status_code} for time_series "
+                f"(symbol={SYMBOL}, interval={INTERVAL})"
+            )
+        break
 
-    duration = {
-        "15min": timedelta(minutes=15),
-        "1h": timedelta(hours=1),
-        "4h": timedelta(hours=4),
-        "1day": timedelta(days=1),
-    }[interval]
+    data = response.json()
+    if isinstance(data, dict) and data.get("status") == "error":
+        message = str(data.get("message") or "Unknown provider error")
+        raise RuntimeError(
+            f"Twelve Data error {data.get('code')}: {message.replace(API_KEY, '[REDACTED]')}"
+        )
+    values = data.get("values") if isinstance(data, dict) else None
+    if not isinstance(values, list):
+        raise RuntimeError(f"Invalid Twelve Data candle response: {data}")
+
     now = datetime.now(timezone.utc)
     candles = []
     for row in values:
-        start = parse_utc_datetime(row["datetime"])
-        end = start + duration
-        if end > now:
+        start = datetime.fromisoformat(
+            row["datetime"].replace("Z", "+00:00")
+        )
+        if start.tzinfo is None:
+            start = start.replace(tzinfo=timezone.utc)
+        start = start.astimezone(timezone.utc)
+        if start + timedelta(minutes=15) > now:
             continue
         candles.append({
             "t": int(start.timestamp() * 1000),
@@ -179,71 +147,29 @@ def get_candles(interval, outputsize):
             "v": float(row.get("volume") or 0),
         })
     candles.sort(key=lambda x: x["t"])
-    if len(candles) < 220 and interval in ("1h", "4h"):
-        raise RuntimeError(f"Not enough closed {interval} candles: {len(candles)}")
-    if len(candles) < 60 and interval == "15min":
-        raise RuntimeError(f"Not enough closed 15min candles: {len(candles)}")
+    if len(candles) < 220:
+        raise RuntimeError(f"Not enough closed M15 candles: {len(candles)}")
     return candles
 
 
-def get_price():
-    data = td_get("price", {"symbol": SYMBOL})
-    try:
-        return float(data["price"])
-    except (KeyError, TypeError, ValueError):
-        raise RuntimeError(f"Invalid live price response: {data}")
+def true_ranges(candles):
+    result = [0.0] * len(candles)
+    for i in range(1, len(candles)):
+        c, p = candles[i], candles[i - 1]
+        result[i] = max(c["h"] - c["l"], abs(c["h"] - p["c"]),
+                        abs(c["l"] - p["c"]))
+    return result
 
 
-def body(c):
-    return abs(c["c"] - c["o"])
+def atr_series(candles, period=14):
+    tr = true_ranges(candles)
+    values = [0.0] * len(candles)
+    for i in range(period, len(candles)):
+        values[i] = sum(tr[i - period + 1:i + 1]) / period
+    return values
 
 
-def avg_body(cs, i):
-    seg = cs[max(0, i - BODY_AVG_N):i]
-    return sum(body(x) for x in seg) / len(seg) if seg else 0.0
-
-
-def touches(c, level):
-    return c["h"] >= level * (1 - ZONE_PCT) and c["l"] <= level * (1 + ZONE_PCT)
-
-
-def reject_reason(c, level, side):
-    rng = c["h"] - c["l"]
-    if rng <= 0 or not touches(c, level):
-        return "الشمعة لم تلمس المستوى"
-    b = max(body(c), rng * 0.001)
-    pos = (c["c"] - c["l"]) / rng
-
-    if side == "sell":
-        wick = c["h"] - max(c["o"], c["c"])
-        if c["c"] >= c["o"]:
-            return "شمعة الرفض ليست هابطة"
-        if wick < WICK_RATIO * b:
-            return "الذيل العلوي غير كافٍ"
-        if c["c"] >= level * (1 - ZONE_PCT):
-            return "الإغلاق لم يعد أسفل منطقة المقاومة"
-        if pos > 1 / 3:
-            return "الإغلاق ليس في الثلث السفلي"
-    else:
-        wick = min(c["o"], c["c"]) - c["l"]
-        if c["c"] <= c["o"]:
-            return "شمعة الرفض ليست صاعدة"
-        if wick < WICK_RATIO * b:
-            return "الذيل السفلي غير كافٍ"
-        if c["c"] <= level * (1 + ZONE_PCT):
-            return "الإغلاق لم يعد أعلى منطقة الدعم"
-        if pos < 2 / 3:
-            return "الإغلاق ليس في الثلث العلوي"
-    return None
-
-
-def rejection(c, level, side):
-    return reject_reason(c, level, side) is None
-
-
-def ema(values, period):
-    if len(values) < period:
-        raise ValueError(f"Need at least {period} values for EMA")
+def ema_series(values, period):
     alpha = 2 / (period + 1)
     result = [float(values[0])]
     for value in values[1:]:
@@ -251,636 +177,412 @@ def ema(values, period):
     return result
 
 
-def rsi(values, period=14):
-    if len(values) <= period:
-        raise ValueError("Not enough values for RSI")
-    gains = [0.0] * period
-    losses = [0.0] * period
-    for i in range(1, period + 1):
-        change = values[i] - values[i - 1]
-        gains[i - 1] = max(change, 0)
-        losses[i - 1] = max(-change, 0)
-    avg_gain = sum(gains) / period
-    avg_loss = sum(losses) / period
-    for i in range(period + 1, len(values)):
-        change = values[i] - values[i - 1]
-        avg_gain = (avg_gain * (period - 1) + max(change, 0)) / period
-        avg_loss = (avg_loss * (period - 1) + max(-change, 0)) / period
-    if avg_loss == 0:
-        return 100.0
-    return 100 - 100 / (1 + avg_gain / avg_loss)
+def midpoint(candles, end_index, period):
+    start = end_index - period + 1
+    if start < 0:
+        return None
+    section = candles[start:end_index + 1]
+    return (max(x["h"] for x in section) + min(x["l"] for x in section)) / 2
 
 
-def macd_hist(values):
-    fast = ema(values, 12)
-    slow = ema(values, 26)
-    line = [a - b for a, b in zip(fast, slow)]
-    signal = ema(line, 9)
-    return [a - b for a, b in zip(line, signal)]
+def ichimoku_cloud(candles, index):
+    # Senkou spans are plotted 26 bars forward; align the visible cloud
+    # under the current candle using values calculated 26 bars earlier.
+    source = index - 26
+    if source < 51:
+        return None
+    tenkan = midpoint(candles, source, 9)
+    kijun = midpoint(candles, source, 26)
+    span_a = (tenkan + kijun) / 2
+    span_b = midpoint(candles, source, 52)
+    return min(span_a, span_b), max(span_a, span_b)
 
 
-def atr(candles, period=14):
-    if len(candles) < period + 1:
-        raise ValueError("Not enough candles for ATR")
-    trs = []
-    for i in range(1, len(candles)):
-        c, prev = candles[i], candles[i - 1]
-        trs.append(max(
-            c["h"] - c["l"],
-            abs(c["h"] - prev["c"]),
-            abs(c["l"] - prev["c"]),
-        ))
-    value = sum(trs[:period]) / period
-    for tr in trs[period:]:
-        value = (value * (period - 1) + tr) / period
-    return value
+def aggregate_30m(candles):
+    groups = {}
+    bucket_ms = 30 * 60 * 1000
+    for candle in candles:
+        bucket = candle["t"] // bucket_ms * bucket_ms
+        groups.setdefault(bucket, []).append(candle)
+    result = []
+    for bucket, parts in sorted(groups.items()):
+        parts.sort(key=lambda x: x["t"])
+        if (len(parts) != 2 or parts[0]["t"] != bucket
+                or parts[1]["t"] != bucket + INTERVAL_MS):
+            continue
+        result.append({
+            "t": bucket,
+            "end": bucket + bucket_ms,
+            "o": parts[0]["o"],
+            "h": max(x["h"] for x in parts),
+            "l": min(x["l"] for x in parts),
+            "c": parts[-1]["c"],
+        })
+    return result
 
 
-def trend(candles):
-    closes = [x["c"] for x in candles]
-    e50 = ema(closes, 50)[-1]
-    e200 = ema(closes, 200)[-1]
-    last = closes[-1]
-    if last > e50 > e200:
-        return "صاعد"
-    if last < e50 < e200:
-        return "هابط"
-    return "محايد"
+def confirmed_m30_pivots(bars):
+    pivots = []
+    k = SWEEP_PIVOT_K
+    for i in range(k, len(bars) - k):
+        window = bars[i - k:i + k + 1]
+        if bars[i]["h"] >= max(x["h"] for x in window):
+            pivots.append({
+                "side": "high", "price": bars[i]["h"],
+                "pivot_t": bars[i]["t"],
+                "available_at": bars[i + k]["end"],
+            })
+        if bars[i]["l"] <= min(x["l"] for x in window):
+            pivots.append({
+                "side": "low", "price": bars[i]["l"],
+                "pivot_t": bars[i]["t"],
+                "available_at": bars[i + k]["end"],
+            })
+    return pivots
 
 
-def momentum(c15, h1, h4):
-    closes = [x["c"] for x in c15]
-    hist = macd_hist(closes)
-    r = rsi(closes)
-    e20 = ema(closes, 20)[-1]
+def find_sweep(candles, pivots, index, atrs):
+    candle = candles[index]
+    atr_value = atrs[index]
+    if atr_value <= 0:
+        return []
+    buffer = max(atr_value * SWEEP_BUFFER_ATR, candle["c"] * 0.00002)
+    age_limit = 48 * 60 * 60 * 1000
+    eligible = [
+        p for p in pivots
+        if p["available_at"] <= candle["t"]
+        and candle["t"] - p["pivot_t"] <= age_limit
+    ]
+    found = []
+    highs = [
+        p for p in eligible if p["side"] == "high"
+        and candle["h"] > p["price"] + buffer
+        and candle["c"] < p["price"]
+    ]
+    lows = [
+        p for p in eligible if p["side"] == "low"
+        and candle["l"] < p["price"] - buffer
+        and candle["c"] > p["price"]
+    ]
+    if highs:
+        level = max(highs, key=lambda p: p["price"])
+        found.append({
+            "side": "sell", "level": level["price"],
+            "extreme": candle["h"], "index": index,
+            "pivot_t": level["pivot_t"], "atr": atr_value,
+        })
+    if lows:
+        level = max(lows, key=lambda p: p["price"])
+        found.append({
+            "side": "buy", "level": level["price"],
+            "extreme": candle["l"], "index": index,
+            "pivot_t": level["pivot_t"], "atr": atr_value,
+        })
+    return found
+
+
+def inverse_fvg(candles, atrs, sweep_index, index, side):
+    # FVG must be nearby in time, large enough relative to ATR, and then
+    # close through the opposite gap boundary in the trade direction.
+    first_gap_index = max(2, sweep_index - 2)
+    for gap_index in range(first_gap_index, index):
+        a, c = candles[gap_index - 2], candles[gap_index]
+        if c["l"] > a["h"]:
+            gap_side, lo, hi = "buy", a["h"], c["l"]
+        elif c["h"] < a["l"]:
+            gap_side, lo, hi = "sell", c["h"], a["l"]
+        else:
+            continue
+        gap_size = hi - lo
+        if atrs[gap_index] <= 0 or gap_size < FVG_MIN_ATR * atrs[gap_index]:
+            continue
+        bar = candles[index]
+        if side == "buy" and gap_side == "sell":
+            if bar["c"] > hi and bar["c"] > bar["o"]:
+                return {
+                    "index": index, "lo": lo, "hi": hi,
+                    "size": gap_size, "atr": atrs[gap_index],
+                    "gap_index": gap_index, "gap_side": gap_side,
+                }
+        if side == "sell" and gap_side == "buy":
+            if bar["c"] < lo and bar["c"] < bar["o"]:
+                return {
+                    "index": index, "lo": lo, "hi": hi,
+                    "size": gap_size, "atr": atrs[gap_index],
+                    "gap_index": gap_index, "gap_side": gap_side,
+                }
+    return None
+
+
+def cisd_confirmation(candles, atrs, sweep, ifvg, index):
+    if index <= ifvg["index"] or index - sweep["index"] > SEQUENCE_MAX_BARS:
+        return None
+    candle = candles[index]
+    span = candle["h"] - candle["l"]
+    if span <= 0:
+        return None
+    bodies = [abs(x["c"] - x["o"]) for x in candles[max(0, index - 20):index]]
+    if len(bodies) < 20:
+        return None
+    median_body = statistics.median(bodies)
+    body_size = abs(candle["c"] - candle["o"])
+    if body_size < CISD_BODY_MEDIAN_MULTIPLE * median_body:
+        return None
+    if body_size / span < CISD_MIN_RANGE_FRACTION:
+        return None
+
+    internal = candles[max(0, index - CISD_BREAK_LOOKBACK):index]
+    if len(internal) < CISD_BREAK_LOOKBACK:
+        return None
+    side = sweep["side"]
+    if side == "buy":
+        valid = (
+            candle["c"] > candle["o"]
+            and candle["c"] > max(x["h"] for x in internal)
+        )
+    else:
+        valid = (
+            candle["c"] < candle["o"]
+            and candle["c"] < min(x["l"] for x in internal)
+        )
+    if not valid:
+        return None
     return {
-        "rsi": r,
-        "macd_up": hist[-1] > hist[-2],
-        "above20": closes[-1] > e20,
-        "h1": trend(h1),
-        "h4": trend(h4),
+        "index": index, "median_body": median_body,
+        "body": body_size, "body_multiple": body_size / max(median_body, 1e-12),
+        "range_fraction": body_size / span,
     }
 
 
-def describe(m):
+def indicators_confirm(candles, index, side, closes, e20, e50, e200):
+    cloud = ichimoku_cloud(candles, index)
+    if cloud is None:
+        return None
+    close = candles[index]["c"]
+    if side == "buy":
+        passed = e20[index] > e50[index] and close > e200[index] and close > cloud[1]
+    else:
+        passed = e20[index] < e50[index] and close < e200[index] and close < cloud[0]
+    return {
+        "passed": passed, "ema20": e20[index], "ema50": e50[index],
+        "ema200": e200[index], "cloud_low": cloud[0], "cloud_high": cloud[1],
+    }
+
+
+def latest_signal(candles):
+    n = len(candles)
+    index = n - 1
+    candle = candles[index]
+    age_min = (time.time() * 1000 - (candle["t"] + INTERVAL_MS)) / 60000
+    stats = {"sweeps": 0, "ifvg": 0, "cisd": 0, "indicator_reject": 0}
+    if age_min < -0.1 or age_min > MAX_SIGNAL_AGE_MIN:
+        return None, stats, age_min
+
+    atrs = atr_series(candles)
+    m30 = aggregate_30m(candles)
+    pivots = confirmed_m30_pivots(m30)
+    closes = [x["c"] for x in candles]
+    e20 = ema_series(closes, 20)
+    e50 = ema_series(closes, 50)
+    e200 = ema_series(closes, 200)
+
+    for sweep_index in range(max(0, index - SEQUENCE_MAX_BARS), index):
+        for sweep in find_sweep(candles, pivots, sweep_index, atrs):
+            stats["sweeps"] += 1
+            for ifvg_index in range(sweep_index, index):
+                if ifvg_index - sweep_index > SEQUENCE_MAX_BARS:
+                    break
+                inv = inverse_fvg(
+                    candles, atrs, sweep_index, ifvg_index, sweep["side"]
+                )
+                if not inv:
+                    continue
+                stats["ifvg"] += 1
+                cisd = cisd_confirmation(
+                    candles, atrs, sweep, inv, index
+                )
+                if not cisd:
+                    continue
+                stats["cisd"] += 1
+                ind = indicators_confirm(
+                    candles, index, sweep["side"], closes, e20, e50, e200
+                )
+                if not ind or not ind["passed"]:
+                    stats["indicator_reject"] += 1
+                    continue
+                signal = {
+                    "side": sweep["side"], "entry": candle["c"],
+                    "t": candle["t"], "sweep": sweep,
+                    "ifvg": inv, "cisd": cisd, "indicators": ind,
+                    "age_min": age_min,
+                }
+                signal["id"] = (
+                    f"{signal['side']}|{sweep['index']}|{sweep['level']:.2f}|"
+                    f"{inv['index']}|{index}"
+                )
+                return signal, stats, age_min
+    return None, stats, age_min
+
+
+def saudi_time(ms):
+    return datetime.fromtimestamp(ms / 1000, timezone.utc).astimezone(SAUDI_TZ)
+
+
+def update_excursions(position, candles):
+    side = position["side"]
+    entry = position["entry"]
+    observed = [c for c in candles if c["t"] >= position["t"]]
+    for c in observed:
+        favorable = entry - c["l"] if side == "sell" else c["h"] - entry
+        adverse = c["h"] - entry if side == "sell" else entry - c["l"]
+        position["max_favorable"] = max(position.get("max_favorable", 0), favorable)
+        position["max_adverse"] = max(position.get("max_adverse", 0), adverse)
+
+
+def close_pnl_per_btc(position, exit_price):
+    side = position["side"]
+    entry_fill = (
+        position["entry"] + SLIPPAGE_USD_PER_SIDE
+        if side == "buy" else position["entry"] - SLIPPAGE_USD_PER_SIDE
+    )
+    exit_fill = (
+        exit_price - SLIPPAGE_USD_PER_SIDE
+        if side == "buy" else exit_price + SLIPPAGE_USD_PER_SIDE
+    )
+    return exit_fill - entry_fill if side == "buy" else entry_fill - exit_fill
+
+
+def entry_message(signal):
+    side_word = "شراء" if signal["side"] == "buy" else "بيع"
+    ind = signal["indicators"]
+    sweep = signal["sweep"]
+    inv = signal["ifvg"]
     return (
-        f"RSI {m['rsi']:.0f} · MACD "
-        f"{'صاعد' if m['macd_up'] else 'هابط'} · "
-        f"{'فوق' if m['above20'] else 'تحت'} EMA20 · "
-        f"H1 {m['h1']} · H4 {m['h4']}"
+        f"🧪 إشارة {side_word} بتكوين وفق SMC\n"
+        f"BTC/USD · M15 مغلقة\n"
+        f"التسلسل: Sweep → IFVG → CISD خلال 30 دقيقة\n"
+        f"الدخول الافتراضي: {signal['entry']:,.2f}\n"
+        f"مستوى السيولة المسحوب: {sweep['level']:,.2f}\n"
+        f"قمة/قاع السحب: {sweep['extreme']:,.2f}\n"
+        f"منطقة IFVG: {inv['lo']:,.2f}–{inv['hi']:,.2f} "
+        f"(حجمها {inv['size']:,.2f}، الحد الأدنى 0.5 ATR)\n"
+        f"CISD: جسم {signal['cisd']['body']:,.2f} "
+        f"({signal['cisd']['body_multiple']:.2f}× وسيط 20 شمعة، "
+        f"{signal['cisd']['range_fraction']:.0%} من المدى)\n"
+        f"EMA20/50: {ind['ema20']:,.2f} / {ind['ema50']:,.2f}\n"
+        f"EMA200: {ind['ema200']:,.2f}\n"
+        f"Ichimoku Cloud: {ind['cloud_low']:,.2f}–{ind['cloud_high']:,.2f}\n"
+        f"وقت CISD (السعودية): {saudi_time(signal['t'] + INTERVAL_MS):%Y-%m-%d %H:%M}\n"
+        "كل الشروط الأساسية متحققة على شموع M15 المغلقة. "
+        "دخول افتراضي فقط، بلا تنفيذ تداول."
     )
 
 
-def confluence(m, side, kind):
-    sell = side == "sell"
-    expected_trend = "هابط" if sell else "صاعد"
-    checks = [
-        m["rsi"] <= 50 if sell else m["rsi"] >= 50,
-        (not m["macd_up"]) if sell else m["macd_up"],
-        (not m["above20"]) if sell else m["above20"],
-        m["h1"] == expected_trend,
-        m["h4"] == expected_trend,
+def make_daily_report(results, open_position, report_date):
+    day_results = [
+        x for x in results
+        if x.get("closed_at_saudi", "")[:10] == report_date
     ]
-    return sum(checks), checks[3] and checks[4]
-
-
-def grade(score):
-    return "قوية جداً" if score == 5 else "قوية" if score == 4 else "غير كافية"
-
-
-def pivots(candles, k):
-    points = []
-    for i in range(k, len(candles) - k):
-        window = candles[i - k:i + k + 1]
-        if candles[i]["h"] >= max(x["h"] for x in window):
-            points.append(candles[i]["h"])
-        if candles[i]["l"] <= min(x["l"] for x in window):
-            points.append(candles[i]["l"])
-    return points
-
-
-def detect_levels(tf, price, manual):
-    points = []
-    for interval, _, weight, k, label in LEVEL_TFS:
-        for p in pivots(tf[interval], k):
-            if abs(p - price) / price <= LEVEL_RANGE:
-                points.append((p, weight, label))
-    for p in manual:
-        points.append((float(p), STRONG_SCORE, "يدوي"))
-
-    points.sort(key=lambda x: x[0])
-    clusters, current = [], []
-    for point in points:
-        if current and point[0] > current[-1][0] * (1 + CLUSTER_PCT):
-            clusters.append(current)
-            current = []
-        current.append(point)
-    if current:
-        clusters.append(current)
-
-    levels = []
-    for cluster in clusters:
-        weights = {}
-        for _, weight, label in cluster:
-            weights[label] = max(weights.get(label, 0), weight)
-        score = sum(weights.values())
-        if score < MIN_LEVEL_SCORE:
-            continue
-        weighted_prices = {}
-        for p, _, label in cluster:
-            weighted_prices.setdefault(label, []).append(p)
-        center = sum(
-            (sum(prices) / len(prices)) * weights[label]
-            for label, prices in weighted_prices.items()
-        ) / score
-        labels = sorted(weights, key=lambda x: TF_ORDER[x])
-        levels.append({
-            "p": center,
-            "score": score,
-            "strong": score >= STRONG_SCORE,
-            "tfs": "+".join(labels),
-        })
-    return levels
-
-
-def level_bucket(level):
-    return round(math.log(level) / 0.002)
-
-
-def strength(score):
-    return "قوي" if score >= STRONG_SCORE else "متوسط"
-
-
-def strength_f(score):
-    return "قوية" if score >= STRONG_SCORE else "متوسطة"
-
-
-def fmt(level):
-    return f"{level['p']:,.2f} · {strength(level['score'])} {level['score']} ({level['tfs']})"
-
-
-def retest_direction(candles, level):
-    n = len(candles)
-    latest = candles[-1]
-    if not touches(latest, level):
-        return None
-    start = max(2, n - RETEST_LOOKBACK)
-    for i in range(n - 2, start - 1, -1):
-        previous, breakout = candles[i - 1], candles[i]
-        average = avg_body(candles, i)
-        if average <= 0 or body(breakout) <= average * 1.25:
-            continue
-        up = (
-            breakout["c"] > level * (1 + ZONE_PCT)
-            and breakout["o"] < breakout["c"]
-            and previous["c"] <= level * (1 + ZONE_PCT)
-        )
-        down = (
-            breakout["c"] < level * (1 - ZONE_PCT)
-            and breakout["o"] > breakout["c"]
-            and previous["c"] >= level * (1 - ZONE_PCT)
-        )
-        after = candles[i + 1:]
-        if up and all(x["c"] > level * (1 - ZONE_PCT) for x in after):
-            if rejection(latest, level, "buy"):
-                return "buy"
-        if down and all(x["c"] < level * (1 + ZONE_PCT) for x in after):
-            if rejection(latest, level, "sell"):
-                return "sell"
-    return None
-
-
-def make_plan(candle, side, levels, atr_value, current_price):
-    if atr_value <= 0:
-        return None
-    if abs(current_price - candle["c"]) > MAX_ENTRY_DRIFT_ATR * atr_value:
-        return None
-    entry = current_price
-    buffer = max(atr_value * STOP_ATR_BUFFER, entry * 0.00015)
-
-    if side == "sell":
-        sl = candle["h"] + buffer
-        risk = sl - entry
-        candidates = sorted(
-            [x for x in levels if x < entry * (1 - ZONE_PCT)],
-            reverse=True,
-        )
-    else:
-        sl = candle["l"] - buffer
-        risk = entry - sl
-        candidates = sorted(
-            [x for x in levels if x > entry * (1 + ZONE_PCT)]
-        )
-
-    if risk <= 0 or not candidates:
-        return None
-
-    target = candidates[0]
-    reward = abs(target - entry)
-    rr = reward / risk
-    if rr < MIN_RR:
-        return None
-    return {"entry": entry, "sl": sl, "target": target, "rr": rr, "risk": risk}
-
-
-def evaluate(candles, levels):
-    candle = candles[-1]
-    found = []
-    for level in levels:
-        sell_reason = reject_reason(candle, level, "sell")
-        buy_reason = reject_reason(candle, level, "buy")
-        if sell_reason is None:
-            found.append(("رفض مقاومة", "sell", level, candle))
-        if buy_reason is None:
-            found.append(("رفض دعم", "buy", level, candle))
-        side = retest_direction(candles, level)
-        if side:
-            found.append(("كسر وإعادة اختبار", side, level, candle))
-    found.sort(key=lambda x: 0 if x[0] == "كسر وإعادة اختبار" else 1)
-    unique, seen = [], set()
-    for item in found:
-        key = (item[1], level_bucket(item[2]), item[3]["t"])
-        if key not in seen:
-            seen.add(key)
-            unique.append(item)
-    return unique
-
-
-# Pattern monitoring is informational; it does not create trade entries.
-# Confirmations use CLOSED M15 candles only (no future data).
-PATTERN_MIN_SCORE = 5
-PATTERN_COOLDOWN = 2 * 3600
-
-
-def pattern_momentum(candles):
-    closes = [x["c"] for x in candles]
-    rsi_now = rsi(closes)
-    rsi_prev = rsi(closes[:-1])
-    hist = macd_hist(closes)
-    ema20_now = ema(closes, 20)[-1]
-    return {
-        "rsi_now": rsi_now,
-        "rsi_prev": rsi_prev,
-        "macd_now": hist[-1],
-        "macd_prev": hist[-2],
-        "ema20": ema20_now,
-    }
-
-
-def classify_level_pattern(candles, level, m):
-    if len(candles) < 60:
-        return None
-    a, b, c = candles[-3:]
-    upper = level * (1 + ZONE_PCT)
-    lower = level * (1 - ZONE_PCT)
-    rsi_falling = m["rsi_now"] < m["rsi_prev"]
-    macd_falling = m["macd_now"] < m["macd_prev"]
-    rsi_rising = m["rsi_now"] > m["rsi_prev"]
-    macd_rising = m["macd_now"] > m["macd_prev"]
-
-    # A break that had closed above resistance, then lost that area.
-    if (a["c"] > upper and b["c"] > upper and c["c"] < lower
-            and c["c"] < c["o"] and rsi_falling and macd_falling):
-        return ("failed_break", "⚠️ فشل اختراق مقاومة",
-                "عاد الإغلاق أسفل نطاق المقاومة مع تراجع RSI وزخم MACD")
-
-    # First candle crosses above the zone; next CLOSED candle holds above it.
-    if (a["c"] <= upper and b["c"] > upper and c["c"] > upper
-            and c["c"] >= b["c"] and c["c"] > m["ema20"]
-            and m["rsi_now"] >= 50 and rsi_rising and macd_rising):
-        return ("breakout", "🟢 تأكيد اختراق مقاومة",
-                "إغلاقان متتاليان فوق النطاق مع استمرار الزخم الصاعد")
-
-    # A retest of resistance, followed by a bearish close below the zone.
-    if (max(b["h"], c["h"]) >= lower and b["c"] >= lower
-            and c["c"] < lower and c["c"] < c["o"]
-            and rsi_falling and macd_falling):
-        return ("rejection", "🔴 رفض هابط من مقاومة",
-                "فشل الثبات قرب المقاومة مع تراجع RSI وزخم MACD")
-
-    # Price is still above the zone, but the breakout is losing momentum.
-    if (b["c"] > upper and c["c"] > upper and c["c"] < b["c"]
-            and rsi_falling and macd_falling):
-        return ("weakening", "🟡 اختراق يفقد الزخم",
-                "السعر فوق المقاومة لكن RSI وزخم MACD يتراجعان")
-
-    return None
-
-
-def send_level_patterns(candles, levels, state, now, age_min):
-    if age_min < -0.1 or age_min > MAX_SIGNAL_AGE_MIN:
-        return
-    state.setdefault("patterns", {})
-    m = pattern_momentum(candles)
-    latest = candles[-1]
-    closed_at = datetime.fromtimestamp(
-        (latest["t"] + INTERVAL_MS) / 1000, timezone.utc
-    ).astimezone(timezone(timedelta(hours=3)))
-    for level_data in levels:
-        if level_data["score"] < PATTERN_MIN_SCORE:
-            continue
-        level = level_data["p"]
-        # Avoid unrelated distant levels and excessive alerts.
-        if min(abs(x["c"] - level) for x in candles[-3:]) > max(
-                2 * atr(candles), level * 0.004):
-            continue
-        pattern = classify_level_pattern(candles, level, m)
-        if not pattern:
-            continue
-        kind, title, reason = pattern
-        key = f"{ASSET}|{kind}|{level_bucket(level)}"
-        if now - state["patterns"].get(key, 0) < PATTERN_COOLDOWN:
-            continue
-        delivered = send(
-            f"{title} (M15 مغلقة)\n"
-            f"المستوى: {fmt(level_data)}\n"
-            f"إغلاق الشمعة: {latest['c']:,.2f}\n"
-            f"RSI(14): {m['rsi_prev']:.1f} ← {m['rsi_now']:.1f}\n"
-            f"زخم MACD: {'يتحسن' if m['macd_now'] > m['macd_prev'] else 'يتراجع'}\n"
-            f"EMA20: {m['ema20']:,.2f}\n"
-            f"التفسير: {reason}\n"
-            f"وقت إغلاق الشمعة (السعودية): {closed_at:%Y-%m-%d %H:%M}\n"
-            f"مراقبة تحليلية، وليست توصية دخول مؤكدة."
-        )
-        if delivered:
-            state["patterns"][key] = now
-
-
-def summarize(results):
-    count = len(results)
-    wins = sum(1 for x in results if x["r"] > 0)
-    losses = sum(1 for x in results if x["r"] < 0)
-    rate = wins / (wins + losses) * 100 if wins + losses else 0
-    net_r = sum(x["r"] for x in results)
-    return count, wins, losses, rate, net_r
-
-
-def scoreboard(results):
-    if not results:
-        return "📈 لوحة نتائج البتكوين\nلا توجد إشارات منتهية حتى الآن."
-    n, wins, losses, rate, net = summarize(results)
-    lines = [
-        "📈 لوحة نتائج البتكوين (بوحدة R، وليست دولارات)",
-        f"الإجمالي: {n} · فوز {wins} · خسارة {losses} · نجاح {rate:.1f}%",
-        f"الصافي: {net:+.2f}R",
-        "",
-        "حسب النوع:",
-    ]
-    for kind in sorted({x["kind"] for x in results}):
-        group = [x for x in results if x["kind"] == kind]
-        gn, gw, gl, gr, gp = summarize(group)
-        lines.append(f"• {kind}: {gn} · نجاح {gr:.0f}% · {gp:+.2f}R")
-    return "\n".join(lines)
-
-
-def diagnose(candles, level, levels):
-    candle = candles[-1]
-    for side, word in (("sell", "بيع"), ("buy", "شراء")):
-        reason = reject_reason(candle, level, side)
-        if reason is None:
-            return f"شروط شمعة {word} مكتملة، بانتظار فلتر الاتجاه ونسبة العائد."
-    return "لم تكتمل شروط شمعة الرفض."
+    buys = sum(x["side"] == "buy" for x in day_results)
+    sells = sum(x["side"] == "sell" for x in day_results)
+    wins = sum(max(0, x["pnl_per_btc"]) for x in day_results)
+    losses = sum(min(0, x["pnl_per_btc"]) for x in day_results)
+    net = wins + losses
+    open_text = (
+        "لا توجد" if not open_position else
+        ("شراء" if open_position["side"] == "buy" else "بيع")
+    )
+    return (
+        f"📊 تقرير البتكوين اليومي | {report_date} (السعودية)\n"
+        f"صفقات شراء مغلقة: {buys}\n"
+        f"صفقات بيع مغلقة: {sells}\n"
+        f"الإجمالي: {len(day_results)}\n"
+        f"الربح لكل 1 BTC: {wins:+.2f}$\n"
+        f"الخسارة لكل 1 BTC: {losses:+.2f}$\n"
+        f"الصافي لكل 1 BTC: {net:+.2f}$\n"
+        f"الصفقة المفتوحة: {open_text}\n"
+        f"انزلاق مفترض: {SLIPPAGE_USD_PER_SIDE:.2f}$ لكل تنفيذ؛ "
+        "الأرقام ليست ربح عقد MT5."
+    )
 
 
 def main():
-    manual_levels = load("levels.json", {}).get(ASSET, {}).get("manual", [])
-    state = load("btc_state.json", {})
-    state.setdefault("sent", {})
-    state.setdefault("active", [])
-    state.setdefault("near", {})
+    candles = td_get_candles()
+    state = load_state()
     state.setdefault("results", [])
-    if "last_direction" not in state:
-        previous_signals = [x for x in state["active"] if x.get("asset") == ASSET]
-        if previous_signals:
-            state["last_direction"] = previous_signals[-1]["side"]
+    state.setdefault("position", None)
+    state.setdefault("last_signal_id", None)
 
-    now = time.time()
-    report = []
+    signal, stats, age_min = latest_signal(candles)
+    print(
+        f"BTC strategy scan: {stats}; latest closed M15 age={age_min:.1f}m; "
+        f"qualified_signal={bool(signal)}"
+    )
+    if state["position"]:
+        update_excursions(state["position"], candles)
 
-    candles = get_candles("15min", 500)
-    tf = {
-        "1h": get_candles("1h", 500),
-        "4h": get_candles("4h", 500),
-        "1day": get_candles("1day", 365),
-    }
-    price = get_price()
-    levels = detect_levels(tf, price, manual_levels)
-    if not levels:
-        raise RuntimeError("No valid support/resistance levels were detected.")
-
-    mom = momentum(candles, tf["1h"], tf["4h"])
-    atr_value = atr(candles)
-    signal_levels = [x["p"] for x in levels if x["score"] >= MIN_LEVEL_SCORE]
-
-    above = sorted([x for x in levels if x["p"] > price], key=lambda x: x["p"])[:3]
-    below = sorted([x for x in levels if x["p"] <= price], key=lambda x: x["p"], reverse=True)[:3]
-    rows = [f"{NAME}: {price:,.2f}$ | ATR(14): {atr_value:.2f} | مستويات {len(levels)}"]
-    rows += ["▲ " + fmt(x) for x in reversed(above)]
-    rows += ["▼ " + fmt(x) for x in below]
-    rows.append("الاتجاه والمؤشرات: " + describe(mom))
-    report.append("\n".join(rows))
-
-    # Legacy active signals are consolidated to one directional paper position.
-    btc_active = [x for x in state["active"] if x.get("asset") == ASSET]
-    other_active = [x for x in state["active"] if x.get("asset") != ASSET]
-    if btc_active and not state.get("position"):
-        last = btc_active[-1]
-        state["position"] = dict(last, opened_at=last.get("t", int(now * 1000)),
-                                 max_favorable=0.0, max_adverse=0.0)
-    state["active"] = other_active
-
-    position = state.get("position")
-    if position:
-        is_sell = position["side"] == "sell"
-        # Observe price extremes since entry, including completed candles.
-        observed = [c for c in candles if c["t"] >= position.get("t", 0)]
-        observed.append({"h": price, "l": price})
-        for c in observed:
-            favorable = (position["entry"] - c["l"]) if is_sell else (c["h"] - position["entry"])
-            adverse = (c["h"] - position["entry"]) if is_sell else (position["entry"] - c["l"])
-            position["max_favorable"] = max(position.get("max_favorable", 0), favorable)
-            position["max_adverse"] = max(position.get("max_adverse", 0), adverse)
-
-    latest = candles[-1]
-    age_min = (time.time() * 1000 - (latest["t"] + INTERVAL_MS)) / 60000
-    send_level_patterns(candles, levels, state, now, age_min)
-    if age_min < -0.1:
-        raise RuntimeError("Latest candle is not fully closed.")
-    if age_min <= MAX_SIGNAL_AGE_MIN:
-        candidates = evaluate(candles, signal_levels)
-        for kind, side, level, candle in candidates:
-            sid = f"{ASSET}|{side}|{level_bucket(level)}|{candle['t']}"
-            if sid in state["sent"]:
-                continue
-
-            # Only an opposite valid signal can replace the current direction.
-            if side == state.get("last_direction"):
-                continue
-
-            conf, trend_aligned = confluence(mom, side, kind)
-            if not trend_aligned or conf < MIN_CONFLUENCE:
-                continue
-
-            plan = make_plan(candle, side, signal_levels, atr_value, price)
-            if not plan:
-                continue
-
-            # Close the previous paper position at the opposite signal price.
-            previous = state.get("position")
-            if previous:
-                prev_sell = previous["side"] == "sell"
-                entry_fill = previous["entry"] - SLIPPAGE_USD_PER_SIDE if prev_sell else previous["entry"] + SLIPPAGE_USD_PER_SIDE
-                exit_fill = price + SLIPPAGE_USD_PER_SIDE if prev_sell else price - SLIPPAGE_USD_PER_SIDE
-                pnl_per_btc = entry_fill - exit_fill if prev_sell else exit_fill - entry_fill
-                closed_at = datetime.now(SAUDI_TZ)
-                state["results"].append({
-                    "asset": ASSET, "kind": previous.get("kind", "غير معروف"),
-                    "side": previous["side"], "outcome": "إشارة معاكسة",
-                    "entry": previous["entry"], "exit": price,
-                    "pnl_per_btc": round(pnl_per_btc, 2),
-                    "closed_at_saudi": closed_at.isoformat(),
-                    "t": previous.get("t", 0),
-                    "max_favorable": previous.get("max_favorable", 0),
-                    "max_adverse": previous.get("max_adverse", 0),
-                })
-                send(
-                    f"🔄 إغلاق افتراضي {'بيع' if prev_sell else 'شراء'} بسبب إشارة معاكسة\n"
-                    f"الدخول: {previous['entry']:,.2f} · الخروج: {price:,.2f}\n"
-                    f"حركة الصفقة لكل 1 BTC: {pnl_per_btc:+.2f}$\n"
-                    f"أقصى حركة لصالح الصفقة: {previous.get('max_favorable', 0):.2f}$\n"
-                    f"أقصى حركة ضد الصفقة: {previous.get('max_adverse', 0):.2f}$"
-                )
-            if previous:
-                state["position"] = None
-
-            is_sell = side == "sell"
-            icon = "🔴" if is_sell else "🟢"
-            word = "بيع" if is_sell else "شراء"
-            level_info = min(levels, key=lambda x: abs(x["p"] - level))
-            send(
-                f"{icon} إشارة {word} بتكوين ({kind})\n"
-                f"BTC/USD · M15\n"
-                f"المستوى: {fmt(level_info)}\n"
-                f"الدخول التقريبي: {plan['entry']:,.2f}\n"
-                f"مستوى وقف مرجعي: {plan['sl']:,.2f}\n"
-                f"الهدف الفني المرجعي: {plan['target']:,.2f}\n"
-                f"العائد/المخاطرة: {plan['rr']:.2f}R\n"
-                f"توافق المؤشرات: {conf}/5 ({grade(conf)})\n"
-                f"الاتجاه H1 وH4: {'متوافق' if trend_aligned else 'غير متوافق'}\n"
-                f"{describe(mom)}\n"
-                f"عمر الشمعة المغلقة: {max(0, age_min):.1f} دقيقة\n"
-                f"المتابعة الافتراضية تستمر حتى ظهور إشارة معاكسة؛ مستويات الوقف والهدف مرجعية فقط. لا يوجد تنفيذ تداول."
-            )
-            if delivered:
-                state["sent"][sid] = now
-                state["last_direction"] = side
-                state["position"] = {
-                    "asset": ASSET, "side": side, "entry": plan["entry"],
-                    "sl": plan["sl"], "target": plan["target"],
-                    "t": candle["t"], "opened_at": int(now * 1000),
-                    "kind": kind, "conf": conf,
-                    "max_favorable": 0.0, "max_adverse": 0.0,
-                }
-            break
-    else:
-        print(f"Signal scan skipped: last candle is {age_min:.1f} minutes old.")
-
-    for level_data in levels:
-        level = level_data["p"]
-        is_resistance = level > price
-        word = "مقاومة" if is_resistance else "دعم"
-        in_zone = level * (1 - ZONE_PCT) <= price <= level * (1 + ZONE_PCT)
-        hit = in_zone or any(touches(x, level) for x in candles[-2:])
-        near = level_data["strong"] and abs(price - level) <= level * NEAR_PCT
-
-        if hit:
-            key = f"hit|{ASSET}|{level_bucket(level)}"
-            verb = "وصل" if in_zone else "لمس"
-            title = f"📍 البتكوين {verb} {word} {strength_f(level_data['score'])} {level:,.2f}"
-            reason = diagnose(candles, level, signal_levels)
-        elif near:
-            key = f"near|{ASSET}|{level_bucket(level)}"
-            distance = abs(level - price) / level * 100
-            title = f"⚠️ البتكوين يقترب من {word} قوية {level:,.2f} (يبعد {distance:.2f}%)"
-            reason = ""
+    if signal and signal["id"] != state.get("last_signal_id"):
+        previous = state.get("position")
+        if previous and previous["side"] == signal["side"]:
+            print("Signal suppressed: same-direction virtual position is open.")
         else:
-            continue
+            message = entry_message(signal)
+            closed_result = None
+            if previous:
+                pnl = close_pnl_per_btc(previous, signal["entry"])
+                closed_at = datetime.now(SAUDI_TZ).isoformat()
+                closed_result = {
+                    "side": previous["side"],
+                    "entry": previous["entry"],
+                    "exit": signal["entry"],
+                    "pnl_per_btc": round(pnl, 2),
+                    "closed_at_saudi": closed_at,
+                    "max_favorable": round(previous.get("max_favorable", 0), 2),
+                    "max_adverse": round(previous.get("max_adverse", 0), 2),
+                }
+                old_side = "شراء" if previous["side"] == "buy" else "بيع"
+                message = (
+                    f"🔄 إغلاق افتراضي {old_side} عند إشارة معاكسة\n"
+                    f"الدخول: {previous['entry']:,.2f} · الخروج: {signal['entry']:,.2f}\n"
+                    f"الصافي لكل 1 BTC: {pnl:+.2f}$\n\n{message}"
+                )
 
-        if now - state["near"].get(key, 0) > COOLDOWN:
-            message = (
-                f"{title}\n"
-                f"القوة: {level_data['score']} ({level_data['tfs']})\n"
-                f"السعر الحالي: {price:,.2f}\n"
-                f"الاتجاه والمؤشرات: {describe(mom)}"
-            )
-            if reason:
-                message += f"\nالشمعة: {reason}"
             if send(message):
-                state["near"][key] = now
+                if closed_result:
+                    state["results"].append(closed_result)
+                stop = (
+                    signal["sweep"]["extreme"] - 0.1 * signal["sweep"]["atr"]
+                    if signal["side"] == "buy" else
+                    signal["sweep"]["extreme"] + 0.1 * signal["sweep"]["atr"]
+                )
+                state["position"] = {
+                    "side": signal["side"], "entry": signal["entry"],
+                    "t": signal["t"], "stop_reference": stop,
+                    "max_favorable": 0.0, "max_adverse": 0.0,
+                    "signal_id": signal["id"],
+                }
+                state["last_signal_id"] = signal["id"]
+            else:
+                print("Signal state not committed because Telegram did not confirm delivery.")
 
-    if report and (FORCE or now - state.get("digest", 0) > DIGEST_EVERY):
-        if send("🗺️ تحديث مستويات البتكوين\n\n" + "\n\n".join(report)):
-            state["digest"] = now
-
-    # Track only BTC results created by this independent paper monitor.
-    # Only score valid GOLD results produced by the current R-based strategy.
-    btc_results = [
-        x for x in state["results"]
-        if x.get("asset") == ASSET and isinstance(x.get("r"), (int, float))
-    ]
-    if btc_results and (FORCE or now - state.get("score_t", 0) > SCORE_EVERY):
-        if send(scoreboard(btc_results)):
-            state["score_t"] = now
-
-    # Send the report for the most recently completed Saudi calendar day.
     saudi_now = datetime.now(SAUDI_TZ)
     yesterday = (saudi_now - timedelta(days=1)).date().isoformat()
-    if state.get("daily_report_date") != yesterday:
-        day_results = [
-            x for x in state["results"]
-            if x.get("asset") == ASSET
-            and str(x.get("closed_at_saudi", ""))[:10] == yesterday
-            and isinstance(x.get("pnl_per_btc"), (int, float))
-        ]
-        buys = sum(x["side"] == "buy" for x in day_results)
-        sells = sum(x["side"] == "sell" for x in day_results)
-        profit = sum(max(0, x["pnl_per_btc"]) for x in day_results)
-        loss = sum(min(0, x["pnl_per_btc"]) for x in day_results)
-        net = profit + loss
-        open_position = state.get("position")
-        open_info = ("لا توجد" if not open_position else
-                     ("شراء" if open_position["side"] == "buy" else "بيع"))
-        if send(
-            f"📊 تقرير البتكوين اليومي | {yesterday} (السعودية)\n"
-            f"صفقات شراء مغلقة: {buys}\nصفقات بيع مغلقة: {sells}\n"
-            f"إجمالي الصفقات المغلقة: {len(day_results)}\n"
-            f"الحركة الإيجابية لكل 1 BTC: {profit:+.2f}$\nالحركة السلبية لكل 1 BTC: {loss:+.2f}$\n"
-            f"الصافي لكل 1 BTC: {net:+.2f}$\n"
-            f"الصفقة المستمرة: {open_info}\n"
-            f"الحساب لكل 1 BTC؛ انزلاق مفترض {SLIPPAGE_USD_PER_SIDE:.2f}$ لكل تنفيذ. لا يمثل ربح اللوت في MT5."
-        ):
+    if "daily_report_date" not in state:
+        # Avoid sending a meaningless backfill report when first starting.
+        state["daily_report_date"] = yesterday
+    elif state["daily_report_date"] != yesterday:
+        if send(make_daily_report(state["results"], state.get("position"), yesterday)):
             state["daily_report_date"] = yesterday
 
-    state["patterns"] = {
-        k: v for k, v in state.get("patterns", {}).items()
-        if now - v < 7 * 86400
-    }
-    # Keep enough closed positions for daily reporting across interruptions.
     state["results"] = state["results"][-5000:]
-    state["sent"] = {k: v for k, v in state["sent"].items() if now - v < 7 * 86400}
-    state["near"] = {k: v for k, v in state["near"].items() if now - v < 7 * 86400}
     save_state(state)
-
-    if FORCE:
-        send("📊 فحص يدوي\n\n" + "\n\n".join(report))
-        send(scoreboard(btc_results))
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception as exc:
-        safe_message = str(exc).replace(API_KEY, "[REDACTED]")
-        print("BOT FATAL ERROR:", type(exc).__name__, safe_message[:400])
-        send(f"⚠️ تعذر تحديث بوت البتكوين:\n{safe_message[:500]}")
+        safe = str(exc).replace(API_KEY, "[REDACTED]").replace(TOKEN, "[REDACTED]")
+        print("BOT FATAL ERROR:", type(exc).__name__, safe[:400])
+        send(f"⚠️ تعذر تحديث بوت البتكوين:\n{safe[:500]}")
         raise
