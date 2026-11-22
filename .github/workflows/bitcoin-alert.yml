@@ -1,8 +1,8 @@
 name: bitcoin-signal-alert
 on:
   schedule:
-    # Scan shortly after each closed M15 candle (UTC).
-    - cron: "2,17,32,47 * * * *"
+    # Check every five minutes, two minutes after the gold workflow (UTC).
+    - cron: "2-59/5 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -30,9 +30,9 @@ jobs:
       - run: |
           git config user.name "bitcoin-alert-bot"
           git config user.email "bitcoin-alert-bot@users.noreply.github.com"
-          git add btc_state.json
+          git add btc_smc_state.json
           if ! git diff --cached --quiet; then
-            git commit -m "Update Bitcoin bot state"
+            git commit -m "Update Bitcoin SMC bot state"
             git pull --rebase origin "$GITHUB_REF_NAME"
             git push
           fi
