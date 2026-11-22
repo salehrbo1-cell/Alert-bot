@@ -744,6 +744,7 @@ def main():
                 f"عمر الشمعة المغلقة: {max(0, age_min):.1f} دقيقة\n"
                 f"تنبيه: إشارة تحليلية فقط وليست أمراً للتنفيذ."
             )
+            break
     else:
         print(f"Signal scan skipped: last candle is {age_min:.1f} minutes old.")
 
