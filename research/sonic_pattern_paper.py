@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+import rsi_secondary
 
 API_KEY = os.environ["TWELVE_DATA_API_KEY"].strip()
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
@@ -461,6 +462,7 @@ def entry_message(trade):
         f"سعر الدخول الافتراضي: {trade['entry_price']:.2f}\n"
         f"وقت الدخول: {fmt_saudi(trade['entry_t'])} السعودية\n"
         "التسلسل: Sweep → IFVG → CISD خلال 30 دقيقة\n"
+        f"{rsi_secondary.secondary_rsi_message(trade.get('rsi_secondary', {}))}"
         "هذا تسجيل بحثي؛ لا توجد صفقة حقيقية أو أمر للوسيط."
     )
 
@@ -1124,6 +1126,9 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
         indicator_check = indicator_entry_gate(
             entry_bar["t"], entry_bar["o"], setup["direction"]
         )
+        rsi_study = rsi_secondary.evaluate_secondary_rsi(
+            analysis_candles, entry_bar["t"], setup["direction"]
+        )
         same_direction = state.get("last_direction") == setup["direction"]
         candidate = {
             "trade_id": trade_id,
@@ -1134,6 +1139,7 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             "ifvg_t": setup["ifvg_t"],
             "cisd_t": setup["cisd_t"],
             "indicators": indicator_check,
+            "rsi_secondary": rsi_study,
             "entry_requirements_class": "primary_mandatory_all_three_plus_smc",
             "blocked_same_direction": same_direction,
             "entered": bool(indicator_check["allowed"] and not same_direction),
@@ -1192,6 +1198,7 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
 
         trade = {
             **setup,
+            "rsi_secondary": rsi_study,
             "trade_id": trade_id,
             "entry_t": entry_bar["t"],
             "entry_price": entry_bar["o"],
