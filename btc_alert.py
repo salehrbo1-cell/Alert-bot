@@ -457,11 +457,16 @@ def entry_message(signal):
     ind = signal["indicators"]
     sweep = signal["sweep"]
     inv = signal["ifvg"]
+    invalidation = (
+        sweep["extreme"] - 0.1 * sweep["atr"]
+        if signal["side"] == "buy" else sweep["extreme"] + 0.1 * sweep["atr"]
+    )
     return (
         f"🧪 إشارة {side_word} بتكوين وفق SMC\n"
         f"BTC/USD · M15 مغلقة\n"
         f"التسلسل: Sweep → IFVG → CISD خلال 30 دقيقة\n"
         f"الدخول الافتراضي: {signal['entry']:,.2f}\n"
+        f"إبطال بنيوي مرجعي: {invalidation:,.2f} (المتابعة تنتهي عند إشارة معاكسة)\n"
         f"مستوى السيولة المسحوب: {sweep['level']:,.2f}\n"
         f"قمة/قاع السحب: {sweep['extreme']:,.2f}\n"
         f"منطقة IFVG: {inv['lo']:,.2f}–{inv['hi']:,.2f} "
