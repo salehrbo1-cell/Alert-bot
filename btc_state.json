@@ -1,7 +1,9 @@
 {
   "sent": {},
   "active": [],
-  "near": {},
+  "near": {
+    "hit|BTC|5494": 1795330671.6934347
+  },
   "results": [],
   "patterns": {},
   "digest": 1795323618.4137182,
