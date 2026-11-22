@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795303860000,
+  "last_processed_candle_t": 1795306260000,
   "trades": [
     {
       "direction": "buy",
