@@ -38,6 +38,7 @@ TRADE_COLUMNS = [
     "trade_id", "side", "status", "sweep_at_utc", "ifvg_at_utc",
     "cisd_at_utc", "entry_at_utc", "entry_price",
     "opposite_signal_at_utc", "opposite_signal_price", "observation_minutes",
+    "stop_price", "initial_risk_usd", "partial_taken", "exit_reason", "net_pnl_usd",
     "max_favorable_usd", "max_adverse_usd", "adverse_close_seen",
     "returned_to_entry_after_adverse", "minutes_to_return",
     "adverse_before_return_usd", "adverse_on_return_candle_usd",
@@ -138,7 +139,7 @@ def load_candles(now):
 # SUMO_M15_GATE_V1: PRIMARY MANDATORY entry conditions for the three-trading-day paper trial.
 # Entry requires the core Sweep -> IFVG -> CISD sequence AND aligned EMA20/50, EMA200, and Ichimoku M15 gates.
 # Calculations use only completed M15 candles, to avoid future data leakage.
-GATE_VERSION = "ema20_50__ema200__ichimoku_m15_v1"
+GATE_VERSION = "institutional_sweep_atr_ifvg_mss_m15_gates_v2_all_hours"
 GATE_INTERVAL_MS = 15 * 60 * 1000
 _Gate_Cache = {"target": None, "at": 0.0, "bars": None}
 
@@ -258,24 +259,82 @@ def indicator_entry_gate(entry_t_ms, entry_price, side):
     }
 
 
+def aggregate_timeframe(candles, minutes):
+    width = minutes * 60_000
+    buckets = {}
+    for bar in candles:
+        start = (bar["t"] // width) * width
+        buckets.setdefault(start, []).append(bar)
+    result = []
+    for start, rows in sorted(buckets.items()):
+        rows = sorted(rows, key=lambda x: x["t"])
+        expected = [start + i * 60_000 for i in range(minutes)]
+        if [x["t"] for x in rows] != expected:
+            continue
+        result.append({
+            "t": start, "end_t": start + width,
+            "o": rows[0]["o"], "h": max(x["h"] for x in rows),
+            "l": min(x["l"] for x in rows), "c": rows[-1]["c"],
+        })
+    return result
+
+
+def is_news_blackout(timestamp_ms):
+    raw = os.environ.get("SUMO_NEWS_EVENTS_UTC", "").strip()
+    if not raw:
+        return False
+    current = datetime.fromtimestamp(timestamp_ms / 1000, timezone.utc)
+    for value in raw.split(","):
+        try:
+            event = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+            if event.tzinfo is None:
+                event = event.replace(tzinfo=timezone.utc)
+            if abs((current - event.astimezone(timezone.utc)).total_seconds()) <= 30 * 60:
+                return True
+        except ValueError:
+            print("Ignoring invalid SUMO_NEWS_EVENTS_UTC timestamp")
+    return False
+
+
 def detect_sweeps(candles):
+    """Detect only confirmed M15/H1 swing sweeps; M1 five-bar noise is excluded."""
     events = []
-    for i in range(5, len(candles)):
-        prior = candles[i - 5:i]
-        bar = candles[i]
-        prior_high = max(x["h"] for x in prior)
-        prior_low = min(x["l"] for x in prior)
-        swept_low = bar["l"] < prior_low and bar["c"] > prior_low
-        swept_high = bar["h"] > prior_high and bar["c"] < prior_high
-        # Ignore an outside bar that sweeps both sides; direction is ambiguous.
-        if swept_low != swept_high:
-            events.append({
-                "t": bar["t"],
-                "direction": "buy" if swept_low else "sell",
-                "level": prior_low if swept_low else prior_high,
-                "extreme": bar["l"] if swept_low else bar["h"],
-            })
-    return events
+    for minutes in (15, 60):
+        htf = aggregate_timeframe(candles, minutes)
+        width = minutes * 60_000
+        levels = []
+        for i in range(2, len(htf) - 2):
+            pivot = htf[i]
+            if pivot["h"] > max(x["h"] for x in htf[i-2:i] + htf[i+1:i+3]):
+                levels.append(("high", pivot["h"], htf[i+2]["end_t"], "M15" if minutes == 15 else "H1"))
+            if pivot["l"] < min(x["l"] for x in htf[i-2:i] + htf[i+1:i+3]):
+                levels.append(("low", pivot["l"], htf[i+2]["end_t"], "M15" if minutes == 15 else "H1"))
+        for side, level, confirmed_t, timeframe in levels:
+            for bar in candles:
+                if bar["t"] < confirmed_t:
+                    continue
+                swept_low = side == "low" and bar["l"] < level and bar["c"] > level
+                swept_high = side == "high" and bar["h"] > level and bar["c"] < level
+                if swept_low or swept_high:
+                    events.append({
+                        "t": bar["t"], "direction": "buy" if swept_low else "sell",
+                        "level": level, "extreme": bar["l"] if swept_low else bar["h"],
+                        "timeframe": timeframe,
+                    })
+    # Keep only the earliest touch per direction/level to prevent repeated alerts.
+    unique = {}
+    for event in events:
+        key = (event["direction"], round(event["level"], 4), event["timeframe"])
+        unique.setdefault(key, event)
+    return sorted(unique.values(), key=lambda item: item["t"])
+
+def atr_at(candles, index, length=14):
+    start = max(1, index - length + 1)
+    ranges = []
+    for i in range(start, index + 1):
+        bar, prev = candles[i], candles[i - 1]
+        ranges.append(max(bar["h"] - bar["l"], abs(bar["h"] - prev["c"]), abs(bar["l"] - prev["c"])))
+    return statistics.mean(ranges) if ranges else 0.0
 
 
 def detect_ifvgs(candles):
@@ -283,12 +342,14 @@ def detect_ifvgs(candles):
     max_bars = MAX_SEQUENCE_MINUTES
     for i in range(2, len(candles) - 1):
         first, third = candles[i - 2], candles[i]
-        # Classical three-candle FVG, then its first close-through inversion.
         if third["l"] > first["h"]:
             lower, upper, inverted_direction = first["h"], third["l"], "sell"
         elif third["h"] < first["l"]:
             lower, upper, inverted_direction = third["h"], first["l"], "buy"
         else:
+            continue
+        gap_size = upper - lower
+        if gap_size < 0.4 * atr_at(candles, i):
             continue
         stop = min(len(candles), i + max_bars + 1)
         for j in range(i + 1, stop):
@@ -298,40 +359,31 @@ def detect_ifvgs(candles):
             )
             if inverted:
                 events.append({
-                    "t": candles[j]["t"],
-                    "direction": inverted_direction,
-                    "fvg_at": candles[i]["t"],
-                    "lower": lower,
-                    "upper": upper,
+                    "t": candles[j]["t"], "direction": inverted_direction,
+                    "fvg_at": candles[i]["t"], "lower": lower, "upper": upper,
+                    "size": gap_size, "atr": atr_at(candles, i),
                 })
                 break
     return events
 
-
 def detect_cisds(candles):
+    """MSS confirmation: strong M1 body closes through a confirmed local swing."""
     events = []
     for i in range(10, len(candles)):
         bar = candles[i]
         previous = candles[i - 10:i]
         body = abs(bar["c"] - bar["o"])
-        median_body = statistics.median(abs(x["c"] - x["o"]) for x in previous)
-        threshold = max(0.05, 1.3 * median_body)
-        if body < threshold:
+        threshold = max(0.05, 1.3 * statistics.median(abs(x["c"] - x["o"]) for x in previous))
+        if body < threshold or i < 4:
             continue
-        if bar["c"] > bar["o"]:
-            direction = "buy"
-            opposite = next((x for x in reversed(previous) if x["c"] < x["o"]), None)
-            qualifies = opposite is not None and bar["c"] > opposite["o"]
-        elif bar["c"] < bar["o"]:
-            direction = "sell"
-            opposite = next((x for x in reversed(previous) if x["c"] > x["o"]), None)
-            qualifies = opposite is not None and bar["c"] < opposite["o"]
-        else:
-            continue
-        if qualifies:
-            events.append({"t": bar["t"], "direction": direction})
+        left, right = candles[i - 4:i - 2], candles[i - 2:i]
+        swing_high = max(x["h"] for x in left + right)
+        swing_low = min(x["l"] for x in left + right)
+        if bar["c"] > bar["o"] and bar["c"] > swing_high:
+            events.append({"t": bar["t"], "direction": "buy", "mss_level": swing_high, "body": body})
+        elif bar["c"] < bar["o"] and bar["c"] < swing_low:
+            events.append({"t": bar["t"], "direction": "sell", "mss_level": swing_low, "body": body})
     return events
-
 
 def detect_setups(candles):
     sweeps = detect_sweeps(candles)
@@ -365,6 +417,10 @@ def detect_setups(candles):
             "sweep_t": sweep["t"],
             "sweep_level": sweep["level"],
             "sweep_extreme": sweep["extreme"],
+            "sweep_timeframe": sweep.get("timeframe", "M15"),
+            "mss_level": cisd.get("mss_level"),
+            "ifvg_size": ifvg.get("size"),
+            "ifvg_atr": ifvg.get("atr"),
             "ifvg_t": ifvg["t"],
             "ifvg_origin_t": ifvg["fvg_at"],
             "ifvg_lower": ifvg["lower"],
@@ -438,6 +494,11 @@ def trade_row(trade):
         "entry_price": round(trade["entry_price"], 4),
         "opposite_signal_at_utc": iso(trade["opposite_signal_t"]) if trade.get("opposite_signal_t") else "",
         "opposite_signal_price": round(trade["opposite_signal_price"], 4) if trade.get("opposite_signal_price") is not None else "",
+        "stop_price": round(trade.get("stop_price", 0), 4),
+        "initial_risk_usd": round(trade.get("risk_usd", 0), 4),
+        "partial_taken": trade.get("partial_taken", False),
+        "exit_reason": trade.get("exit_reason", ""),
+        "net_pnl_usd": trade.get("net_pnl_usd", ""),
         "observation_minutes": OBSERVATION_MINUTES,
         "max_favorable_usd": round(trade["max_favorable"], 4),
         "max_adverse_usd": round(trade["max_adverse"], 4),
@@ -461,7 +522,8 @@ def entry_message(trade):
         f"الاتجاه: {side}\n"
         f"سعر الدخول الافتراضي: {trade['entry_price']:.2f}\n"
         f"وقت الدخول: {fmt_saudi(trade['entry_t'])} السعودية\n"
-        "التسلسل: Sweep → IFVG → CISD خلال 30 دقيقة\n"
+        f"التسلسل: Sweep {trade.get('sweep_timeframe', 'M15')} → IFVG (≥0.4×ATR) → MSS خلال 30 دقيقة\n"
+        f"وقف افتراضي: {trade.get('stop_price', 0):.2f} · المخاطرة: {trade.get('risk_usd', 0):.2f}$\n"
         f"{rsi_secondary.secondary_rsi_message(trade.get('rsi_secondary', {}))}"
         "هذا تسجيل بحثي؛ لا توجد صفقة حقيقية أو أمر للوسيط."
     )
@@ -493,13 +555,14 @@ def completion_message(trade):
     before = trade.get("adverse_before_return")
     before_text = "غير منطبق" if before is None else f"{before:.2f}$"
     return (
-        "📋 انتهت متابعة صفقة سمو الوهمية بإشارة معاكسة\n"
+        "📋 انتهت الصفقة الافتراضية لسمو\n"
         f"الاتجاه: {side} · الدخول: {trade['entry_price']:.2f}\n"
         f"أقصى ابتعاد لصالحها: {trade['max_favorable']:.2f}$\n"
         f"أقصى ابتعاد ضدها: {trade['max_adverse']:.2f}$\n"
         f"أقصى انعكاس قبل العودة للإغلاق عند/فوق الدخول: {before_text}\n"
+        f"سبب الخروج: {trade.get('exit_reason', 'إشارة معاكسة')} · الصافي: {trade.get('net_pnl_usd', 0):+.2f}$\n"
         f"الخلاصة: {recover}\n"
-        "القيم من شموع الدقيقة، دون سبريد أو عمولة إضافية."
+        "حساب افتراضي 0.01 لوت؛ احتُسب انزلاق 0.37$ لكل تنفيذ، دون العمولة والسبريد."
     )
 
 
@@ -515,6 +578,53 @@ def process_trade(trade, candles):
         if not (entry_t <= bar["t"] < end_t) or bar["t"] <= last_path_t:
             continue
         favorable, adverse, close_pnl = excursion(bar, trade["entry_price"], direction)
+        managed = trade.get("management_version") == "mtf_sl_1r_2r_m5_v1"
+        risk = max(float(trade.get("risk_usd", 0.4)), 0.01) if managed else 1e99
+        stop = float(trade.get("stop_price", trade["entry_price"] - direction * risk))
+        stop_hit = managed and ((bar["l"] <= stop) if direction == 1 else (bar["h"] >= stop))
+        # If OHLC touches both a stop and a target in one minute, assume the stop came first.
+        if stop_hit:
+            remaining = float(trade.get("remaining_fraction", 1.0))
+            gross = (stop - trade["entry_price"]) * direction
+            trade["net_pnl_usd"] = round(float(trade.get("realized_pnl_usd", 0.0)) +
+                (gross - 2 * SLIPPAGE_PER_FILL_USD) * PAPER_LOT * CONTRACT_OUNCES_PER_LOT * remaining, 2)
+            trade["exit_t"] = bar["t"] + 60_000
+            trade["exit_price"] = stop
+            trade["exit_reason"] = "stop_loss" if abs(stop - trade["entry_price"]) > 0.001 else "break_even_or_trailing_stop"
+            trade["status"] = "complete"
+            trade["completed_t"] = trade["exit_t"]
+            trade["last_path_t"] = bar["t"]
+            break
+
+        if managed and favorable >= risk:
+            improved = trade["entry_price"]
+            if (direction == 1 and improved > stop) or (direction == -1 and improved < stop):
+                trade["stop_price"] = improved
+                trade["break_even_armed"] = True
+                stop = improved
+
+        if managed and favorable >= 2 * risk and not trade.get("partial_taken"):
+            trade["realized_pnl_usd"] = round(float(trade.get("realized_pnl_usd", 0.0)) +
+                (2 * risk - 2 * SLIPPAGE_PER_FILL_USD) * PAPER_LOT * CONTRACT_OUNCES_PER_LOT * 0.5, 2)
+            trade["remaining_fraction"] = 0.5
+            trade["partial_taken"] = True
+            trade["partial_notified"] = False
+            trade["stop_price"] = trade["entry_price"]
+            stop = trade["entry_price"]
+
+        if managed and trade.get("partial_taken"):
+            m5 = aggregate_timeframe([x for x in candles if x["t"] < bar["t"]], 5)
+            if len(m5) >= 5:
+                last = len(m5) - 1
+                for p in range(2, last - 1):
+                    pivot = m5[p]
+                    if direction == 1 and pivot["l"] < min(x["l"] for x in m5[p-2:p] + m5[p+1:p+3]):
+                        if pivot["end_t"] <= bar["t"] and pivot["l"] > float(trade.get("stop_price", trade["entry_price"])):
+                            trade["stop_price"] = pivot["l"]
+                    elif direction == -1 and pivot["h"] > max(x["h"] for x in m5[p-2:p] + m5[p+1:p+3]):
+                        if pivot["end_t"] <= bar["t"] and pivot["h"] < float(trade.get("stop_price", trade["entry_price"])):
+                            trade["stop_price"] = pivot["h"]
+
         trade["max_favorable"] = max(trade["max_favorable"], favorable)
         trade["max_adverse"] = max(trade["max_adverse"], adverse)
         relative_minute = int((bar["t"] - entry_t) / 60_000)
@@ -1130,6 +1240,11 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             analysis_candles, entry_bar["t"], setup["direction"]
         )
         same_direction = state.get("last_direction") == setup["direction"]
+        news_blocked = is_news_blackout(entry_bar["t"])
+        cooldown_until = int(state.get("cooldown_until_t", 0) or 0)
+        cooldown_blocked = entry_bar["t"] < cooldown_until
+        proposed_stop = setup["sweep_extreme"] - 0.40 if setup["direction"] == "buy" else setup["sweep_extreme"] + 0.40
+        stop_invalid = proposed_stop >= entry_bar["o"] if setup["direction"] == "buy" else proposed_stop <= entry_bar["o"]
         candidate = {
             "trade_id": trade_id,
             "entry_t": entry_bar["t"],
@@ -1142,7 +1257,10 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             "rsi_secondary": rsi_study,
             "entry_requirements_class": "primary_mandatory_all_three_plus_smc",
             "blocked_same_direction": same_direction,
-            "entered": bool(indicator_check["allowed"] and not same_direction),
+            "blocked_news": news_blocked,
+            "blocked_cooldown": cooldown_blocked,
+            "blocked_invalid_stop": stop_invalid,
+            "entered": bool(indicator_check["allowed"] and not same_direction and not news_blocked and not cooldown_blocked and not stop_invalid),
         }
         checks = state.setdefault("indicator_filter_checks", [])
         checks.append(candidate)
@@ -1172,15 +1290,17 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             direction = 1 if open_trade["direction"] == "buy" else -1
             price_move = (entry_bar["o"] - open_trade["entry_price"]) * direction
             open_trade["net_pnl_usd"] = round(
-                (price_move - 2 * SLIPPAGE_PER_FILL_USD) * PAPER_LOT * CONTRACT_OUNCES_PER_LOT, 2
+                float(open_trade.get("realized_pnl_usd", 0.0)) +
+                (price_move - 2 * SLIPPAGE_PER_FILL_USD) * PAPER_LOT *
+                CONTRACT_OUNCES_PER_LOT * float(open_trade.get("remaining_fraction", 1.0)), 2
             )
+            open_trade["exit_reason"] = "opposite_signal"
             open_trade["exit_t"] = entry_bar["t"]
             open_trade["exit_price"] = entry_bar["o"]
             opposite_trades.append(open_trade)
 
-        if not indicator_check["allowed"]:
-            # Exit on an unfiltered opposite SMC event, but do not open a new
-            # position unless all 3 mandatory M15 indicators pass.
+        if not indicator_check["allowed"] or news_blocked or cooldown_blocked or stop_invalid:
+            # Opposite SMC events still close existing paper positions; filters only block new entries.
             state["last_direction"] = setup["direction"]
             state["active_trade_id"] = None
             save_state(state)
@@ -1193,7 +1313,9 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
                 if send_telegram(opposite_exit_message(old_trade, exit_context)):
                     old_trade["opposite_exit_notified"] = True
                     save_state(state)
-            print("SUMO_GATE_EXIT_ONLY", trade_id, "closed_positions", len(opposite_trades))
+            print("SUMO_GATE_EXIT_ONLY", trade_id, "news_blocked", news_blocked,
+                  "cooldown_blocked", cooldown_blocked, "invalid_stop", stop_invalid,
+                  "closed_positions", len(opposite_trades))
             continue
 
         trade = {
@@ -1203,6 +1325,14 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
             "entry_t": entry_bar["t"],
             "entry_price": entry_bar["o"],
             "status": "open",
+            "management_version": "mtf_sl_1r_2r_m5_v1",
+            "stop_price": proposed_stop,
+            "risk_usd": abs(entry_bar["o"] - proposed_stop),
+            "remaining_fraction": 1.0,
+            "realized_pnl_usd": 0.0,
+            "partial_taken": False,
+            "partial_notified": False,
+            "break_even_armed": False,
             "max_favorable": 0.0,
             "max_adverse": 0.0,
             "adverse_close_seen": False,
@@ -1241,6 +1371,13 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
     new_path_rows = []
     for trade in state.get("trades", []):
         new_path_rows.extend(process_trade(trade, analysis_candles))
+        if trade.get("exit_reason") == "stop_loss" and trade.get("exit_t"):
+            state["cooldown_until_t"] = max(
+                int(state.get("cooldown_until_t", 0) or 0), int(trade["exit_t"] + 30 * 60_000)
+            )
+            state["last_direction"] = None
+            if state.get("active_trade_id") == trade.get("trade_id"):
+                state["active_trade_id"] = None
     state["last_processed_candle_t"] = max(previous_last, analysis_candles[-1]["t"])
     save_state(state)
     write_csv(TRADES_PATH, TRADE_COLUMNS, [trade_row(t) for t in state.get("trades", [])])
@@ -1257,6 +1394,15 @@ def main(candles_override=None, partial_current=False, live_signal_since=None):
     evaluate_step_resistance_exit_rule(state, analysis_candles, now)
 
     for trade in state.get("trades", []):
+        if trade.get("partial_taken") and not trade.get("partial_notified", False):
+            partial_msg = (
+                "🟡 سمو: تحقق هدف +2R، إغلاق افتراضي لنصف الصفقة ونقل الوقف إلى الدخول.\n"
+                f"الدخول {trade['entry_price']:.2f} · الوقف الجديد {trade.get('stop_price', trade['entry_price']):.2f}\n"
+                f"الربح المحقق جزئيًا بعد الانزلاق: {trade.get('realized_pnl_usd', 0):+.2f}$"
+            )
+            if send_telegram(partial_msg):
+                trade["partial_notified"] = True
+                save_state(state)
         if trade.get("opposite_signal_t") is not None and not trade.get("opposite_exit_notified", False):
             opposite_context = {
                 "direction": trade["opposite_signal_direction"],
