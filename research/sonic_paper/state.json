@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795358760000,
+  "last_processed_candle_t": 1795465440000,
   "trades": [
     {
       "direction": "buy",
@@ -2370,7 +2370,7 @@
       "minutes_to_return": null,
       "adverse_before_return": null,
       "adverse_on_return_candle": null,
-      "last_path_t": 1795358760000,
+      "last_path_t": 1795465440000,
       "horizons": {
         "5": {
           "max_favorable": 6.315599999999904,
@@ -3038,14 +3038,14 @@
       "entry_price": 3590.9451,
       "status": "open",
       "max_favorable": 58.197279999999864,
-      "max_adverse": 0.9018799999998919,
+      "max_adverse": 98.13889999999992,
       "adverse_close_seen": true,
       "adverse_before_return_running": 0.9018799999998919,
       "returned_after_adverse": true,
       "minutes_to_return": 3,
       "adverse_before_return": 0.9019,
       "adverse_on_return_candle": 0.2321,
-      "last_path_t": 1795358760000,
+      "last_path_t": 1795465440000,
       "horizons": {
         "5": {
           "max_favorable": 4.401809999999841,
@@ -3075,5 +3075,5 @@
   "initialized": true,
   "last_direction": "sell",
   "active_trade_id": "sell-1795170900000-1795171320000-1795171680000",
-  "last_daily_report_date": "2026-11-21"
+  "last_daily_report_date": "2026-11-22"
 }
