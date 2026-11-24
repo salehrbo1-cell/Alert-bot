@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/sumo-week-backtest.yml
       - research/backtest_sumo_current.py
+      - research/backtest_sumo_four_candidates.py
 permissions:
   contents: write
 jobs:
@@ -26,10 +27,10 @@ jobs:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
           BOT_TOKEN: ""
           CHAT_ID: ""
-        run: python research/backtest_sumo_current.py
+        run: python research/backtest_sumo_four_candidates.py
       - name: Commit the report to the research branch
         run: |
           git config user.name "sumo-research-bot"
           git config user.email "sumo-research-bot@users.noreply.github.com"
-          git add research/results_sumo_current_2026-11-16_to_20
+          git add research/results_sumo_current_2026-11-16_to_20 research/results_sumo_four_candidates_2026-11-24
           git diff --cached --quiet || (git commit -m "Add Sumo Nov 16-20 replay results" && git push origin research/sumo-backtest-2026-11-16-20)
