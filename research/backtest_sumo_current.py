@@ -12,7 +12,7 @@ KSA = timezone(timedelta(hours=3))
 UTC = timezone.utc
 START = datetime(2026, 11, 16, tzinfo=KSA)
 END = datetime(2026, 11, 21, tzinfo=KSA)
-FETCH_START = datetime(2026, 11, 11, tzinfo=KSA)
+FETCH_START = datetime(2026, 11, 10, tzinfo=KSA)
 FETCH_END = END
 API_KEY = os.environ["TWELVE_DATA_API_KEY"].strip()
 BASE = "https://api.twelvedata.com/time_series"
