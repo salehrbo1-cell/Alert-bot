@@ -104,7 +104,14 @@ def main():
         cisd_t=entry_t-60000
         result=find_setup(candles,cisd_t)
         if not result:
-            targets.append({"entry_ksa":entry_text,"side":side,"error":"Setup not reproduced from current deployed detector."})
+            entry_t=ts(entry_text)
+            near=[b for b in candles if abs(b["t"]-entry_t)<=120000]
+            allcs=[e for e in strategy.detect_cisds(candles[max(0,index.get(entry_t-60000,0)-599):index.get(entry_t-60000,0)+1])]
+            targets.append({"entry_ksa":entry_text,"side":side,"error":"Setup not reproduced from current deployed detector.",
+              "data_first":candles[0]["t"],"data_last":candles[-1]["t"],"target_entry_t":entry_t,
+              "target_cisd_t":entry_t-60000,"target_candle_found":entry_t in index,
+              "nearby":[{"t":b["t"],"o":b["o"],"h":b["h"],"l":b["l"],"c":b["c"]} for b in near],
+              "detected_cisds_near":[e["t"] for e in allcs]})
             continue
         setup,entry=result
         targets.append({"entry_text":entry_text,"side":side,"entry_t":entry["t"],"setup":setup,"entry":entry})
