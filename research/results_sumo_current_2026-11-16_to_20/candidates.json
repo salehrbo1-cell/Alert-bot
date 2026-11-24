@@ -1,0 +1,57 @@
+[
+  {
+    "trade_id": "buy-1794783720000-1794783840000-1794783900000",
+    "signal_t": 1794783900000,
+    "entry_t": 1794783960000,
+    "side": "buy",
+    "entry": 3884.53377,
+    "sweep_tf": "M15",
+    "sweep_t": 1794783720000,
+    "ifvg_t": 1794783840000,
+    "ifvg_size": 0.7956100000001243,
+    "ifvg_atr": 1.1092478571428532,
+    "mss_t": 1794783900000,
+    "mss_level": 3884.9076,
+    "filter_conditions": {
+      "ema20_50": true,
+      "ema200": true,
+      "ichimoku": true
+    },
+    "same_direction_block": false,
+    "news_block": false,
+    "cooldown_block": false,
+    "invalid_stop": false,
+    "entered": true,
+    "initial_stop": 3876.55566,
+    "risk": 7.978110000000015,
+    "entry_ksa": "2026-11-16 02:06",
+    "signal_ksa": "2026-11-16 02:05"
+  },
+  {
+    "trade_id": "buy-1794906960000-1794908340000-1794908520000",
+    "signal_t": 1794908520000,
+    "entry_t": 1794908580000,
+    "side": "buy",
+    "entry": 3865.31078,
+    "sweep_tf": "M15",
+    "sweep_t": 1794906960000,
+    "ifvg_t": 1794908340000,
+    "ifvg_size": 0.5977499999999054,
+    "ifvg_atr": 1.490049285714349,
+    "mss_t": 1794908520000,
+    "mss_level": 3865.48913,
+    "filter_conditions": {
+      "ema20_50": true,
+      "ema200": false,
+      "ichimoku": true
+    },
+    "same_direction_block": true,
+    "news_block": false,
+    "cooldown_block": false,
+    "invalid_stop": false,
+    "entered": false,
+    "block_reason": "same_direction",
+    "entry_ksa": "2026-11-17 12:43",
+    "signal_ksa": "2026-11-17 12:42"
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "period_ksa": [
+    "2026-11-16 00:00",
+    "2026-11-20 23:59"
+  ],
+  "data_source": "Twelve Data XAU/USD M1, same symbol used by live worker",
+  "m1_candles_loaded": 14401,
+  "candidate_setups": 2,
+  "entered_trades": 1,
+  "blocked_candidates": 1,
+  "closed_trades": 1,
+  "wins": 1,
+  "losses": 0,
+  "breakeven": 0,
+  "open_at_period_end": 0,
+  "net_closed_pnl_usd_at_0_01_lot": 7.24,
+  "mean_closed_pnl_usd": 7.24,
+  "win_rate_excluding_open_and_breakeven": 100.0,
+  "max_favorable_mean": 16.64,
+  "max_adverse_mean": 6.46,
+  "blocked_reasons": {
+    "same_direction": 1
+  },
+  "assumptions": [
+    "Clean state at Monday 00:00 KSA; 5 days of prior candles used only for indicator warmup.",
+    "Uses deployed setup functions and 600-candle rolling window; all-hours mode.",
+    "Intrabar order is unknowable from OHLC; stop is evaluated before new targets, as in the deployed manager.",
+    "News blocking is off because SUMO_NEWS_EVENTS_UTC is not configured on Railway.",
+    "This is paper replay, not a guarantee of future performance."
+  ]
+}
