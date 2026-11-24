@@ -1,0 +1,27 @@
+{
+  "period": "2026-11-24; prices and setup definitions from Twelve Data/current Sumo code",
+  "method": "Each rejected sell replayed independently; this intentionally ignores the one-direction lock for comparison. PnL uses .01 lot and $0.37 slippage per fill.",
+  "opposite_buy_candidates": [],
+  "trades": [
+    {
+      "entry_ksa": "2026-11-24 15:02",
+      "side": "sell",
+      "error": "Setup not reproduced from current deployed detector."
+    },
+    {
+      "entry_ksa": "2026-11-24 16:02",
+      "side": "sell",
+      "error": "Setup not reproduced from current deployed detector."
+    },
+    {
+      "entry_ksa": "2026-11-24 16:09",
+      "side": "sell",
+      "error": "Setup not reproduced from current deployed detector."
+    },
+    {
+      "entry_ksa": "2026-11-24 16:28",
+      "side": "sell",
+      "error": "Setup not reproduced from current deployed detector."
+    }
+  ]
+}
