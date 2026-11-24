@@ -1,0 +1,34 @@
+name: Sumo current strategy replay (Nov 16-20, 2026)
+on:
+  push:
+    branches:
+      - research/sumo-backtest-2026-11-16-20
+    paths:
+      - .github/workflows/sumo-week-backtest.yml
+permissions:
+  contents: write
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/sumo-backtest-2026-11-16-20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install runtime dependencies
+        run: pip install requests websocket-client
+      - name: Replay deployed strategy with Twelve Data M1 history
+        env:
+          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+          BOT_TOKEN: ""
+          CHAT_ID: ""
+        run: python research/backtest_sumo_current.py
+      - name: Commit the report to the research branch
+        run: |
+          git config user.name "sumo-research-bot"
+          git config user.email "sumo-research-bot@users.noreply.github.com"
+          git add research/results_sumo_current_2026-11-16_to_20
+          git diff --cached --quiet || (git commit -m "Add Sumo Nov 16-20 replay results" && git push origin research/sumo-backtest-2026-11-16-20)
