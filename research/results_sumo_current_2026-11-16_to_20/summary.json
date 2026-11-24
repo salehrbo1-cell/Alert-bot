@@ -4,7 +4,7 @@
     "2026-11-20 23:59"
   ],
   "data_source": "Twelve Data XAU/USD M1, same symbol used by live worker",
-  "m1_candles_loaded": 14401,
+  "m1_candles_loaded": 15841,
   "candidate_setups": 2,
   "entered_trades": 1,
   "blocked_candidates": 1,
