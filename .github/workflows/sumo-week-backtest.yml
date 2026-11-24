@@ -5,6 +5,7 @@ on:
       - research/sumo-backtest-2026-11-16-20
     paths:
       - .github/workflows/sumo-week-backtest.yml
+      - research/backtest_sumo_current.py
 permissions:
   contents: write
 jobs:
