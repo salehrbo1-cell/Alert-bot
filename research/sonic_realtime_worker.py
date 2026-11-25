@@ -139,24 +139,18 @@ def momentum_setup():
     dmi = dmi_last(m15)
     if not e20_15 or not dmi:
         return None
-    # Week starts Monday 00:00 UTC, matching the historical study.
     dt = datetime.fromtimestamp(last["t"] / 1000, timezone.utc)
-    monday = (dt.replace(hour=0, minute=0, second=0, microsecond=0)
-              - timedelta(days=dt.weekday()))
+    monday = dt.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=dt.weekday())
     weekly = [x for x in m15 if x["t"] >= int(monday.timestamp() * 1000)]
     if not weekly:
         return None
-    h1_close, h4_close = h1[-1]["c"], h4[-1]["c"]
-    conditions = {
-        "M15 فوق EMA20": last["c"] > e20_15,
-        "+DI أعلى من -DI": dmi[0] > dmi[1],
-        "ADX14 ≥ 20": dmi[2] >= 20,
-        "H1 فوق EMA20": h1_close > ema_last([x["c"] for x in h1], 20),
-        "H4 فوق EMA20": h4_close > ema_last([x["c"] for x in h4], 20),
-        "السعر فوق افتتاح الأسبوع": last["c"] > weekly[0]["o"],
-    }
-    return {"t": last["t"] + 900_000, "price": last["c"],
-            "conditions": conditions, "qualified": all(conditions.values())}
+    h1e = ema_last([x["c"] for x in h1], 20)
+    h4e = ema_last([x["c"] for x in h4], 20)
+    common = dmi[2] >= 20
+    buy = common and last["c"] > e20_15 and dmi[0] > dmi[1] and h1[-1]["c"] > h1e and h4[-1]["c"] > h4e and last["c"] > weekly[0]["o"]
+    sell = common and last["c"] < e20_15 and dmi[1] > dmi[0] and h1[-1]["c"] < h1e and h4[-1]["c"] < h4e and last["c"] < weekly[0]["o"]
+    side = "buy" if buy else "sell" if sell else None
+    return {"t": last["t"] + 900_000, "price": last["c"], "side": side}
 
 def observe_momentum_tick(timestamp_ms, price):
     pending = momentum_state.get("pending")
@@ -167,55 +161,59 @@ def observe_momentum_tick(timestamp_ms, price):
     if price < pending["low"]:
         pending["low"], pending["low_t"] = price, timestamp_ms
     if timestamp_ms >= pending["start_t"] + MOMENTUM_WINDOW_MS:
-        rise = pending["high"] - pending["entry"]
-        dip = pending["entry"] - pending["low"]
+        buy = pending["side"] == "buy"
+        favorable = pending["high"] - pending["entry"] if buy else pending["entry"] - pending["low"]
+        adverse = pending["entry"] - pending["low"] if buy else pending["high"] - pending["entry"]
+        favorable_price, favorable_t = (pending["high"], pending["high_t"]) if buy else (pending["low"], pending["low_t"])
+        adverse_price, adverse_t = (pending["low"], pending["low_t"]) if buy else (pending["high"], pending["high_t"])
+        net = price - pending["entry"] if buy else pending["entry"] - price
         message = (
             "✅ انتهت متابعة استراتيجية زخم الذهب (22 دقيقة)\\n"
-            f"سعر الرصد: {pending['entry']:.2f} · الوقت: {saudi_time(pending['start_t'])} السعودية\\n"
-            f"أقصى اندفاع صاعد: +{rise:.2f}$ إلى {pending['high']:.2f} · {saudi_time(pending['high_t'])}\\n"
-            f"أقصى حركة ضد الشراء: -{dip:.2f}$ إلى {pending['low']:.2f} · {saudi_time(pending['low_t'])}\\n"
-            f"السعر عند نهاية المتابعة: {price:.2f} · الصافي من سعر الرصد: {price-pending['entry']:+.2f}$"
+            f"الاتجاه: {'شراء' if buy else 'بيع'} · سعر الرصد: {pending['entry']:.2f}\\n"
+            f"أقصى اندفاع مع الاتجاه: +{favorable:.2f}$ إلى {favorable_price:.2f} · {saudi_time(favorable_t)} السعودية\\n"
+            f"أقصى حركة ضد الاتجاه: -{adverse:.2f}$ إلى {adverse_price:.2f} · {saudi_time(adverse_t)} السعودية\\n"
+            f"السعر عند نهاية المتابعة: {price:.2f} · الحركة الصافية: {net:+.2f}$"
         )
         if monitor.send_telegram(message):
             momentum_state["pending"] = None
             save_momentum_state()
 
 def check_momentum_signal(completed_bar):
-    # Evaluate only on a completed M15 boundary; conditions are based on closed candles.
-    end_t = completed_bar["t"] + 60_000
-    if end_t % 900_000 != 0:
+    if (completed_bar["t"] + 60_000) % 900_000 != 0:
         return
     try:
         setup = momentum_setup()
         if not setup:
             return
-        if not setup["qualified"]:
-            momentum_state["armed"] = True
+        side = setup["side"]
+        if not side:
+            momentum_state["last_signal_side"] = None
             save_momentum_state()
             return
-        if not momentum_state.get("armed", True) or momentum_state.get("pending"):
+        if momentum_state.get("last_signal_side") == side or momentum_state.get("pending"):
             return
-        entry = setup["price"]
-        start_t = setup["t"]
-        pending = {"entry": entry, "start_t": start_t, "high": entry, "high_t": start_t,
-                   "low": entry, "low_t": start_t}
-        momentum_state["pending"] = pending
-        momentum_state["armed"] = False
+        entry, start_t = setup["price"], setup["t"]
+        momentum_state["pending"] = {"side": side, "entry": entry, "start_t": start_t,
+                                     "high": entry, "high_t": start_t, "low": entry, "low_t": start_t}
+        momentum_state["last_signal_side"] = side
         save_momentum_state()
+        buy = side == "buy"
         message = (
-            "🟢 تم رصد استراتيجية زخم الذهب\\n"
+            f"{'🟢' if buy else '🔴'} تم رصد استراتيجية زخم الذهب\\n"
+            f"الاتجاه: {'شراء' if buy else 'بيع'}\\n"
             f"سعر الرصد: {entry:.2f} · {saudi_time(start_t)} السعودية\\n"
-            "الشروط: إغلاق M15 فوق EMA20، +DI أعلى من -DI، ADX14≥20، "
-            "H1 وH4 فوق EMA20، والسعر فوق افتتاح الأسبوع.\\n"
-            "بدأت متابعة السعر لمدة 22 دقيقة؛ سأرسل أقصى اندفاع صاعد وأقصى حركة معاكسة مع وقت كل منهما."
+            f"الشروط: إغلاق M15 {'فوق' if buy else 'تحت'} EMA20، "
+            f"{'+DI أعلى من -DI' if buy else '-DI أعلى من +DI'}، ADX14≥20، "
+            f"H1 وH4 {'فوق' if buy else 'تحت'} EMA20، والسعر "
+            f"{'فوق' if buy else 'تحت'} افتتاح الأسبوع.\\n"
+            "بدأت متابعة السعر لمدة 22 دقيقة؛ سأرسل أقصى اندفاع مع الاتجاه وأقصى حركة معاكسة مع وقت كل منهما."
         )
         if not monitor.send_telegram(message):
             momentum_state["pending"] = None
-            momentum_state["armed"] = True
+            momentum_state["last_signal_side"] = None
         save_momentum_state()
     except Exception as exc:
         print("Momentum signal check failed:", type(exc).__name__, safe_error_text(exc))
-
 
 def run_analysis():
     global bars, current_bar
