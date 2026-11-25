@@ -176,6 +176,7 @@
   "score_t": 1794770212.7425623,
   "sent": {},
   "patterns": {
-    "GOLD|weakening|4081": 1795606803.416308
+    "GOLD|weakening|4081": 1795606803.416308,
+    "GOLD|failed_break|4081": 1795615049.8955102
   }
 }
