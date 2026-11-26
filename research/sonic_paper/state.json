@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795724820000,
+  "last_processed_candle_t": 1795728060000,
   "trades": [
     {
       "direction": "buy",
@@ -33785,7 +33785,7 @@
       "trade_id": "buy-1795720800000-1795721280000-1795721340000",
       "entry_t": 1795721400000,
       "entry_price": 3566.59329,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 1.0128500000000713,
       "max_adverse": 0.3914599999998245,
       "adverse_close_seen": true,
@@ -33794,7 +33794,7 @@
       "minutes_to_return": 4,
       "adverse_before_return": 0.3915,
       "adverse_on_return_candle": 0.1489,
-      "last_path_t": 1795724820000,
+      "last_path_t": 1795724940000,
       "horizons": {
         "5": {
           "max_favorable": 0.2493400000003021,
@@ -33814,11 +33814,12 @@
         "60": {
           "max_favorable": 1.0128500000000713,
           "max_adverse": 0.3914599999998245,
-          "close_pnl": 0.8658100000002378
+          "close_pnl": 0.8463100000003578
         }
       },
       "entry_notified": true,
-      "completion_notified": false
+      "completion_notified": true,
+      "completed_t": 1795725000000
     },
     {
       "direction": "buy",
@@ -33832,7 +33833,7 @@
       "trade_id": "buy-1795721280000-1795722060000-1795722420000",
       "entry_t": 1795722480000,
       "entry_price": 3567.28365,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 0.32249000000001615,
       "max_adverse": 0.3137899999996989,
       "adverse_close_seen": true,
@@ -33841,7 +33842,7 @@
       "minutes_to_return": 2,
       "adverse_before_return": 0.0593,
       "adverse_on_return_candle": 0.0017,
-      "last_path_t": 1795724820000,
+      "last_path_t": 1795726020000,
       "horizons": {
         "5": {
           "max_favorable": 0.17201999999997497,
@@ -33861,11 +33862,12 @@
         "60": {
           "max_favorable": 0.32249000000001615,
           "max_adverse": 0.3137899999996989,
-          "close_pnl": 0.17545000000018263
+          "close_pnl": 0.2197000000001026
         }
       },
       "entry_notified": true,
-      "completion_notified": false
+      "completion_notified": true,
+      "completed_t": 1795726080000
     }
   ],
   "initialized": true
