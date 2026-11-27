@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-18T12:00:13.280889+00:00",
-  "last_processed_candle_t": 1795750680000,
+  "last_processed_candle_t": 1795754520000,
   "trades": [
     {
       "direction": "buy",
@@ -34931,7 +34931,7 @@
       "trade_id": "sell-1795746900000-1795747260000-1795748160000",
       "entry_t": 1795748220000,
       "entry_price": 3625.76011,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 4.717309999999998,
       "max_adverse": 12.985249999999724,
       "adverse_close_seen": true,
@@ -34940,7 +34940,7 @@
       "minutes_to_return": 30,
       "adverse_before_return": 12.9852,
       "adverse_on_return_candle": 2.5949,
-      "last_path_t": 1795750680000,
+      "last_path_t": 1795751760000,
       "horizons": {
         "5": {
           "max_favorable": 4.717309999999998,
@@ -34960,16 +34960,17 @@
         "60": {
           "max_favorable": 4.717309999999998,
           "max_adverse": 12.985249999999724,
-          "close_pnl": -1.5997999999999593
+          "close_pnl": -4.201429999999618
         }
       },
       "entry_notified": true,
-      "completion_notified": false,
+      "completion_notified": true,
       "opposite_signal_t": 1795748580000,
       "opposite_signal_price": 3634.35545,
       "opposite_signal_direction": "buy",
       "opposite_signal_trade_id": "buy-1795747320000-1795748460000-1795748520000",
-      "opposite_exit_notified": true
+      "opposite_exit_notified": true,
+      "completed_t": 1795751820000
     },
     {
       "direction": "buy",
@@ -34983,7 +34984,7 @@
       "trade_id": "buy-1795747320000-1795748460000-1795748520000",
       "entry_t": 1795748580000,
       "entry_price": 3634.35545,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 2.1125200000001314,
       "max_adverse": 9.328260000000228,
       "adverse_close_seen": true,
@@ -34992,7 +34993,7 @@
       "minutes_to_return": 8,
       "adverse_before_return": 4.6916,
       "adverse_on_return_candle": 2.4879,
-      "last_path_t": 1795750680000,
+      "last_path_t": 1795752120000,
       "horizons": {
         "5": {
           "max_favorable": 0.4586699999999837,
@@ -35012,16 +35013,17 @@
         "60": {
           "max_favorable": 2.1125200000001314,
           "max_adverse": 9.328260000000228,
-          "close_pnl": -6.995539999999892
+          "close_pnl": -5.695079999999962
         }
       },
       "entry_notified": true,
-      "completion_notified": false,
+      "completion_notified": true,
       "opposite_signal_t": 1795749240000,
       "opposite_signal_price": 3628.81361,
       "opposite_signal_direction": "sell",
       "opposite_signal_trade_id": "sell-1795748160000-1795749120000-1795749180000",
-      "opposite_exit_notified": true
+      "opposite_exit_notified": true,
+      "completed_t": 1795752180000
     },
     {
       "direction": "sell",
@@ -35035,7 +35037,7 @@
       "trade_id": "sell-1795748160000-1795749120000-1795749180000",
       "entry_t": 1795749240000,
       "entry_price": 3628.81361,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 3.786420000000362,
       "max_adverse": 4.9073199999998,
       "adverse_close_seen": true,
@@ -35044,7 +35046,7 @@
       "minutes_to_return": 3,
       "adverse_before_return": 3.2226,
       "adverse_on_return_candle": 0.987,
-      "last_path_t": 1795750680000,
+      "last_path_t": 1795752780000,
       "horizons": {
         "5": {
           "max_favorable": 2.7348500000002787,
@@ -35059,21 +35061,22 @@
         "30": {
           "max_favorable": 3.786420000000362,
           "max_adverse": 4.9073199999998,
-          "close_pnl": 1.4537000000000262
+          "close_pnl": -0.9885299999996278
         },
         "60": {
           "max_favorable": 3.786420000000362,
           "max_adverse": 4.9073199999998,
-          "close_pnl": 1.4537000000000262
+          "close_pnl": -0.9375
         }
       },
       "entry_notified": true,
-      "completion_notified": false,
+      "completion_notified": true,
       "opposite_signal_t": 1795750440000,
       "opposite_signal_price": 3628.44462,
       "opposite_signal_direction": "buy",
       "opposite_signal_trade_id": "buy-1795749900000-1795750320000-1795750380000",
-      "opposite_exit_notified": true
+      "opposite_exit_notified": true,
+      "completed_t": 1795752840000
     },
     {
       "direction": "sell",
@@ -35087,16 +35090,16 @@
       "trade_id": "sell-1795748160000-1795749600000-1795749660000",
       "entry_t": 1795749720000,
       "entry_price": 3629.33116,
-      "status": "open",
+      "status": "complete",
       "max_favorable": 4.30397000000039,
-      "max_adverse": 2.741059999999834,
+      "max_adverse": 5.182179999999789,
       "adverse_close_seen": true,
       "adverse_before_return_running": 0.17081999999982145,
       "returned_after_adverse": true,
       "minutes_to_return": 2,
       "adverse_before_return": 0.1708,
       "adverse_on_return_candle": 0.0432,
-      "last_path_t": 1795750680000,
+      "last_path_t": 1795753260000,
       "horizons": {
         "5": {
           "max_favorable": 4.30397000000039,
@@ -35110,22 +35113,23 @@
         },
         "30": {
           "max_favorable": 4.30397000000039,
-          "max_adverse": 2.741059999999834,
-          "close_pnl": 1.9712500000000546
+          "max_adverse": 3.201810000000023,
+          "close_pnl": -2.199959999999919
         },
         "60": {
           "max_favorable": 4.30397000000039,
-          "max_adverse": 2.741059999999834,
-          "close_pnl": 1.9712500000000546
+          "max_adverse": 5.182179999999789,
+          "close_pnl": -3.3981199999998353
         }
       },
       "entry_notified": true,
-      "completion_notified": false,
+      "completion_notified": true,
       "opposite_signal_t": 1795750440000,
       "opposite_signal_price": 3628.44462,
       "opposite_signal_direction": "buy",
       "opposite_signal_trade_id": "buy-1795749900000-1795750320000-1795750380000",
-      "opposite_exit_notified": true
+      "opposite_exit_notified": true,
+      "completed_t": 1795753320000
     },
     {
       "direction": "buy",
@@ -35139,16 +35143,16 @@
       "trade_id": "buy-1795749900000-1795750320000-1795750380000",
       "entry_t": 1795750440000,
       "entry_price": 3628.44462,
-      "status": "open",
-      "max_favorable": 3.627599999999802,
+      "status": "complete",
+      "max_favorable": 7.796099999999569,
       "max_adverse": 2.8917200000000776,
       "adverse_close_seen": true,
       "adverse_before_return_running": 2.8917200000000776,
-      "returned_after_adverse": null,
-      "minutes_to_return": null,
-      "adverse_before_return": null,
-      "adverse_on_return_candle": null,
-      "last_path_t": 1795750680000,
+      "returned_after_adverse": true,
+      "minutes_to_return": 6,
+      "adverse_before_return": 2.8917,
+      "adverse_on_return_candle": 1.4739,
+      "last_path_t": 1795753980000,
       "horizons": {
         "5": {
           "max_favorable": 3.627599999999802,
@@ -35158,17 +35162,268 @@
         "15": {
           "max_favorable": 3.627599999999802,
           "max_adverse": 2.8917200000000776,
-          "close_pnl": -1.0847100000000864
+          "close_pnl": 2.986279999999624
         },
         "30": {
-          "max_favorable": 3.627599999999802,
+          "max_favorable": 4.088349999999991,
           "max_adverse": 2.8917200000000776,
-          "close_pnl": -1.0847100000000864
+          "close_pnl": -0.18740000000025248
         },
         "60": {
-          "max_favorable": 3.627599999999802,
+          "max_favorable": 7.796099999999569,
           "max_adverse": 2.8917200000000776,
-          "close_pnl": -1.0847100000000864
+          "close_pnl": 5.678549999999632
+        }
+      },
+      "entry_notified": true,
+      "completion_notified": true,
+      "opposite_signal_t": 1795751640000,
+      "opposite_signal_price": 3629.89411,
+      "opposite_signal_direction": "sell",
+      "opposite_signal_trade_id": "sell-1795750920000-1795751040000-1795751580000",
+      "opposite_exit_notified": true,
+      "completed_t": 1795754040000
+    },
+    {
+      "direction": "sell",
+      "sweep_t": 1795750920000,
+      "sweep_level": 3629.63232,
+      "sweep_extreme": 3629.64122,
+      "ifvg_t": 1795751040000,
+      "ifvg_lower": 3628.92133,
+      "ifvg_upper": 3628.9485,
+      "cisd_t": 1795751580000,
+      "trade_id": "sell-1795750920000-1795751040000-1795751580000",
+      "entry_t": 1795751640000,
+      "entry_price": 3629.89411,
+      "status": "open",
+      "max_favorable": 2.763170000000173,
+      "max_adverse": 7.1324799999997595,
+      "adverse_close_seen": true,
+      "adverse_before_return_running": 1.4516699999999219,
+      "returned_after_adverse": true,
+      "minutes_to_return": 4,
+      "adverse_before_return": 1.4517,
+      "adverse_on_return_candle": 0.3742,
+      "last_path_t": 1795754520000,
+      "horizons": {
+        "5": {
+          "max_favorable": 0.9910700000000361,
+          "max_adverse": 1.4516699999999219,
+          "close_pnl": 0.8545800000001691
+        },
+        "15": {
+          "max_favorable": 2.763170000000173,
+          "max_adverse": 1.4516699999999219,
+          "close_pnl": 1.728939999999966
+        },
+        "30": {
+          "max_favorable": 2.763170000000173,
+          "max_adverse": 4.619229999999789,
+          "close_pnl": -3.4927199999997356
+        },
+        "60": {
+          "max_favorable": 2.763170000000173,
+          "max_adverse": 7.1324799999997595,
+          "close_pnl": -5.335349999999835
+        }
+      },
+      "entry_notified": true,
+      "completion_notified": false,
+      "opposite_signal_t": 1795752900000,
+      "opposite_signal_price": 3630.10695,
+      "opposite_signal_direction": "buy",
+      "opposite_signal_trade_id": "buy-1795752060000-1795752660000-1795752840000",
+      "opposite_exit_notified": true
+    },
+    {
+      "direction": "sell",
+      "sweep_t": 1795750920000,
+      "sweep_level": 3629.63232,
+      "sweep_extreme": 3629.64122,
+      "ifvg_t": 1795751580000,
+      "ifvg_lower": 3629.59634,
+      "ifvg_upper": 3629.67016,
+      "cisd_t": 1795751760000,
+      "trade_id": "sell-1795750920000-1795751580000-1795751760000",
+      "entry_t": 1795751820000,
+      "entry_price": 3630.2683,
+      "status": "open",
+      "max_favorable": 3.1373600000001716,
+      "max_adverse": 6.758289999999761,
+      "adverse_close_seen": true,
+      "adverse_before_return_running": 6.758289999999761,
+      "returned_after_adverse": null,
+      "minutes_to_return": null,
+      "adverse_before_return": null,
+      "adverse_on_return_candle": null,
+      "last_path_t": 1795754520000,
+      "horizons": {
+        "5": {
+          "max_favorable": 1.426260000000184,
+          "max_adverse": 0.0,
+          "close_pnl": 1.3247400000000198
+        },
+        "15": {
+          "max_favorable": 3.1373600000001716,
+          "max_adverse": 0.0,
+          "close_pnl": 1.3993199999999888
+        },
+        "30": {
+          "max_favorable": 3.1373600000001716,
+          "max_adverse": 5.972419999999602,
+          "close_pnl": -5.728489999999965
+        },
+        "60": {
+          "max_favorable": 3.1373600000001716,
+          "max_adverse": 6.758289999999761,
+          "close_pnl": -4.961159999999836
+        }
+      },
+      "entry_notified": true,
+      "completion_notified": false,
+      "opposite_signal_t": 1795752900000,
+      "opposite_signal_price": 3630.10695,
+      "opposite_signal_direction": "buy",
+      "opposite_signal_trade_id": "buy-1795752060000-1795752660000-1795752840000",
+      "opposite_exit_notified": true
+    },
+    {
+      "direction": "buy",
+      "sweep_t": 1795752060000,
+      "sweep_level": 3628.90304,
+      "sweep_extreme": 3628.84204,
+      "ifvg_t": 1795752660000,
+      "ifvg_lower": 3628.62333,
+      "ifvg_upper": 3628.71377,
+      "cisd_t": 1795752840000,
+      "trade_id": "buy-1795752060000-1795752660000-1795752840000",
+      "entry_t": 1795752900000,
+      "entry_price": 3630.10695,
+      "status": "open",
+      "max_favorable": 6.919640000000072,
+      "max_adverse": 0.0,
+      "adverse_close_seen": false,
+      "adverse_before_return_running": 0.0,
+      "returned_after_adverse": null,
+      "minutes_to_return": null,
+      "adverse_before_return": null,
+      "adverse_on_return_candle": null,
+      "last_path_t": 1795754520000,
+      "horizons": {
+        "5": {
+          "max_favorable": 4.406390000000101,
+          "max_adverse": 0.0,
+          "close_pnl": 3.17421000000013
+        },
+        "15": {
+          "max_favorable": 6.133769999999913,
+          "max_adverse": 0.0,
+          "close_pnl": 3.5791800000001786
+        },
+        "30": {
+          "max_favorable": 6.919640000000072,
+          "max_adverse": 0.0,
+          "close_pnl": 5.122510000000148
+        },
+        "60": {
+          "max_favorable": 6.919640000000072,
+          "max_adverse": 0.0,
+          "close_pnl": 5.122510000000148
+        }
+      },
+      "entry_notified": true,
+      "completion_notified": false
+    },
+    {
+      "direction": "buy",
+      "sweep_t": 1795752060000,
+      "sweep_level": 3628.90304,
+      "sweep_extreme": 3628.84204,
+      "ifvg_t": 1795752840000,
+      "ifvg_lower": 3630.2683,
+      "ifvg_upper": 3630.41627,
+      "cisd_t": 1795752900000,
+      "trade_id": "buy-1795752060000-1795752840000-1795752900000",
+      "entry_t": 1795752960000,
+      "entry_price": 3631.08359,
+      "status": "open",
+      "max_favorable": 5.942999999999756,
+      "max_adverse": 0.8170600000003105,
+      "adverse_close_seen": false,
+      "adverse_before_return_running": 0.0,
+      "returned_after_adverse": null,
+      "minutes_to_return": null,
+      "adverse_before_return": null,
+      "adverse_on_return_candle": null,
+      "last_path_t": 1795754520000,
+      "horizons": {
+        "5": {
+          "max_favorable": 3.4297499999997854,
+          "max_adverse": 0.8170600000003105,
+          "close_pnl": 1.8709899999998925
+        },
+        "15": {
+          "max_favorable": 5.157129999999597,
+          "max_adverse": 0.8170600000003105,
+          "close_pnl": 3.2002199999997174
+        },
+        "30": {
+          "max_favorable": 5.942999999999756,
+          "max_adverse": 0.8170600000003105,
+          "close_pnl": 4.145869999999832
+        },
+        "60": {
+          "max_favorable": 5.942999999999756,
+          "max_adverse": 0.8170600000003105,
+          "close_pnl": 4.145869999999832
+        }
+      },
+      "entry_notified": true,
+      "completion_notified": false
+    },
+    {
+      "direction": "buy",
+      "sweep_t": 1795752060000,
+      "sweep_level": 3628.90304,
+      "sweep_extreme": 3628.84204,
+      "ifvg_t": 1795752960000,
+      "ifvg_lower": 3631.45118,
+      "ifvg_upper": 3631.47765,
+      "cisd_t": 1795753020000,
+      "trade_id": "buy-1795752060000-1795752960000-1795753020000",
+      "entry_t": 1795753080000,
+      "entry_price": 3631.93175,
+      "status": "open",
+      "max_favorable": 5.094839999999749,
+      "max_adverse": 0.11026000000038039,
+      "adverse_close_seen": false,
+      "adverse_before_return_running": 0.0,
+      "returned_after_adverse": null,
+      "minutes_to_return": null,
+      "adverse_before_return": null,
+      "adverse_on_return_candle": null,
+      "last_path_t": 1795754520000,
+      "horizons": {
+        "5": {
+          "max_favorable": 2.5815899999997782,
+          "max_adverse": 0.0,
+          "close_pnl": 2.3872299999998177
+        },
+        "15": {
+          "max_favorable": 4.30896999999959,
+          "max_adverse": 0.11026000000038039,
+          "close_pnl": 1.751890000000003
+        },
+        "30": {
+          "max_favorable": 5.094839999999749,
+          "max_adverse": 0.11026000000038039,
+          "close_pnl": 3.2977099999998245
+        },
+        "60": {
+          "max_favorable": 5.094839999999749,
+          "max_adverse": 0.11026000000038039,
+          "close_pnl": 3.2977099999998245
         }
       },
       "entry_notified": true,
